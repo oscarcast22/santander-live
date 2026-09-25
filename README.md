@@ -23,7 +23,10 @@ npm run build
 - `src/pages/index.astro`: inicio, beneficios, LBS+ y oferta educativa.
 - `src/pages/nosotros.astro`: hero institucional y acordeón con la animación de UADVirtual.
 - `src/pages/[nivel]/[slug].astro`: plantilla compartida de licenciaturas y posgrados con pestañas.
-- `src/data/site.ts`: contenido y catálogo de programas. Arquitectura toma su texto del PDF; los demás nombres de licenciatura aparecen en el mockup. Los nombres de maestrías y doctorados se tomaron del catálogo local de UADVirtual para reproducir su megamenú; su disponibilidad en Santander Live sigue pendiente de confirmar.
+- `src/content.config.ts`: colecciones nativas de Astro con esquema validado para programas y el modelo educativo compartido.
+- `src/content/programas/`: una ficha Markdown por programa, con información transcrita de Santander Live, plan agrupado por periodo y su imagen local de hero optimizada por Astro.
+- `src/content/modelos/`: texto común del modelo educativo, compartido por todas las fichas.
+- `src/data/site.ts`: conserva únicamente la introducción institucional de Nosotros.
 - `src/components/ParallaxHero.astro`: hero fijo bajo el contenido, siguiendo el efecto usado en UADVirtual.
 - `src/components/Header.astro`: adaptación directa del nav de UADVirtual, conservando estilos, transición del header y paneles, apertura por hover y clic, ocultamiento al bajar, reaparición al subir y submenús móviles animados.
 - `src/components/ContactForm.astro`: formulario visual con los campos, foco y botón del sistema de UADVirtual.
@@ -35,7 +38,7 @@ Las fotografías de `src/assets/` se extrajeron del PDF original de 18 MB compar
 ## Pendiente para la siguiente iteración
 
 1. Integrar logos, iconos y enlaces oficiales de ingreso y redes sociales.
-2. Confirmar qué posgrados de UADVirtual forman parte de Santander Live, además de los textos de programas, planes de estudio, perfiles de egreso y contenido de los cuatro apartados de Nosotros.
+2. Confirmar los textos de los cuatro apartados de Nosotros y completar los enlaces institucionales finales.
 3. Conectar el formulario a un destino real y agregar el aviso de privacidad. El botón está deshabilitado hasta contar con ese destino.
 4. Ajustar el diseño con las medidas, tipografía y recursos finales; el PDF solo muestra escritorio, así que la composición móvil actual es una propuesta inicial.
 
