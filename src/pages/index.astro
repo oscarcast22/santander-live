@@ -2,7 +2,8 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ParallaxHero from '../components/ParallaxHero.astro';
-import { licensePrograms, postgraduatePrograms } from '../data/site';
+import ContactForm from '../components/ContactForm.astro';
+import { licensePrograms } from '../data/site';
 import hero from '../assets/hero-inicio.webp';
 import student from '../assets/estudiante-amarillo.webp';
 import laptop from '../assets/laptop-lbs.webp';
@@ -40,7 +41,7 @@ const benefits = [
       <article class="offer-card"><Image src={postgraduateCard} alt="Estudiante con audífonos" widths={[380, 650]} sizes="(max-width: 800px) 100vw, 33vw" quality={85} /><h2><a href="/posgrados/">Maestrías</a></h2></article>
       <article class="offer-card"><Image src={doctorateCard} alt="Estudiante frente a una computadora" widths={[380, 650]} sizes="(max-width: 800px) 100vw, 33vw" quality={85} /><h2><a href="/posgrados/">Doctorados</a></h2></article>
     </section>
-    <section class="contact" id="contacto"><div class="contact-inner"><h2>¿Listo para el siguiente paso a tu futuro?</h2><form aria-label="Solicitud de información"><label>Tu nombre<input name="nombre" autocomplete="name" placeholder="Nombre y apellido" /></label><label>Número de teléfono<input name="telefono" autocomplete="tel" inputmode="tel" placeholder="Ingresa tu número de teléfono" /></label><label>Correo electrónico<input name="correo" type="email" autocomplete="email" placeholder="Ingresa tu correo electrónico" /></label><label>Licenciatura o Posgrado de interés<select name="programa"><option value="">Selecciona una opción</option><optgroup label="Licenciaturas">{licensePrograms.map((program) => <option value={program.slug}>{program.title}</option>)}</optgroup><optgroup label="Maestrías">{postgraduatePrograms.filter((program) => program.category === 'maestria').map((program) => <option value={program.slug}>{program.title}</option>)}</optgroup><optgroup label="Doctorados">{postgraduatePrograms.filter((program) => program.category === 'doctorado').map((program) => <option value={program.slug}>{program.title}</option>)}</optgroup></select></label><label class="privacy"><input type="checkbox" name="privacidad" /> He leído el aviso de privacidad aplicable a esta solicitud de contacto.</label><button class="button" type="submit" disabled>Recibir más información</button><p class="privacy-note">Tus datos están protegidos por nuestra Política de Privacidad.</p></form></div></section>
+    <ContactForm />
   </main>
 </BaseLayout>
 
@@ -49,28 +50,28 @@ const benefits = [
   .hero-copy h1 { margin: 0; font-size: clamp(2.2rem, 3.75vw, 4.5rem); line-height: 1.02; font-weight: 800; }
   .hero-copy p { margin: .35rem 0 0; font-size: clamp(1rem, 1.8vw, 1.5rem); }
   .benefit-section { height: 0; position: relative; z-index: 2; }
-  .benefits { display: grid; grid-template-columns: repeat(3, 1fr); width: min(800px, 100%); height: min(13vw, 250px); margin: auto; transform: translateY(-72%); background: #202020; color: #fff; box-shadow: 0 10px 25px rgb(0 0 0 / .12); }
+  .benefits { display: grid; grid-template-columns: repeat(3, 1fr); width: min(800px, 100%); height: min(13vw, 250px); margin: auto; transform: translateY(-72%); background: var(--gray-100); color: #fff; box-shadow: 0 10px 25px rgb(0 0 0 / .12); }
   .benefit { display: flex; flex-direction: column; justify-content: center; padding: 1.25rem 1.2rem 1.4rem; text-align: center; }
-  .benefit + .benefit { border-left: 1px solid #555; }
+  .benefit + .benefit { border-left: 1px solid var(--gray-200); }
   .benefit-symbol { display: block; width: 29px; height: 29px; margin: 0 auto .65rem; border: 2px solid #fff; border-radius: 5px; }
   .symbol-2 { border-radius: 50%; }
   .symbol-3 { border-radius: 2px; border-top-width: 5px; }
   .benefit h2 { margin: 0 0 .5rem; font-size: .9rem; }
   .benefit p { max-width: 13rem; margin: auto; font-size: .66rem; line-height: 1.4; }
   .statement { min-height: min(56.25vw, 1080px); display: grid; place-items: center; text-align: center; }
-  .statement p { margin: 0; color: #aaa; font-size: clamp(2rem, 3.4vw, 3.6rem); font-style: italic; }
-  .education { background: #f7f7f7; overflow: hidden; }
+  .statement p { margin: 0; color: var(--gray-500); font-size: clamp(2rem, 3.4vw, 3.6rem); font-style: italic; }
+  .education { background: var(--gray-950); overflow: hidden; }
   .education-grid { min-height: min(44.3vw, 850px); display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 4rem; }
   .education-grid :global(img) { width: min(100%, 670px); max-height: 620px; object-fit: contain; object-position: bottom; }
   .education-copy { align-self: center; transform: translateY(max(-5.2vw, -100px)); }
   .education-copy h2 { margin: 0 0 1.3rem; font-size: clamp(2.25rem, 4.2vw, 4rem); line-height: 1.1; }
-  .education-copy h2 span { color: #b6082c; }
+  .education-copy h2 span { color: var(--red-200); }
   .education-copy ul { padding-left: 1.2rem; line-height: 1.95; font-size: .94rem; }
   .education-copy .button { margin-top: 1rem; }
   .lbs { min-height: min(62vw, 1190px); display: grid; grid-template-columns: 42% 58%; align-items: start; gap: 1rem; }
   .lbs-copy { margin-top: min(17vw, 330px); padding: 2rem; border-radius: 20px; box-shadow: 0 0 20px rgb(0 0 0 / .08); }
   .lbs-copy h2 { margin: 0; font-size: clamp(2.2rem, 3.7vw, 3.5rem); font-weight: 400; }
-  .lbs-copy h2 span { color: #39a4ce; font-weight: 700; }
+  .lbs-copy h2 span { color: var(--lbs-blue); font-weight: 700; }
   .lbs-kicker { margin-top: .25rem; font-weight: 600; }
   .lbs-copy p { font-size: .88rem; line-height: 1.55; }
   .lbs-device { position: relative; margin-top: min(10vw, 190px); }
@@ -79,26 +80,13 @@ const benefits = [
   .offers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; height: min(50.5vw, 970px); margin-bottom: 0; }
   .offer-card { position: relative; height: 100%; overflow: hidden; }
   .offer-card :global(img) { width: 100%; height: 100%; object-fit: cover; }
-  .offer-card h2 { position: absolute; bottom: 0; left: 0; right: 0; margin: 0; padding: 1rem; background: rgb(182 8 44 / .93); color: #fff; text-align: center; font-size: 1.65rem; }
+  .offer-card h2 { position: absolute; bottom: 0; left: 0; right: 0; margin: 0; padding: 1rem; background: rgb(204 0 51 / .93); color: #fff; text-align: center; font-size: 1.65rem; }
   .offer-card h2 a { text-decoration: none; }
   .offer-license h2 { top: 23%; bottom: auto; }
   .offer-license ul { position: absolute; top: calc(23% + 63px); bottom: 0; left: 0; right: 0; margin: 0; padding: 1.4rem 1rem; background: rgb(255 255 255 / .82); list-style: none; text-align: center; display: flex; flex-direction: column; justify-content: center; gap: .35rem; }
   .offer-license li { font-size: .69rem; }
   .offer-license li a { text-decoration: none; }
-  .offer-license li a:hover { color: #b6082c; }
-  .contact { min-height: min(52vw, 1000px); padding: min(6.25vw, 120px) 1.25rem 4rem; background: #202020; color: #fff; }
-  .contact-inner { width: min(100%, 680px); margin: auto; }
-  .contact h2 { margin: 0 0 2rem; font-size: clamp(1.4rem, 2.4vw, 2.2rem); }
-  .contact form { display: grid; gap: .9rem; }
-  .contact label:not(.privacy) { display: grid; gap: .25rem; font-size: .75rem; font-weight: 700; }
-  .contact input:not([type="checkbox"]), .contact select { width: 100%; padding: .5rem 0; border: 0; border-bottom: 1px solid #777; border-radius: 0; background: transparent; color: #fff; font-size: .8rem; }
-  .contact select option { color: #111; }
-  .contact input::placeholder { color: #aaa; }
-  .privacy { display: flex; align-items: flex-start; gap: .5rem; margin-top: .5rem; color: #bbb; font-size: .7rem; }
-  .privacy input { accent-color: #b6082c; }
-  .contact button { justify-self: start; }
-  .contact button:disabled { opacity: .8; cursor: not-allowed; }
-  .privacy-note { color: #aaa; font-size: .68rem; }
+  .offer-license li a:hover { color: var(--red-200); }
   @media (max-width: 800px) {
     .hero-copy { margin-top: 4rem; }
     .benefit-section { height: auto; }
@@ -113,12 +101,11 @@ const benefits = [
     .offer-card { height: 360px; }
     .offer-card h2 { font-size: 1.1rem; }
     .offer-license ul { top: calc(23% + 51px); }
-    .contact { min-height: 0; padding: 4rem 1.25rem; }
   }
   @media (max-width: 600px) {
     .hero-copy h1 { font-size: 2rem; }
     .benefits { grid-template-columns: 1fr; }
-    .benefit + .benefit { border-left: 0; border-top: 1px solid #555; }
+    .benefit + .benefit { border-left: 0; border-top: 1px solid var(--gray-200); }
     .benefit { padding: .8rem 1rem; }
     .benefit-symbol { display: none; }
     .statement { min-height: 300px; }

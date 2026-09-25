@@ -20,12 +20,14 @@ npm run build
 
 ## Estructura
 
-- `src/pages/index.astro`: inicio, beneficios, LBS+, oferta educativa y formulario visual.
-- `src/pages/nosotros.astro`: hero institucional y acordeón.
+- `src/pages/index.astro`: inicio, beneficios, LBS+ y oferta educativa.
+- `src/pages/nosotros.astro`: hero institucional y acordeón con la animación de UADVirtual.
 - `src/pages/[nivel]/[slug].astro`: plantilla compartida de licenciaturas y posgrados con pestañas.
 - `src/data/site.ts`: contenido y catálogo de programas. Arquitectura toma su texto del PDF; los demás nombres de licenciatura aparecen en el mockup. Los nombres de maestrías y doctorados se tomaron del catálogo local de UADVirtual para reproducir su megamenú; su disponibilidad en Santander Live sigue pendiente de confirmar.
 - `src/components/ParallaxHero.astro`: hero fijo bajo el contenido, siguiendo el efecto usado en UADVirtual.
 - `src/components/Header.astro`: adaptación directa del nav de UADVirtual, conservando estilos, transición del header y paneles, apertura por hover y clic, ocultamiento al bajar, reaparición al subir y submenús móviles animados.
+- `src/components/ContactForm.astro`: formulario visual con los campos, foco y botón del sistema de UADVirtual.
+- `src/styles/global.css`: colores y escala tipográfica de UADVirtual. El azul de LBS+ permanece como acento de esa sección; la composición general sigue el PDF de Santander Live.
 - `reference/mockup-escritorio.pdf`: copia del PDF comprimido proporcionado para comparar las siguientes iteraciones.
 
 Las fotografías de `src/assets/` se extrajeron del PDF original de 18 MB compartido junto al comprimido y se convirtieron a WebP. Astro genera tamaños optimizados al compilar. Los logos y los iconos actuales son marcadores de posición en texto/CSS; se sustituirán por los SVG finales.

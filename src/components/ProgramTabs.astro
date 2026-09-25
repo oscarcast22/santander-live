@@ -31,10 +31,11 @@ const tabs = [
   </section>
 </div>
 <style>
-  .tab-list { display: flex; flex-wrap: wrap; gap: 2.4rem; border-bottom: 1px solid #eee; }
-  [role="tab"] { padding: .7rem 0; border: 0; border-bottom: 2px solid transparent; background: none; font-size: .88rem; font-weight: 600; white-space: nowrap; }
-  [role="tab"][aria-selected="true"] { border-color: #b6082c; }
-  [role="tabpanel"] { padding-top: 1.5rem; color: #5b5b5b; font-size: .94rem; line-height: 1.55; }
+  .tab-list { display: flex; flex-wrap: wrap; gap: 2.4rem; border-bottom: 1px solid var(--gray-800); }
+  [role="tab"] { padding: .7rem 0; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--gray-200); font-size: .88rem; font-weight: 600; white-space: nowrap; transition: color .2s ease, border-color .2s ease; }
+  [role="tab"]:hover, [role="tab"]:focus-visible { color: var(--red-200); }
+  [role="tab"][aria-selected="true"] { border-color: var(--red-200); color: var(--gray-100); }
+  [role="tabpanel"] { padding-top: 1.5rem; color: var(--gray-400); font-size: .94rem; line-height: 1.55; }
   [role="tabpanel"][hidden] { display: none; }
   [role="tabpanel"] p { margin: 0 0 1.55rem; }
   .program-banner { position: relative; margin: 1.7rem 0 2.3rem; overflow: hidden; }
