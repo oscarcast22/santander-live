@@ -1,0 +1,30 @@
+---
+const items = ['Misión y Visión', 'Objetivo', 'Filosofía', 'Modelo Educativo'];
+---
+<div class="accordion">
+  {items.map((label) => <details>
+    <summary><span>{label}</span><span class="plus" aria-hidden="true"></span></summary>
+    <div class="accordion-content"><p>Contenido institucional pendiente de integrar.</p></div>
+  </details>)}
+</div>
+<style>
+  .accordion { margin: 2rem 0 6.5rem; }
+  details { border-bottom: 1px solid #dedede; }
+  summary { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; list-style: none; cursor: pointer; font-size: .93rem; }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover, details[open] summary { color: #b6082c; }
+  .plus { position: relative; width: 15px; height: 15px; }
+  .plus::before, .plus::after { content: ''; position: absolute; top: 7px; left: 2px; width: 11px; height: 1px; background: currentColor; transition: transform .2s; }
+  .plus::after { transform: rotate(90deg); }
+  details[open] .plus::after { transform: rotate(0); }
+  .accordion-content { padding: .15rem 0 1.3rem; color: #626262; font-size: .9rem; line-height: 1.6; }
+  .accordion-content p { margin: 0; }
+</style>
+<script>
+  document.querySelectorAll<HTMLDetailsElement>('.accordion details').forEach((detail) => {
+    detail.addEventListener('toggle', () => {
+      if (!detail.open) return;
+      detail.parentElement?.querySelectorAll<HTMLDetailsElement>('details').forEach((other) => { if (other !== detail) other.open = false; });
+    });
+  });
+</script>

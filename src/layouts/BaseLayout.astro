@@ -1,0 +1,30 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '@fontsource-variable/montserrat/wght.css';
+import '@fontsource-variable/montserrat/wght-italic.css';
+import '../styles/global.css';
+
+interface Props { title: string; description: string; footerSpacious?: boolean; }
+const { title, description, footerSpacious = false } = Astro.props;
+---
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title} | Santander Live</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <Header />
+    <slot />
+    <Footer spacious={footerSpacious} />
+  </body>
+</html>
+
+<style>
+  .skip-link { position: fixed; z-index: 100; top: -5rem; left: 1rem; padding: .7rem 1rem; background: white; color: #111; }
+  .skip-link:focus { top: 1rem; }
+</style>

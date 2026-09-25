@@ -1,0 +1,28 @@
+---
+interface Props { spacious?: boolean; }
+const { spacious = false } = Astro.props;
+const socials = ['Facebook', 'Instagram', 'X', 'TikTok', 'WhatsApp'];
+---
+<footer class:list={['footer', { 'footer-spacious': spacious }]}>
+  <div class="container footer-inner">
+    <div class="footer-brand" aria-label="Santander Live y Universidad Autónoma de Durango">
+      <span>Santander <small>Live Streaming</small></span><span class="rule"></span><span>Universidad <small>Autónoma de Durango</small></span>
+    </div>
+    <address>Avenida Universidad Autónoma de Durango #300<br />Fracc. Jardines de Durango.<br />Durango, Durango, México.<br />Teléfono(s): (52) 618 129 5786 - (52) 618 129 5901</address>
+    <div class="socials"><strong>Síguenos</strong><div>{socials.map((social) => <span title={`Enlace de ${social} por definir`}>{social}</span>)}</div></div>
+  </div>
+</footer>
+<style>
+  .footer { position: relative; z-index: 2; background: #fff; padding: 7rem 0 3rem; border-top: 1px solid #eee; }
+  .footer-spacious { min-height: min(32.5vw, 623px); padding-top: min(11.5vw, 220px); }
+  .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 3rem; }
+  .footer-brand { display: flex; align-items: center; gap: .75rem; text-transform: uppercase; white-space: nowrap; font-family: Georgia, serif; font-size: 1.1rem; }
+  .footer-brand span:not(.rule) { display: grid; }
+  .footer-brand small { font-family: 'Montserrat Variable', sans-serif; font-size: .45rem; letter-spacing: .08em; }
+  .rule { height: 38px; border-left: 1px solid #333; }
+  address { font-style: normal; font-size: .68rem; line-height: 1.55; }
+  .socials { font-size: .85rem; }
+  .socials > div { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: .6rem; }
+  .socials span { font-size: .68rem; }
+  @media (max-width: 850px) { .footer, .footer-spacious { min-height: 0; padding: 4rem 0; } .footer-inner { flex-wrap: wrap; justify-content: flex-start; } }
+</style>

@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ParallaxHero from '../../components/ParallaxHero.astro';
+import hero from '../../assets/hero-programa.webp';
+---
+<BaseLayout title="Posgrados" description="Oferta de maestrías y doctorados de Santander Live.">
+  <ParallaxHero image={hero} alt="Estudiante en modalidad Live Streaming" variant="program" />
+  <main id="contenido"><section class="container overview"><h1>Posgrados</h1><p>Maestrías y doctorados en modalidad Live Streaming.</p><div class="categories"><section><h2>Maestrías</h2><p>Oferta académica pendiente de integrar.</p></section><section><h2>Doctorados</h2><p>Oferta académica pendiente de integrar.</p></section></div></section></main>
+</BaseLayout>
+<style>
+  .overview { padding-block: 5rem 12rem; min-height: 700px; }
+  h1 { margin: 0; font-size: clamp(2.6rem, 5vw, 4rem); font-weight: 400; }
+  .categories { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 4rem; }
+  .categories section { padding: 2rem; border: 1px solid #ddd; }
+  @media (max-width: 600px) { .categories { grid-template-columns: 1fr; } }
+</style>

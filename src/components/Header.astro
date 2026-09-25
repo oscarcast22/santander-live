@@ -1,0 +1,115 @@
+---
+import { licensePrograms, postgraduatePrograms } from '../data/site';
+
+const path = Astro.url.pathname;
+---
+<header class="site-header" data-header>
+  <div class="nav-row container">
+    <a class="brand" href="/" aria-label="Santander Live, inicio">
+      <span class="brand-main"><small>Sistema</small><strong>Santander</strong><small>Live Streaming</small></span>
+      <span class="brand-rule" aria-hidden="true"></span>
+      <span class="brand-university"><strong>Universidad</strong><small>Autónoma de Durango</small></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-controls="main-navigation" aria-expanded="false" data-menu-toggle><span></span><span></span><span></span></button>
+    <nav id="main-navigation" class="navigation" aria-label="Navegación principal">
+      <div class="nav-dropdown" data-dropdown>
+        <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="licenses-menu">Licenciaturas</button>
+        <div class="mega" id="licenses-menu">
+          <div class="mega-intro"><strong>Licenciaturas</strong><p>Programas en modalidad Live Streaming</p></div>
+          <ul>{licensePrograms.map((program) => <li><a href={`/licenciaturas/${program.slug}`}>{program.title}</a></li>)}</ul>
+        </div>
+      </div>
+      <div class="nav-dropdown" data-dropdown>
+        <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="postgraduate-menu">Posgrados</button>
+        <div class="mega mega-postgraduate" id="postgraduate-menu">
+          <div class="mega-intro"><strong>Posgrados</strong><p>Explora los programas de maestría y doctorado</p></div>
+          <div>
+            <a class="mega-heading" href="/posgrados/">Maestrías</a>
+            <a class="mega-heading" href="/posgrados/">Doctorados</a>
+            {postgraduatePrograms.length > 0 && <ul>{postgraduatePrograms.map((program) => <li><a href={`/posgrados/${program.slug}`}>{program.title}</a></li>)}</ul>}
+          </div>
+        </div>
+      </div>
+      <a href="/nosotros/" aria-current={path === '/nosotros/' ? 'page' : undefined}>Nosotros</a>
+      <a href="/#contacto">Contacto</a>
+      <span class="login" title="Enlace de ingreso por definir">Ingresar</span>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header { position: fixed; z-index: 20; inset: 0 0 auto; background: rgb(27 26 26 / 88%); color: #fff; }
+  .nav-row { height: 100px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+  .brand { display: flex; align-items: center; gap: .8rem; flex: 0 0 auto; color: #fff; text-decoration: none; text-transform: uppercase; white-space: nowrap; line-height: 1; }
+  .brand-main, .brand-university { display: grid; gap: .1rem; }
+  .brand-main strong { font-family: Georgia, serif; font-size: 1.28rem; font-weight: 400; letter-spacing: .12em; }
+  .brand-main small { font-size: .47rem; letter-spacing: .21em; }
+  .brand-university strong { font-family: Georgia, serif; font-size: 1rem; font-weight: 400; }
+  .brand-university small { font-size: .52rem; letter-spacing: .07em; }
+  .brand-rule { height: 43px; border-left: 1px solid currentColor; }
+  .navigation { display: flex; align-items: center; gap: 1.45rem; font-size: .9rem; font-weight: 600; }
+  .navigation > a, .nav-trigger { padding: .8rem 0; color: #fff; background: none; border: 0; text-decoration: none; font-size: inherit; font-weight: inherit; }
+  .navigation > a:hover, .navigation > a[aria-current], .nav-trigger:hover, .nav-dropdown.is-open .nav-trigger { color: #f2b9c5; }
+  .login { padding: .45rem 1rem; border-radius: 99px; background: #b6082c; font-size: .82rem; }
+  .mega { display: none; position: absolute; top: 100%; left: 0; width: 100%; padding: 2.1rem max(calc((100% - 1270px)/2), 1.25rem); background: #252525; box-shadow: 0 16px 30px rgb(0 0 0 / .2); grid-template-columns: 260px 1fr; gap: 2rem; }
+  .nav-dropdown.is-open .mega { display: grid; }
+  .mega-intro { border-right: 1px solid #555; padding-right: 1.5rem; }
+  .mega-intro strong { font-size: 1.35rem; }
+  .mega-intro p { color: #bbb; line-height: 1.5; font-size: .83rem; }
+  .mega ul { margin: 0; padding: 0; list-style: none; columns: 3; column-gap: 1.8rem; }
+  .mega li { break-inside: avoid; margin-bottom: .9rem; }
+  .mega a { color: #fff; text-decoration: none; line-height: 1.35; }
+  .mega a:hover { color: #f2b9c5; }
+  .mega-postgraduate ul { columns: 2; margin-top: 1rem; }
+  .mega-heading { display: inline-block; margin-right: 2rem; font-weight: 700; }
+  .menu-toggle { display: none; width: 42px; height: 42px; padding: 8px; border: 0; background: none; }
+  .menu-toggle span { display: block; height: 2px; margin: 5px 0; background: #fff; }
+  @media (max-width: 920px) {
+    .nav-row { height: 76px; }
+    .brand-main strong { font-size: 1rem; }
+    .brand-university strong { font-size: .78rem; }
+    .menu-toggle { display: block; }
+    .navigation { display: none; position: absolute; top: 76px; left: 0; right: 0; max-height: calc(100svh - 76px); overflow: auto; padding: 1rem 1.25rem 2rem; background: #252525; flex-direction: column; align-items: stretch; gap: 0; }
+    .navigation.is-open { display: flex; }
+    .navigation > a, .nav-trigger { width: 100%; display: block; padding: .9rem 0; text-align: left; border-bottom: 1px solid #555; }
+    .login { width: fit-content; margin-top: 1rem; }
+    .mega { position: static; padding: 1rem; grid-template-columns: 1fr; box-shadow: none; gap: .4rem; background: #303030; }
+    .mega-intro { border: 0; padding: 0; }
+    .mega ul { columns: 1; }
+  }
+  @media (max-width: 460px) { .brand-university, .brand-rule { display: none; } }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const navigation = header?.querySelector<HTMLElement>('.navigation');
+  const dropdowns = [...(header?.querySelectorAll<HTMLElement>('[data-dropdown]') ?? [])];
+  function closeDropdowns(except?: HTMLElement) {
+    dropdowns.forEach((dropdown) => {
+      if (dropdown === except) return;
+      dropdown.classList.remove('is-open');
+      dropdown.querySelector('button')?.setAttribute('aria-expanded', 'false');
+    });
+  }
+  toggle?.addEventListener('click', () => {
+    const open = navigation?.classList.toggle('is-open') ?? false;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  });
+  dropdowns.forEach((dropdown) => {
+    const trigger = dropdown.querySelector('button');
+    const open = () => { closeDropdowns(dropdown); dropdown.classList.add('is-open'); trigger?.setAttribute('aria-expanded', 'true'); };
+    const close = () => { dropdown.classList.remove('is-open'); trigger?.setAttribute('aria-expanded', 'false'); };
+    trigger?.addEventListener('click', () => dropdown.classList.contains('is-open') ? close() : open());
+    dropdown.addEventListener('pointerenter', (event) => { if (event.pointerType === 'mouse' && window.innerWidth > 920) open(); });
+    dropdown.addEventListener('focusout', (event) => { if (!dropdown.contains(event.relatedTarget as Node | null)) close(); });
+  });
+  header?.addEventListener('pointerleave', (event) => { if (event.pointerType === 'mouse' && window.innerWidth > 920) closeDropdowns(); });
+  header?.querySelectorAll<HTMLElement>('.navigation > a').forEach((link) => link.addEventListener('pointerenter', () => closeDropdowns()));
+  document.addEventListener('pointerdown', (event) => { if (!header?.contains(event.target as Node)) closeDropdowns(); });
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    closeDropdowns(); navigation?.classList.remove('is-open'); toggle?.setAttribute('aria-expanded', 'false');
+  });
+</script>

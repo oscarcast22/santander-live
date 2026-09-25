@@ -1,0 +1,14 @@
+:root { font-family: 'Montserrat Variable', Arial, sans-serif; color: #1e1e1e; background: #fff; font-synthesis: none; scroll-behavior: smooth; }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; }
+img { display: block; max-width: 100%; height: auto; }
+main { position: relative; z-index: 1; background: #fff; }
+.container { width: min(100% - 2.5rem, 1270px); margin-inline: auto; }
+.eyebrow { font-weight: 600; letter-spacing: .02em; }
+.button { display: inline-flex; align-items: center; justify-content: center; min-height: 2.6rem; padding: .55rem 1.1rem; border: 0; border-radius: 999px; background: #b6082c; color: #fff; font-weight: 700; text-decoration: none; transition: background .2s, transform .2s; }
+.button:hover { background: #8f0826; transform: translateY(-2px); }
+:focus-visible { outline: 3px solid #4ba7ce; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { :root { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
