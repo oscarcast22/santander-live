@@ -23,9 +23,9 @@ npm run build
 - `src/pages/index.astro`: inicio, beneficios, LBS+, oferta educativa y formulario visual.
 - `src/pages/nosotros.astro`: hero institucional y acordeón.
 - `src/pages/[nivel]/[slug].astro`: plantilla compartida de licenciaturas y posgrados con pestañas.
-- `src/data/site.ts`: contenido y catálogo de programas. Arquitectura toma su texto del PDF; los demás nombres de licenciatura aparecen en el mockup. No se añadieron nombres de posgrados sin fuente.
+- `src/data/site.ts`: contenido y catálogo de programas. Arquitectura toma su texto del PDF; los demás nombres de licenciatura aparecen en el mockup. Los nombres de maestrías y doctorados se tomaron del catálogo local de UADVirtual para reproducir su megamenú; su disponibilidad en Santander Live sigue pendiente de confirmar.
 - `src/components/ParallaxHero.astro`: hero fijo bajo el contenido, siguiendo el efecto usado en UADVirtual.
-- `src/components/Header.astro`: navegación adaptable con megamenú para licenciaturas y posgrados.
+- `src/components/Header.astro`: adaptación directa del nav de UADVirtual, conservando estilos, transición del header y paneles, apertura por hover y clic, ocultamiento al bajar, reaparición al subir y submenús móviles animados.
 - `reference/mockup-escritorio.pdf`: copia del PDF comprimido proporcionado para comparar las siguientes iteraciones.
 
 Las fotografías de `src/assets/` se extrajeron del PDF original de 18 MB compartido junto al comprimido y se convirtieron a WebP. Astro genera tamaños optimizados al compilar. Los logos y los iconos actuales son marcadores de posición en texto/CSS; se sustituirán por los SVG finales.
@@ -33,7 +33,7 @@ Las fotografías de `src/assets/` se extrajeron del PDF original de 18 MB compar
 ## Pendiente para la siguiente iteración
 
 1. Integrar logos, iconos y enlaces oficiales de ingreso y redes sociales.
-2. Confirmar oferta de posgrados, textos de todos los programas, planes de estudio, perfiles de egreso y contenido de los cuatro apartados de Nosotros.
+2. Confirmar qué posgrados de UADVirtual forman parte de Santander Live, además de los textos de programas, planes de estudio, perfiles de egreso y contenido de los cuatro apartados de Nosotros.
 3. Conectar el formulario a un destino real y agregar el aviso de privacidad. El botón está deshabilitado hasta contar con ese destino.
 4. Ajustar el diseño con las medidas, tipografía y recursos finales; el PDF solo muestra escritorio, así que la composición móvil actual es una propuesta inicial.
 

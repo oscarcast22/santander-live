@@ -11,10 +11,11 @@ export function getStaticPaths() {
 
 interface Props { program: Program; }
 const { program } = Astro.props;
+const heading = program.category === 'maestria' ? `Maestría en ${program.title}` : program.category === 'doctorado' ? `Doctorado en ${program.title}` : program.title;
 ---
-<BaseLayout title={program.title} description={program.description ?? `Conoce el programa de ${program.title} en Santander Live.`}>
+<BaseLayout title={heading} description={program.description ?? `Conoce el programa de ${heading} en Santander Live.`}>
   <ParallaxHero image={hero} alt="Estudiante en modalidad Live Streaming" variant="program" />
-  <main id="contenido"><article class="program-body container"><h1>{program.title}</h1>{program.description && <p class="program-description">{program.description}</p>}<ProgramTabs program={program} /></article></main>
+  <main id="contenido"><article class="program-body container"><h1>{heading}</h1>{program.description && <p class="program-description">{program.description}</p>}<ProgramTabs program={program} /></article></main>
 </BaseLayout>
 <style>
   .program-body { padding-top: 3.5rem; padding-bottom: 10rem; min-height: 880px; }

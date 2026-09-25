@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ParallaxHero from '../components/ParallaxHero.astro';
-import { licensePrograms } from '../data/site';
+import { licensePrograms, postgraduatePrograms } from '../data/site';
 import hero from '../assets/hero-inicio.webp';
 import student from '../assets/estudiante-amarillo.webp';
 import laptop from '../assets/laptop-lbs.webp';
@@ -40,7 +40,7 @@ const benefits = [
       <article class="offer-card"><Image src={postgraduateCard} alt="Estudiante con audífonos" widths={[380, 650]} sizes="(max-width: 800px) 100vw, 33vw" quality={85} /><h2><a href="/posgrados/">Maestrías</a></h2></article>
       <article class="offer-card"><Image src={doctorateCard} alt="Estudiante frente a una computadora" widths={[380, 650]} sizes="(max-width: 800px) 100vw, 33vw" quality={85} /><h2><a href="/posgrados/">Doctorados</a></h2></article>
     </section>
-    <section class="contact" id="contacto"><div class="contact-inner"><h2>¿Listo para el siguiente paso a tu futuro?</h2><form aria-label="Solicitud de información"><label>Tu nombre<input name="nombre" autocomplete="name" placeholder="Nombre y apellido" /></label><label>Número de teléfono<input name="telefono" autocomplete="tel" inputmode="tel" placeholder="Ingresa tu número de teléfono" /></label><label>Correo electrónico<input name="correo" type="email" autocomplete="email" placeholder="Ingresa tu correo electrónico" /></label><label>Licenciatura o Posgrado de interés<select name="programa"><option value="">Selecciona una opción</option>{licensePrograms.map((program) => <option value={program.slug}>{program.title}</option>)}</select></label><label class="privacy"><input type="checkbox" name="privacidad" /> He leído el aviso de privacidad aplicable a esta solicitud de contacto.</label><button class="button" type="submit" disabled>Recibir más información</button><p class="privacy-note">Tus datos están protegidos por nuestra Política de Privacidad.</p></form></div></section>
+    <section class="contact" id="contacto"><div class="contact-inner"><h2>¿Listo para el siguiente paso a tu futuro?</h2><form aria-label="Solicitud de información"><label>Tu nombre<input name="nombre" autocomplete="name" placeholder="Nombre y apellido" /></label><label>Número de teléfono<input name="telefono" autocomplete="tel" inputmode="tel" placeholder="Ingresa tu número de teléfono" /></label><label>Correo electrónico<input name="correo" type="email" autocomplete="email" placeholder="Ingresa tu correo electrónico" /></label><label>Licenciatura o Posgrado de interés<select name="programa"><option value="">Selecciona una opción</option><optgroup label="Licenciaturas">{licensePrograms.map((program) => <option value={program.slug}>{program.title}</option>)}</optgroup><optgroup label="Maestrías">{postgraduatePrograms.filter((program) => program.category === 'maestria').map((program) => <option value={program.slug}>{program.title}</option>)}</optgroup><optgroup label="Doctorados">{postgraduatePrograms.filter((program) => program.category === 'doctorado').map((program) => <option value={program.slug}>{program.title}</option>)}</optgroup></select></label><label class="privacy"><input type="checkbox" name="privacidad" /> He leído el aviso de privacidad aplicable a esta solicitud de contacto.</label><button class="button" type="submit" disabled>Recibir más información</button><p class="privacy-note">Tus datos están protegidos por nuestra Política de Privacidad.</p></form></div></section>
   </main>
 </BaseLayout>
 

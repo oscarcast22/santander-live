@@ -3,6 +3,7 @@ export type ProgramLevel = 'licenciaturas' | 'posgrados';
 export interface Program {
   slug: string;
   level: ProgramLevel;
+  category?: 'maestria' | 'doctorado';
   title: string;
   description?: string;
   model?: string[];
@@ -30,6 +31,20 @@ export const programs: Program[] = [
   { slug: 'fisioterapia', level: 'licenciaturas', title: 'Fisioterapia' },
   { slug: 'nutricion', level: 'licenciaturas', title: 'Nutrición' },
   { slug: 'psicologia', level: 'licenciaturas', title: 'Psicología' },
+  { slug: 'maestria-alta-direccion-y-gerenciamiento-empresarial', level: 'posgrados', category: 'maestria', title: 'Alta Dirección y Gerenciamiento Empresarial' },
+  { slug: 'maestria-amparo', level: 'posgrados', category: 'maestria', title: 'Amparo' },
+  { slug: 'maestria-educacion', level: 'posgrados', category: 'maestria', title: 'Educación' },
+  { slug: 'maestria-finanzas', level: 'posgrados', category: 'maestria', title: 'Finanzas' },
+  { slug: 'maestria-impuestos', level: 'posgrados', category: 'maestria', title: 'Impuestos' },
+  { slug: 'maestria-mercadotecnia-y-negocios-internacionales', level: 'posgrados', category: 'maestria', title: 'Mercadotecnia y Negocios Internacionales' },
+  { slug: 'maestria-nutricion-clinica', level: 'posgrados', category: 'maestria', title: 'Nutrición Clínica' },
+  { slug: 'maestria-nutricion-en-el-deporte', level: 'posgrados', category: 'maestria', title: 'Nutrición en el Deporte' },
+  { slug: 'maestria-psicologia-educativa', level: 'posgrados', category: 'maestria', title: 'Psicología Educativa' },
+  { slug: 'maestria-valuacion-inmobiliaria', level: 'posgrados', category: 'maestria', title: 'Valuación Inmobiliaria' },
+  { slug: 'doctorado-administracion', level: 'posgrados', category: 'doctorado', title: 'Administración' },
+  { slug: 'doctorado-derecho-constitucional-penal-y-amparo', level: 'posgrados', category: 'doctorado', title: 'Derecho Constitucional, Penal y Amparo' },
+  { slug: 'doctorado-educacion', level: 'posgrados', category: 'doctorado', title: 'Educación' },
+  { slug: 'doctorado-materia-fiscal', level: 'posgrados', category: 'doctorado', title: 'Materia Fiscal' },
 ];
 
 export const licensePrograms = programs.filter((program) => program.level === 'licenciaturas');
