@@ -1,0 +1,46 @@
+---
+title: "Valuación Inmobiliaria"
+heroImage: "./imagenes/maestria-valuacion-inmobiliaria.jpg"
+slug: "maestria-valuacion-inmobiliaria"
+nivel: "posgrados"
+categoria: "maestria"
+overview:
+  - "Formar profesionales del campo de la valuación inmobiliaria, que posean conocimientos y bases teóricas que propicien que su actividad profesional sea realizada sobre bases científicas y objetivas, eliminado el empirismo y la subjetividad que en ocasiones ha caracterizado a esta actividad."
+  - "Propiciar la investigación en el campo de la valuación inmobiliaria, a fin de que sus productos sean conocidos y aprovechados por la sociedad."
+  - "Fortalecer la importancia del carácter ético de la actividad valuatoria de inmuebles, dada lo trascendente que resulta para el México actual."
+  - "Profesional de alto nivel con un sólido dominio de las diferentes técnicas de valuación y de los conocimientos básicos en economía, contabilidad, legislación y finanzas, que permitan dar soporte a la aplicación de dichas técnicas. Los conocimientos adquiridos deben capacitar al egresado para que se adapte de manera eficaz y flexible a los requerimientos de la sociedad, que constantemente cambia en magnitudes y complejidad, ya sea a través de participar en despachos o consultoras, o en general por la venta de servicios profesionales."
+model: "modelo-educativo"
+curriculum:
+  - period: "Primer Semestre"
+    subjects:
+      - "Metodología De La Investigación"
+      - "Introducción A La Valuación I"
+      - "Introducción A La Valuación II"
+      - "Contabilidad"
+      - "Matemáticas Financieras I"
+      - "Matemáticas Financieras II"
+  - period: "Segundo Semestre"
+    subjects:
+      - "Probabilidad Y Estadística"
+      - "Ingeniería De Costos Y Presupuestos I"
+      - "Ingeniería De Costos Y Presupuestos II"
+      - "Economía Urbana"
+      - "Uso Del Suelo Y Catastro I"
+      - "Uso Del Suelo Y Catastro II"
+  - period: "Tercer Semestre"
+    subjects:
+      - "Técnicas De Investigación"
+      - "Valuación De Predios Urbanos"
+      - "Valuación De Construcciones I"
+      - "Valuación De Construcciones Ii"
+      - "Aspectos Legislativos De La Valuación"
+      - "Taller De Valuación Aplicada I"
+  - period: "Cuarto Semestre"
+    subjects:
+      - "Valuación De Predios Rústicos"
+      - "Aspectos Financieros De La Valuación"
+      - "Taller De Valuación Aplicada II Primera Parte"
+      - "Taller De Valuación Aplicada II Segunda Parte"
+      - "Seminario De Tesis I"
+      - "Seminario De Tesis II"
+---

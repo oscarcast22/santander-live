@@ -1,0 +1,44 @@
+---
+title: "Impuestos"
+heroImage: "./imagenes/maestria-impuestos.jpg"
+slug: "maestria-impuestos"
+nivel: "posgrados"
+categoria: "maestria"
+overview:
+  - "Formar ejecutivos financieros de alto nivel con sólidos conocimientos teórico-prácticos, para que tomen las mejores decisiones financieras y estén en posibilidad de resolver sofisticados problemas de inversión-financiamiento, con valores éticos y pensamiento crítico, así mismo estar capacitados para proponer alternativas que maximicen el valor de las utilidades y de la organización."
+  - "Profundizar, afianzar y actualizar los conocimientos, métodos y técnicas Financieras de los participantes para su aplicación en las Áreas funcionales de las diferentes organizaciones en las que participan."
+model: "modelo-educativo"
+curriculum:
+  - period: "Primer Semestre"
+    subjects:
+      - "Técnicas De Investigación En El Sistema Tributario"
+      - "Derecho Fiscal I"
+      - "Derecho Fiscal II"
+      - "Finanzas Publicas"
+      - "Código Fiscal De La Federación I"
+      - "Código Fiscal De La Federación II"
+  - period: "Segundo Semestre"
+    subjects:
+      - "Derecho Empresarial"
+      - "Derecho Civil"
+      - "Impuesto Sobre La Renta Personas Morales I"
+      - "Impuesto Sobre La Renta Personas Morales II"
+      - "Impuesto Sobre La Renta Personas Físicas I"
+      - "Impuesto Sobre La Renta Personas Físicas II"
+  - period: "Tercer Semestre"
+    subjects:
+      - "Impuesto Al Valor Agregado I"
+      - "Impuesto Al Valor Agregado II"
+      - "Impuesto Especial Sobre Produccion Y Servicios II"
+      - "Impuesto Al Comercio Exterior"
+      - "Impuestos Estatales I"
+      - "Impuestos Estatales II"
+  - period: "Cuarto Semestre"
+    subjects:
+      - "Derecho Laboral"
+      - "Seguridad Social Y Infonavit I"
+      - "Seguridad Social Y Infonavit II"
+      - "Prevencion E Identificacion De Operaciones"
+      - "Administracion Fiscal Estrategica I"
+      - "Administracion Fiscal Estrategica II"
+---

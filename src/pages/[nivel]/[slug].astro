@@ -2,45 +2,61 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ParallaxHero from "../../components/ParallaxHero.astro";
 import ProgramTabs from "../../components/ProgramTabs.astro";
-import { programs, type Program } from "../../data/site";
-import hero from "../../assets/hero-programa.webp";
+import { getCollection, getEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 
-export function getStaticPaths() {
-  return programs.map((program) => ({
-    params: { nivel: program.level, slug: program.slug },
-    props: { program },
-  }));
+export async function getStaticPaths() {
+  const programs = await getCollection("programas");
+  const paths = [];
+
+  for (const program of programs) {
+    const model = await getEntry(program.data.model);
+    if (!model) {
+      throw new Error(`No se encontró el modelo educativo de ${program.data.title}`);
+    }
+
+    paths.push({
+      params: { nivel: program.data.nivel, slug: program.data.slug },
+      props: { program, model: model.data },
+    });
+  }
+
+  return paths;
 }
 
 interface Props {
-  program: Program;
+  program: CollectionEntry<"programas">;
+  model: CollectionEntry<"modelos">["data"];
 }
-const { program } = Astro.props;
+const { program, model } = Astro.props;
+const { title, categoria, overview } = program.data;
 const heading =
-  program.category === "maestria"
-    ? `Maestría en ${program.title}`
-    : program.category === "doctorado"
-      ? `Doctorado en ${program.title}`
-      : program.title;
+  categoria === "maestria"
+    ? `Maestría en ${title}`
+    : categoria === "doctorado"
+      ? `Doctorado en ${title}`
+      : title;
+const description = overview[0] ?? `Conoce el programa de ${heading} en Santander Live.`;
 ---
 
 <BaseLayout
   title={heading}
-  description={program.description ??
-    `Conoce el programa de ${heading} en Santander Live.`}
+  description={description}
 >
   <ParallaxHero
-    image={hero}
+    image={program.data.heroImage}
     alt="Estudiante en modalidad Live Streaming"
     variant="program"
   />
   <main id="contenido">
     <article class="program-body container">
-      <h1>{heading}</h1>{
-        program.description && (
-          <p class="program-description">{program.description}</p>
-        )
-      }<ProgramTabs program={program} />
+      <h1>{heading}</h1>
+      {
+        overview.map((paragraph) => (
+          <p class="program-description">{paragraph}</p>
+        ))
+      }
+      <ProgramTabs program={program} model={model} />
     </article>
   </main>
 </BaseLayout>

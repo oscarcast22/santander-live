@@ -1,11 +1,19 @@
 ---
-import { licensePrograms, postgraduatePrograms } from "../data/site";
+import { getCollection } from "astro:content";
+
+const programs = await getCollection("programas");
+const licensePrograms = programs.filter(
+  (program) => program.data.nivel === "licenciaturas",
+);
+const postgraduatePrograms = programs.filter(
+  (program) => program.data.nivel === "posgrados",
+);
 
 const maestrias = postgraduatePrograms.filter(
-  (program) => program.category === "maestria",
+  (program) => program.data.categoria === "maestria",
 );
 const doctorados = postgraduatePrograms.filter(
-  (program) => program.category === "doctorado",
+  (program) => program.data.categoria === "doctorado",
 );
 ---
 
@@ -43,21 +51,21 @@ const doctorados = postgraduatePrograms.filter(
           <optgroup label="Licenciaturas"
             >{
               licensePrograms.map((program) => (
-                <option value={program.slug}>{program.title}</option>
+                <option value={program.data.slug}>{program.data.title}</option>
               ))
             }</optgroup
           >
           <optgroup label="Maestrías"
             >{
               maestrias.map((program) => (
-                <option value={program.slug}>{program.title}</option>
+                <option value={program.data.slug}>{program.data.title}</option>
               ))
             }</optgroup
           >
           <optgroup label="Doctorados"
             >{
               doctorados.map((program) => (
-                <option value={program.slug}>{program.title}</option>
+                <option value={program.data.slug}>{program.data.title}</option>
               ))
             }</optgroup
           >

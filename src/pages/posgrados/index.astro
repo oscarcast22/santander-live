@@ -2,13 +2,18 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ParallaxHero from "../../components/ParallaxHero.astro";
 import hero from "../../assets/hero-programa.webp";
-import { postgraduatePrograms } from "../../data/site";
+import { getCollection } from "astro:content";
+
+const postgraduatePrograms = await getCollection(
+  "programas",
+  ({ data }) => data.nivel === "posgrados",
+);
 
 const maestrias = postgraduatePrograms.filter(
-  (program) => program.category === "maestria",
+  (program) => program.data.categoria === "maestria",
 );
 const doctorados = postgraduatePrograms.filter(
-  (program) => program.category === "doctorado",
+  (program) => program.data.categoria === "doctorado",
 );
 ---
 
@@ -31,7 +36,7 @@ const doctorados = postgraduatePrograms.filter(
             {
               maestrias.map((program) => (
                 <li>
-                  <a href={`/posgrados/${program.slug}`}>{program.title}</a>
+                  <a href={`/posgrados/${program.data.slug}`}>{program.data.title}</a>
                 </li>
               ))
             }
@@ -41,7 +46,7 @@ const doctorados = postgraduatePrograms.filter(
             {
               doctorados.map((program) => (
                 <li>
-                  <a href={`/posgrados/${program.slug}`}>{program.title}</a>
+                  <a href={`/posgrados/${program.data.slug}`}>{program.data.title}</a>
                 </li>
               ))
             }

@@ -1,0 +1,45 @@
+---
+title: "Amparo"
+heroImage: "./imagenes/maestria-amparo.jpg"
+slug: "maestria-amparo"
+nivel: "posgrados"
+categoria: "maestria"
+overview:
+  - "Formar profesionales y especialistas en el Amparo, del más alto nivel en el área del juicio constitucional, con capacidad para desarrollar actividades en la docencia y la investigación, así como asesoría jurídica en este campo, e investigadores y docentes con las más altas preparaciones en el campo de la ciencia del Derecho que, a partir del manejo riguroso y metodológico del conocimiento jurídico."
+model: "modelo-educativo"
+curriculum:
+  - period: "Primer Semestre"
+    subjects:
+      - "Técnicas de la Investigación Jurídica"
+      - "Los Medios de Control Constitucional"
+      - "Los Derechos Humanos y sus Garantías"
+      - "Principios Rectores del Juicio de Amparo"
+      - "Reglas Generales del Juicio de Amparo"
+      - "Parte 1"
+      - "Reglas Generales del Juicio de Amparo"
+      - "Parte 2"
+  - period: "Segundo Semestre"
+    subjects:
+      - "Analisis Jurisprudencial"
+      - "Los Derechos Fundamentales en el Sistema Penal Acusatorio"
+      - "El Juicio De Amparo En El Sistema Penal Acusatorio"
+      - "Amparo Civil"
+      - "Amparo Administrativo Parte 1"
+      - "Amparo Administrativo Parte 2"
+  - period: "Tercer Semestre"
+    subjects:
+      - "Amparo Fiscal"
+      - "Amparo Laboral"
+      - "Amparo Agrario"
+      - "La Suspensión del Acto Reclamado"
+      - "Los Recursos en el Juicio de Amparo Parte 1"
+      - "Los Recursos en el Juicio de Amparo Parte 2"
+  - period: "Cuarto Semestre"
+    subjects:
+      - "Practica Forense Amparo I"
+      - "Practica Forense Amparo II"
+      - "Derecho de los Niños y Adolescentes"
+      - "La Didáctica Aplicada al Derecho y la Coordinación de Grupos Educativos"
+      - "Seminario de Tesis Parte 1"
+      - "Seminario de Tesis Parte 1"
+---

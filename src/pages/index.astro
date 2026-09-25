@@ -3,13 +3,18 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ParallaxHero from "../components/ParallaxHero.astro";
 import ContactForm from "../components/ContactForm.astro";
-import { licensePrograms } from "../data/site";
+import { getCollection } from "astro:content";
 import hero from "../assets/hero-inicio.webp";
 import student from "../assets/estudiante-amarillo.webp";
 import laptop from "../assets/laptop-lbs.webp";
 import licenseCard from "../assets/tarjeta-licenciaturas.webp";
 import postgraduateCard from "../assets/hero-programa.webp";
 import doctorateCard from "../assets/tarjeta-doctorados.webp";
+
+const licensePrograms = await getCollection(
+  "programas",
+  ({ data }) => data.nivel === "licenciaturas",
+);
 
 const benefits = [
   {
@@ -123,7 +128,7 @@ const benefits = [
           {
             licensePrograms.map((program) => (
               <li>
-                <a href={`/licenciaturas/${program.slug}`}>{program.title}</a>
+                <a href={`/licenciaturas/${program.data.slug}`}>{program.data.title}</a>
               </li>
             ))
           }

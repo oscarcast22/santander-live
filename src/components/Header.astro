@@ -1,10 +1,12 @@
 ---
-import { licensePrograms, postgraduatePrograms } from "../data/site";
-import type { Program } from "../data/site";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 
-const sortPrograms = (items: Program[]) =>
+const programs = await getCollection("programas");
+
+const sortPrograms = (items: CollectionEntry<"programas">[]) =>
     [...items].sort((a, b) =>
-        a.title.localeCompare(b.title, "es", { sensitivity: "base" }),
+        a.data.title.localeCompare(b.data.title, "es", { sensitivity: "base" }),
     );
 const splitColumns = <T,>(items: T[], count: number) => {
     const base = Math.floor(items.length / count);
@@ -18,12 +20,14 @@ const splitColumns = <T,>(items: T[], count: number) => {
     });
 };
 
-const licenciaturas = sortPrograms(licensePrograms);
+const licenciaturas = sortPrograms(
+    programs.filter((program) => program.data.nivel === "licenciaturas"),
+);
 const maestrias = sortPrograms(
-    postgraduatePrograms.filter((program) => program.category === "maestria"),
+    programs.filter((program) => program.data.categoria === "maestria"),
 );
 const doctorados = sortPrograms(
-    postgraduatePrograms.filter((program) => program.category === "doctorado"),
+    programs.filter((program) => program.data.categoria === "doctorado"),
 );
 const licenciaturasColumnas = splitColumns(licenciaturas, 3);
 const maestriasColumnas = splitColumns(maestrias, 2);
@@ -127,9 +131,9 @@ const menuLinks = [
                                 licenciaturas.map((program) => (
                                     <li>
                                         <a
-                                            href={`/licenciaturas/${program.slug}`}
+                                            href={`/licenciaturas/${program.data.slug}`}
                                         >
-                                            {program.title}
+                                            {program.data.title}
                                         </a>
                                     </li>
                                 ))
@@ -160,9 +164,9 @@ const menuLinks = [
                                     maestrias.map((program) => (
                                         <li>
                                             <a
-                                                href={`/posgrados/${program.slug}`}
+                                                href={`/posgrados/${program.data.slug}`}
                                             >
-                                                {program.title}
+                                                {program.data.title}
                                             </a>
                                         </li>
                                     ))
@@ -180,9 +184,9 @@ const menuLinks = [
                                     doctorados.map((program) => (
                                         <li>
                                             <a
-                                                href={`/posgrados/${program.slug}`}
+                                                href={`/posgrados/${program.data.slug}`}
                                             >
-                                                {program.title}
+                                                {program.data.title}
                                             </a>
                                         </li>
                                     ))
@@ -238,9 +242,9 @@ const menuLinks = [
                                 {column.map((program) => (
                                     <li>
                                         <a
-                                            href={`/licenciaturas/${program.slug}`}
+                                            href={`/licenciaturas/${program.data.slug}`}
                                         >
-                                            {program.title}
+                                            {program.data.title}
                                         </a>
                                     </li>
                                 ))}
@@ -273,9 +277,9 @@ const menuLinks = [
                                         {column.map((program) => (
                                             <li>
                                                 <a
-                                                    href={`/posgrados/${program.slug}`}
+                                                    href={`/posgrados/${program.data.slug}`}
                                                 >
-                                                    {program.title}
+                                                    {program.data.title}
                                                 </a>
                                             </li>
                                         ))}
@@ -291,8 +295,8 @@ const menuLinks = [
                             {
                                 doctorados.map((program) => (
                                     <li>
-                                        <a href={`/posgrados/${program.slug}`}>
-                                            {program.title}
+                                        <a href={`/posgrados/${program.data.slug}`}>
+                                            {program.data.title}
                                         </a>
                                     </li>
                                 ))

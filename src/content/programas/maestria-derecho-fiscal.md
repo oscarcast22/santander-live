@@ -1,0 +1,45 @@
+---
+title: "Derecho Fiscal"
+heroImage: "./imagenes/maestria-derecho-fiscal.jpg"
+slug: "maestria-derecho-fiscal"
+nivel: "posgrados"
+categoria: "maestria"
+overview:
+  - "Aportar a la sociedad profesionistas con una formación académica en posgrado de excelencia, con capacidad, conocimientos necesarios y absoluto dominio en materia de Derecho Fiscal."
+  - "Proporcionar argumentos suficientes y actualizados a los profesionistas con perfiles académicos relacionados con la materia, que les permita aplicarlos en la resolución de la problemática que plantea la relación entre estado y contribuyente."
+  - "Ofrecer un grado de especialización en áreas del conocimiento no saturadas ante la realidad que vive nuestro país coadyuvando con el desarrollo de estudios de alto nivel académico."
+model: "modelo-educativo"
+curriculum:
+  - period: "Primer Semestre"
+    subjects:
+      - "Técnicas De Investigación En Sistema Tributario"
+      - "Derecho Tributario"
+      - "Derecho Financiero"
+      - "Derecho Financiero II"
+      - "Derecho Corporativo"
+      - "Derecho Corporativo II"
+  - period: "Segundo Semestre"
+    subjects:
+      - "Aspectos Generales Del Código Fiscal De La Federación"
+      - "Impuesto Sobre La Renta Personas Morales"
+      - "Impuesto Sobre La Renta Personas Morales II"
+      - "Impuesto Sobre La Renta Personas Físicas"
+      - "Impuesto Sobre La Renta Personas Físicas II"
+      - "Impuesto Al Valor Agregado"
+  - period: "Tercer Semestre"
+    subjects:
+      - "Impuesto Al Comercio Exterior"
+      - "Impuesto Al Comercio Exterior II"
+      - "Impuestos Estatales"
+      - "Impuestos Estatales II"
+      - "Aspectos Generales De La Lfpiorpi"
+      - "Derecho Procesal"
+  - period: "Cuarto Semestre"
+    subjects:
+      - "Impugnaciones Administrativas"
+      - "Juicio De Nulidad"
+      - "Amparo Fiscal"
+      - "Practica Forense Fiscal"
+      - "Practica Forense Fiscal II"
+      - "Seminario De Tesis"
+---

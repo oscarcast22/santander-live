@@ -1,0 +1,44 @@
+---
+title: "Finanzas"
+heroImage: "./imagenes/maestria-finanzas.jpg"
+slug: "maestria-finanzas"
+nivel: "posgrados"
+categoria: "maestria"
+overview:
+  - "Formar ejecutivos financieros de alto nivel con sólidos conocimientos teórico-prácticos, para que tomen las mejores decisiones financieras y estén en posibilidad de resolver sofisticados problemas de inversión-financiamiento, con valores éticos y pensamiento crítico, así mismo estar capacitados para proponer alternativas que maximicen el valor de las utilidades y de la organización."
+  - "Profundizar, afianzar y actualizar los conocimientos, métodos y técnicas Financieras de los participantes para su aplicación en las Áreas funcionales de las diferentes organizaciones en las que participan."
+model: "modelo-educativo"
+curriculum:
+  - period: "Primer Semestre"
+    subjects:
+      - "Metodología De La Investigación"
+      - "Fundamentos De Economía"
+      - "Contabilidad Financiera I"
+      - "Contabilidad Financiera II"
+      - "Matemáticas Financieras I"
+      - "Matemáticas Financieras II"
+  - period: "Segundo Semestre"
+    subjects:
+      - "Legislación Financiera"
+      - "Finanzas Corporativas I"
+      - "Finanzas Corporativas II"
+      - "Proyectos De Inversión"
+      - "Proyectos De Inversión"
+      - "Instrumentos Bursátiles"
+  - period: "Tercer Semestre"
+    subjects:
+      - "Finanzas Internacionales"
+      - "Finanzas Internacionales"
+      - "Finanzas Corporativas II"
+      - "Estrategias Financieras"
+      - "Administración Bancaria I"
+      - "Administración Bancaria II"
+  - period: "Cuarto Semestre"
+    subjects:
+      - "Análisis Del Mercado Financiero I"
+      - "Análisis Del Mercado Financiero II"
+      - "Finanzas Públicas En México"
+      - "Finanzas Públicas En México II"
+      - "Ética En La Gestión Pública"
+      - "Seminario De Investigación Financiera"
+---

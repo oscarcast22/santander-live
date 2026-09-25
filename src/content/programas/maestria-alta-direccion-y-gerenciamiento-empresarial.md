@@ -1,0 +1,48 @@
+---
+title: "Alta Dirección y Gerenciamiento Empresarial"
+heroImage: "./imagenes/maestria-alta-direccion-y-gerenciamiento-empresarial.jpg"
+slug: "maestria-alta-direccion-y-gerenciamiento-empresarial"
+nivel: "posgrados"
+categoria: "maestria"
+overview:
+  - "Generar conocimiento, a través de la investigación científica y divulgarlo a través de la docencia y la publicación de sus trabajos."
+  - "Asesorar a organizaciones para lograr su desarrollo y la solución de problemas administrativos."
+  - "Capacidad para generar y transmitir el conocimiento y para formar nuevos investigadores en las ciencias administrativas."
+  - "Conocimiento profundo y actualizado en su campo de especialización dentro de la ciencia de la administración."
+  - "Habilidad para diagnosticar y solucionar problemas administrativos."
+  - "Capacidad de liderazgo intelectual para generar avances en la ciencia y tecnología de la Administración, con una actitud ética, innovadora, crítica y de compromiso social."
+model: "modelo-educativo"
+curriculum:
+  - period: "Primer Cuatrimestre"
+    subjects:
+      - "Administración Moderna"
+      - "Introducción Al Marketing"
+      - "Entorno Económico De Los Negocios I"
+      - "Entorno Económico De Los Negocios II"
+      - "Finanzas Empresariales I"
+      - "Finanzas Empresariales II"
+  - period: "Segundo Cuatrimestre"
+    subjects:
+      - "Negociación Estratégica I"
+      - "Negociación Estratégica II"
+      - "Liderazgo Y Motivación I"
+      - "Publicidad Y Ventas"
+      - "Sistemas De Información Para La Administración I"
+      - "Sistemas De Información Para La Administración II"
+  - period: "Tercer Cuatrimestre"
+    subjects:
+      - "Habilidades Directivas I"
+      - "Planeación Y Dirección Estratégica I"
+      - "Planeación Y Dirección Estratégica II"
+      - "Gestión De Procesos I"
+      - "Gestión De Procesos II"
+      - "Liderazgo Y Motivación II"
+  - period: "Cuarto Cuatrimestre"
+    subjects:
+      - "Dirección Y Gestión De Recursos Humanos"
+      - "Habilidades Directivas II"
+      - "Sistemas De Administración De La Calidad"
+      - "Planeación Y Creación De Nuevas Empresas"
+      - "Seminario De Tesis I"
+      - "Seminario De Tesis II"
+---

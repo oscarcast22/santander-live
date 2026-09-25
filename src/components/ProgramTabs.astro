@@ -1,12 +1,14 @@
 ---
 import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
 import banner from "../assets/banner-educacion.webp";
-import type { Program } from "../data/site";
 
 interface Props {
-  program: Program;
+  program: CollectionEntry<"programas">;
+  model: CollectionEntry<"modelos">["data"];
 }
-const { program } = Astro.props;
+const { program, model } = Astro.props;
+const { title, curriculum, graduateProfile } = program.data;
 const tabs = [
   { id: "modelo", label: "Modelo Educativo" },
   { id: "plan", label: "Plan de Estudios" },
@@ -18,7 +20,7 @@ const tabs = [
   <div
     class="tab-list"
     role="tablist"
-    aria-label={`Información de ${program.title}`}
+    aria-label={`Información de ${title}`}
   >
     {
       tabs.map((tab, index) => (
@@ -42,10 +44,7 @@ const tabs = [
     tabindex="0"
   >
     <p>
-      {
-        program.model?.[0] ??
-          "La información de este programa se integrará próximamente."
-      }
+      {model.paragraphs[0]}
     </p>
     <figure class="program-banner">
       <Image
@@ -57,7 +56,7 @@ const tabs = [
       />
       <figcaption>Transformando la educación</figcaption>
     </figure>
-    {program.model?.slice(1).map((paragraph) => <p>{paragraph}</p>)}
+    {model.paragraphs.slice(1).map((paragraph) => <p>{paragraph}</p>)}
   </section>
   <section
     id="panel-plan"
@@ -67,12 +66,17 @@ const tabs = [
     hidden
   >
     {
-      program.curriculum?.length ? (
-        <ul>
-          {program.curriculum.map((item) => (
-            <li>{item}</li>
+      curriculum.length ? (
+        <div class="curriculum">
+          {curriculum.map(({ period, subjects }) => (
+            <section class="curriculum-period">
+              <h2>{period}</h2>
+              <ul>
+                {subjects.map((subject) => <li>{subject}</li>)}
+              </ul>
+            </section>
           ))}
-        </ul>
+        </div>
       ) : (
         <p>Plan de estudios pendiente de integrar.</p>
       )
@@ -86,10 +90,10 @@ const tabs = [
     hidden
   >
     {
-      program.graduateProfile?.length ? (
-        program.graduateProfile.map((paragraph) => <p>{paragraph}</p>)
+      graduateProfile?.length ? (
+        graduateProfile.map((paragraph) => <p>{paragraph}</p>)
       ) : (
-        <p>Perfil de egreso pendiente de integrar.</p>
+        <p>La ficha oficial consultada no publica un perfil de egreso.</p>
       )
     }
   </section>
@@ -133,6 +137,21 @@ const tabs = [
   }
   [role="tabpanel"] p {
     margin: 0 0 1.55rem;
+  }
+  .curriculum {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: 1.5rem;
+  }
+  .curriculum-period h2 {
+    margin: 0 0 0.55rem;
+    color: var(--gray-200);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .curriculum-period ul {
+    margin: 0;
+    padding-left: 1.2rem;
   }
   .program-banner {
     position: relative;
