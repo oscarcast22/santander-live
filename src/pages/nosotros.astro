@@ -1,27 +1,105 @@
 ---
-import { Image } from 'astro:assets';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import ParallaxHero from '../components/ParallaxHero.astro';
-import AboutAccordion from '../components/AboutAccordion.astro';
-import { aboutIntroduction } from '../data/site';
-import hero from '../assets/hero-inicio.webp';
-import banner from '../assets/banner-educacion.webp';
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ParallaxHero from "../components/ParallaxHero.astro";
+import AboutAccordion from "../components/AboutAccordion.astro";
+import { aboutIntroduction } from "../data/site";
+import hero from "../assets/hero-inicio.webp";
+import banner from "../assets/banner-educacion.webp";
 ---
-<BaseLayout title="Nosotros" description="Conoce Santander Live y la Universidad Autónoma de Durango.">
-  <ParallaxHero image={hero} alt="Estudiante con audífonos en un espacio de estudio" variant="about">
-    <div class="about-hero-copy"><p class="hero-brand">Santander <span>Live Streaming</span> <i></i> Universidad <span>Autónoma de Durango</span></p><h1>Nosotros</h1>{aboutIntroduction.map((paragraph) => <p>{paragraph}</p>)}</div>
+
+<BaseLayout
+  title="Nosotros"
+  description="Conoce Santander Live y la Universidad Autónoma de Durango."
+>
+  <ParallaxHero
+    image={hero}
+    alt="Estudiante con audífonos en un espacio de estudio"
+    variant="about"
+  >
+    <div class="about-hero-copy">
+      <p class="hero-brand">
+        Santander <span>Live Streaming</span>
+        <i></i> Universidad <span>Autónoma de Durango</span>
+      </p><h1>Nosotros</h1>{
+        aboutIntroduction.map((paragraph) => <p>{paragraph}</p>)
+      }
+    </div>
   </ParallaxHero>
-  <main id="contenido"><div class="about-body container"><h2>NOSOTROS</h2><AboutAccordion /><Image src={banner} alt="Estudiante trabajando en una computadora" widths={[700, 1100, 1400]} sizes="(max-width: 800px) 100vw, 1270px" quality={85} /></div></main>
+  <main id="contenido">
+    <div class="about-body container">
+      <h2>NOSOTROS</h2><AboutAccordion /><Image
+        src={banner}
+        alt="Estudiante trabajando en una computadora"
+        widths={[700, 1100, 1400]}
+        sizes="(max-width: 800px) 100vw, 1270px"
+        quality={85}
+      />
+    </div>
+  </main>
 </BaseLayout>
 <style>
-  .about-hero-copy { width: 100%; margin-top: 10rem; text-shadow: 0 2px 8px rgb(0 0 0 / .5); }
-  .hero-brand { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: .4rem 1rem; margin-bottom: 3rem !important; font-family: Georgia, serif; font-size: 1.8rem !important; text-transform: uppercase; }
-  .hero-brand span { font-family: 'Montserrat Variable', sans-serif; font-size: .6rem; }
-  .hero-brand i { height: 30px; border-left: 1px solid white; }
-  .about-hero-copy h1 { font-size: 1.6rem; font-weight: 600; }
-  .about-hero-copy p { margin: 1rem 0; font-size: clamp(.85rem, 1.15vw, 1.03rem); font-style: italic; line-height: 1.5; }
-  .about-body { padding-top: 6rem; padding-bottom: 8rem; }
-  .about-body h2 { margin: 0; font-size: clamp(2.5rem, 4vw, 4rem); }
-  .about-body :global(img) { width: 100%; max-height: 435px; object-fit: cover; }
-  @media (max-width: 700px) { .about-hero-copy { margin-top: 4rem; max-height: 70svh; overflow: auto; } .hero-brand { display: none; } .about-hero-copy p { font-size: .77rem; } .about-body { padding-block: 4rem; } }
+  .about-hero-copy {
+    width: 100%;
+    margin-top: 10rem;
+    text-shadow: 0 2px 8px rgb(0 0 0 / 0.5);
+  }
+  .hero-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    margin-bottom: 3rem !important;
+    font-family: Georgia, serif;
+    font-size: 1.8rem !important;
+    text-transform: uppercase;
+  }
+  .hero-brand span {
+    font-family: "Montserrat Variable", sans-serif;
+    font-size: 0.6rem;
+  }
+  .hero-brand i {
+    height: 30px;
+    border-left: 1px solid white;
+  }
+  .about-hero-copy h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+  .about-hero-copy p {
+    margin: 1rem 0;
+    font-size: clamp(0.85rem, 1.15vw, 1.03rem);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .about-body {
+    padding-top: 6rem;
+    padding-bottom: 8rem;
+  }
+  .about-body h2 {
+    margin: 0;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+  }
+  .about-body :global(img) {
+    width: 100%;
+    max-height: 435px;
+    object-fit: cover;
+  }
+  @media (max-width: 700px) {
+    .about-hero-copy {
+      margin-top: 4rem;
+      max-height: 70svh;
+      overflow: auto;
+    }
+    .hero-brand {
+      display: none;
+    }
+    .about-hero-copy p {
+      font-size: 0.77rem;
+    }
+    .about-body {
+      padding-block: 4rem;
+    }
+  }
 </style>

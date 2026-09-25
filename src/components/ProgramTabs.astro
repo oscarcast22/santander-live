@@ -1,64 +1,203 @@
 ---
-import { Image } from 'astro:assets';
-import banner from '../assets/banner-educacion.webp';
-import type { Program } from '../data/site';
+import { Image } from "astro:assets";
+import banner from "../assets/banner-educacion.webp";
+import type { Program } from "../data/site";
 
-interface Props { program: Program; }
+interface Props {
+  program: Program;
+}
 const { program } = Astro.props;
 const tabs = [
-  { id: 'modelo', label: 'Modelo Educativo' },
-  { id: 'plan', label: 'Plan de Estudios' },
-  { id: 'perfil', label: 'Perfil de Egreso' },
+  { id: "modelo", label: "Modelo Educativo" },
+  { id: "plan", label: "Plan de Estudios" },
+  { id: "perfil", label: "Perfil de Egreso" },
 ];
 ---
+
 <div class="program-tabs" data-tabs>
-  <div class="tab-list" role="tablist" aria-label={`Información de ${program.title}`}>
-    {tabs.map((tab, index) => <button id={`tab-${tab.id}`} role="tab" type="button" aria-selected={index === 0 ? 'true' : 'false'} aria-controls={`panel-${tab.id}`} tabindex={index === 0 ? 0 : -1}>{tab.label}</button>)}
+  <div
+    class="tab-list"
+    role="tablist"
+    aria-label={`Información de ${program.title}`}
+  >
+    {
+      tabs.map((tab, index) => (
+        <button
+          id={`tab-${tab.id}`}
+          role="tab"
+          type="button"
+          aria-selected={index === 0 ? "true" : "false"}
+          aria-controls={`panel-${tab.id}`}
+          tabindex={index === 0 ? 0 : -1}
+        >
+          {tab.label}
+        </button>
+      ))
+    }
   </div>
-  <section id="panel-modelo" role="tabpanel" aria-labelledby="tab-modelo" tabindex="0">
-    <p>{program.model?.[0] ?? 'La información de este programa se integrará próximamente.'}</p>
+  <section
+    id="panel-modelo"
+    role="tabpanel"
+    aria-labelledby="tab-modelo"
+    tabindex="0"
+  >
+    <p>
+      {
+        program.model?.[0] ??
+          "La información de este programa se integrará próximamente."
+      }
+    </p>
     <figure class="program-banner">
-      <Image src={banner} alt="Estudiante trabajando en una computadora" widths={[700, 1100, 1400]} sizes="(max-width: 800px) 100vw, 1270px" quality={85} />
+      <Image
+        src={banner}
+        alt="Estudiante trabajando en una computadora"
+        widths={[700, 1100, 1400]}
+        sizes="(max-width: 800px) 100vw, 1270px"
+        quality={85}
+      />
       <figcaption>Transformando la educación</figcaption>
     </figure>
     {program.model?.slice(1).map((paragraph) => <p>{paragraph}</p>)}
   </section>
-  <section id="panel-plan" role="tabpanel" aria-labelledby="tab-plan" tabindex="0" hidden>
-    {program.curriculum?.length ? <ul>{program.curriculum.map((item) => <li>{item}</li>)}</ul> : <p>Plan de estudios pendiente de integrar.</p>}
+  <section
+    id="panel-plan"
+    role="tabpanel"
+    aria-labelledby="tab-plan"
+    tabindex="0"
+    hidden
+  >
+    {
+      program.curriculum?.length ? (
+        <ul>
+          {program.curriculum.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>Plan de estudios pendiente de integrar.</p>
+      )
+    }
   </section>
-  <section id="panel-perfil" role="tabpanel" aria-labelledby="tab-perfil" tabindex="0" hidden>
-    {program.graduateProfile?.length ? program.graduateProfile.map((paragraph) => <p>{paragraph}</p>) : <p>Perfil de egreso pendiente de integrar.</p>}
+  <section
+    id="panel-perfil"
+    role="tabpanel"
+    aria-labelledby="tab-perfil"
+    tabindex="0"
+    hidden
+  >
+    {
+      program.graduateProfile?.length ? (
+        program.graduateProfile.map((paragraph) => <p>{paragraph}</p>)
+      ) : (
+        <p>Perfil de egreso pendiente de integrar.</p>
+      )
+    }
   </section>
 </div>
 <style>
-  .tab-list { display: flex; flex-wrap: wrap; gap: 2.4rem; border-bottom: 1px solid var(--gray-800); }
-  [role="tab"] { padding: .7rem 0; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--gray-200); font-size: .88rem; font-weight: 600; white-space: nowrap; transition: color .2s ease, border-color .2s ease; }
-  [role="tab"]:hover, [role="tab"]:focus-visible { color: var(--red-200); }
-  [role="tab"][aria-selected="true"] { border-color: var(--red-200); color: var(--gray-100); }
-  [role="tabpanel"] { padding-top: 1.5rem; color: var(--gray-400); font-size: .94rem; line-height: 1.55; }
-  [role="tabpanel"][hidden] { display: none; }
-  [role="tabpanel"] p { margin: 0 0 1.55rem; }
-  .program-banner { position: relative; margin: 1.7rem 0 2.3rem; overflow: hidden; }
-  .program-banner :global(img) { width: 100%; max-height: 405px; object-fit: cover; }
-  .program-banner figcaption { position: absolute; inset: 0; display: grid; place-items: center; padding: 1rem; color: white; font-size: clamp(1.35rem, 3vw, 2.35rem); font-style: italic; text-align: center; text-shadow: 0 2px 8px rgb(0 0 0 / .3); }
-  @media (max-width: 600px) { .tab-list { gap: .75rem 1.25rem; } [role="tab"] { font-size: .77rem; } }
+  .tab-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.4rem;
+    border-bottom: 1px solid var(--gray-800);
+  }
+  [role="tab"] {
+    padding: 0.7rem 0;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: var(--gray-200);
+    font-size: 0.88rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+  [role="tab"]:hover,
+  [role="tab"]:focus-visible {
+    color: var(--red-200);
+  }
+  [role="tab"][aria-selected="true"] {
+    border-color: var(--red-200);
+    color: var(--gray-100);
+  }
+  [role="tabpanel"] {
+    padding-top: 1.5rem;
+    color: var(--gray-400);
+    font-size: 0.94rem;
+    line-height: 1.55;
+  }
+  [role="tabpanel"][hidden] {
+    display: none;
+  }
+  [role="tabpanel"] p {
+    margin: 0 0 1.55rem;
+  }
+  .program-banner {
+    position: relative;
+    margin: 1.7rem 0 2.3rem;
+    overflow: hidden;
+  }
+  .program-banner :global(img) {
+    width: 100%;
+    max-height: 405px;
+    object-fit: cover;
+  }
+  .program-banner figcaption {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    color: white;
+    font-size: clamp(1.35rem, 3vw, 2.35rem);
+    font-style: italic;
+    text-align: center;
+    text-shadow: 0 2px 8px rgb(0 0 0 / 0.3);
+  }
+  @media (max-width: 600px) {
+    .tab-list {
+      gap: 0.75rem 1.25rem;
+    }
+    [role="tab"] {
+      font-size: 0.77rem;
+    }
+  }
 </style>
 <script>
-  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
+  document.querySelectorAll<HTMLElement>("[data-tabs]").forEach((root) => {
     const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
     const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
     const select = (index: number, focus = false) => {
-      tabs.forEach((tab, i) => { tab.setAttribute('aria-selected', String(i === index)); tab.tabIndex = i === index ? 0 : -1; if (focus && i === index) tab.focus(); });
-      panels.forEach((panel, i) => { panel.hidden = i !== index; });
+      tabs.forEach((tab, i) => {
+        tab.setAttribute("aria-selected", String(i === index));
+        tab.tabIndex = i === index ? 0 : -1;
+        if (focus && i === index) tab.focus();
+      });
+      panels.forEach((panel, i) => {
+        panel.hidden = i !== index;
+      });
     };
     tabs.forEach((tab, index) => {
-      tab.addEventListener('click', () => select(index));
-      tab.addEventListener('keydown', (event) => {
-        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-          event.preventDefault(); select((index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length, true);
+      tab.addEventListener("click", () => select(index));
+      tab.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+          event.preventDefault();
+          select(
+            (index + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) %
+              tabs.length,
+            true,
+          );
         }
-        if (event.key === 'Home') { event.preventDefault(); select(0, true); }
-        if (event.key === 'End') { event.preventDefault(); select(tabs.length - 1, true); }
+        if (event.key === "Home") {
+          event.preventDefault();
+          select(0, true);
+        }
+        if (event.key === "End") {
+          event.preventDefault();
+          select(tabs.length - 1, true);
+        }
       });
     });
   });

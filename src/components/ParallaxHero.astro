@@ -1,35 +1,98 @@
 ---
-import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 
-interface Props { image: ImageMetadata; alt: string; variant: 'home' | 'program' | 'about'; }
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  variant: "home" | "program" | "about";
+}
 const { image, alt, variant } = Astro.props;
 ---
+
 <div class={`parallax parallax-${variant}`}>
   <section class="hero-layer" aria-label={alt}>
-    <Image src={image} alt="" class="hero-image" widths={[640, 960, 1440, 1920]} sizes="100vw" quality={85} priority />
+    <Image
+      src={image}
+      alt=""
+      class="hero-image"
+      widths={[640, 960, 1440, 1920]}
+      sizes="100vw"
+      quality={85}
+      priority
+    />
     <div class="hero-shade"></div>
     <div class="hero-content container"><slot /></div>
   </section>
   <div class="hero-space" aria-hidden="true"></div>
 </div>
 <style>
-  .parallax { --hero-height: min(56.25vw, 1080px); }
-  .parallax-program { --hero-height: min(41.7vw, 800px); }
-  .parallax-about { --hero-height: min(56.25vw, 1080px); }
-  .hero-layer { position: fixed; z-index: 0; top: 0; left: 0; width: 100%; height: var(--hero-height); overflow: hidden; color: #fff; }
-  .hero-image { width: 100%; height: 100%; object-fit: cover; object-position: center; }
-  .parallax-program .hero-image { object-position: center top; }
-  .hero-shade { position: absolute; inset: 0; background: rgb(0 0 0 / .18); }
-  .parallax-program .hero-shade { background: transparent; }
-  .parallax-about .hero-shade { background: rgb(0 0 0 / .24); }
-  .hero-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; pointer-events: none; }
-  .hero-content :global(*) { pointer-events: auto; }
-  .hero-space { height: var(--hero-height); }
+  .parallax {
+    --hero-height: min(56.25vw, 1080px);
+  }
+  .parallax-program {
+    --hero-height: min(41.7vw, 800px);
+  }
+  .parallax-about {
+    --hero-height: min(56.25vw, 1080px);
+  }
+  .hero-layer {
+    position: fixed;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--hero-height);
+    overflow: hidden;
+    color: #fff;
+  }
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .parallax-program .hero-image {
+    object-position: center top;
+  }
+  .hero-shade {
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / 0.18);
+  }
+  .parallax-program .hero-shade {
+    background: transparent;
+  }
+  .parallax-about .hero-shade {
+    background: rgb(0 0 0 / 0.24);
+  }
+  .hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+  }
+  .hero-content :global(*) {
+    pointer-events: auto;
+  }
+  .hero-space {
+    height: var(--hero-height);
+  }
   @media (max-width: 700px) {
-    .parallax-home { --hero-height: 76svh; }
-    .parallax-program { --hero-height: 62svh; }
-    .parallax-about { --hero-height: 88svh; }
-    .hero-image { object-position: 47% center; }
+    .parallax-home {
+      --hero-height: 76svh;
+    }
+    .parallax-program {
+      --hero-height: 62svh;
+    }
+    .parallax-about {
+      --hero-height: 88svh;
+    }
+    .hero-image {
+      object-position: 47% center;
+    }
   }
 </style>

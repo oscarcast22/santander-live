@@ -1,115 +1,458 @@
 ---
-import { Image } from 'astro:assets';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import ParallaxHero from '../components/ParallaxHero.astro';
-import ContactForm from '../components/ContactForm.astro';
-import { licensePrograms } from '../data/site';
-import hero from '../assets/hero-inicio.webp';
-import student from '../assets/estudiante-amarillo.webp';
-import laptop from '../assets/laptop-lbs.webp';
-import licenseCard from '../assets/tarjeta-licenciaturas.webp';
-import postgraduateCard from '../assets/hero-programa.webp';
-import doctorateCard from '../assets/tarjeta-doctorados.webp';
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ParallaxHero from "../components/ParallaxHero.astro";
+import ContactForm from "../components/ContactForm.astro";
+import { licensePrograms } from "../data/site";
+import hero from "../assets/hero-inicio.webp";
+import student from "../assets/estudiante-amarillo.webp";
+import laptop from "../assets/laptop-lbs.webp";
+import licenseCard from "../assets/tarjeta-licenciaturas.webp";
+import postgraduateCard from "../assets/hero-programa.webp";
+import doctorateCard from "../assets/tarjeta-doctorados.webp";
 
 const benefits = [
-  { title: 'Clases Virtuales', text: 'SLS te permite tomar tus clases desde cualquier lugar con acceso a internet.' },
-  { title: 'Programas a 3 años', text: 'Licenciaturas en modalidad Live Streaming con una duración de 3 años.' },
-  { title: 'Libros LBS', text: 'Toda la información de tu Licenciatura en un solo lugar y en cualquier lugar.' },
+  {
+    title: "Clases Virtuales",
+    text: "SLS te permite tomar tus clases desde cualquier lugar con acceso a internet.",
+  },
+  {
+    title: "Programas a 3 años",
+    text: "Licenciaturas en modalidad Live Streaming con una duración de 3 años.",
+  },
+  {
+    title: "Libros LBS",
+    text: "Toda la información de tu Licenciatura en un solo lugar y en cualquier lugar.",
+  },
 ];
 ---
-<BaseLayout title="Inicio" description="Estudia licenciaturas en modalidad Live Streaming con Santander Live." footerSpacious>
-  <ParallaxHero image={hero} alt="Estudiante con audífonos y computadora" variant="home">
-    <div class="hero-copy"><h1>Tu licenciatura Nocturna<br />en tiempo real</h1><p>de 8:00 pm a 10:00 pm</p></div>
+
+<BaseLayout
+  title="Inicio"
+  description="Estudia licenciaturas en modalidad Live Streaming con Santander Live."
+  footerSpacious
+>
+  <ParallaxHero
+    image={hero}
+    alt="Estudiante con audífonos y computadora"
+    variant="home"
+  >
+    <div class="hero-copy">
+      <h1>Tu licenciatura Nocturna<br />en tiempo real</h1><p>
+        de 8:00 pm a 10:00 pm
+      </p>
+    </div>
   </ParallaxHero>
   <main id="contenido">
-    <section class="benefit-section container" aria-label="Beneficios de Santander Live">
-      <div class="benefits">{benefits.map((item, index) => <div class="benefit"><span class={`benefit-symbol symbol-${index + 1}`} aria-hidden="true"></span><h2>{item.title}</h2><p>{item.text}</p></div>)}</div>
+    <section
+      class="benefit-section container"
+      aria-label="Beneficios de Santander Live"
+    >
+      <div class="benefits">
+        {
+          benefits.map((item, index) => (
+            <div class="benefit">
+              <>
+                <span
+                  class={`benefit-symbol symbol-${index + 1}`}
+                  aria-hidden="true"
+                />
+                <h2>{item.title}</h2>
+                <p>{item.text}</p>
+              </>
+            </div>
+          ))
+        }
+      </div>
     </section>
-    <section class="statement container"><p>Transformando la educación</p></section>
+    <section class="statement container">
+      <p>Transformando la educación</p>
+    </section>
     <section class="education">
       <div class="container education-grid">
-        <Image src={student} alt="Estudiante con computadora portátil" widths={[480, 770, 1000]} sizes="(max-width: 800px) 100vw, 50vw" quality={85} />
-        <div class="education-copy"><h2>Educación a <span>tu<br /> ritmo de vida</span></h2><ul><li>Horario accesible</li><li>Contenidos digitales</li><li>Programas avalados por SEP</li><li>Clases virtuales en vivo</li><li>Grupos conformados</li></ul><a class="button" href="#oferta">Ver oferta educativa</a></div>
+        <Image
+          src={student}
+          alt="Estudiante con computadora portátil"
+          widths={[480, 770, 1000]}
+          sizes="(max-width: 800px) 100vw, 50vw"
+          quality={85}
+        />
+        <div class="education-copy">
+          <h2>Educación a <span>tu<br /> ritmo de vida</span></h2><ul>
+            <li>Horario accesible</li><li>Contenidos digitales</li><li>
+              Programas avalados por SEP
+            </li><li>Clases virtuales en vivo</li><li>Grupos conformados</li>
+          </ul><a class="button" href="#oferta">Ver oferta educativa</a>
+        </div>
       </div>
     </section>
     <section class="lbs container" aria-labelledby="lbs-title">
-      <div class="lbs-copy"><h2 id="lbs-title">Libros <span>LBS+</span></h2><p class="lbs-kicker">Todo en un Solo Lugar</p><p>LBS+ (Learning Bicultural System) es un sistema educativo que se apoya en el uso de la tecnología, a través una app propia, con libros digitales e interactivos basados en planes de estudio para nivel Licenciatura.</p><p>La app LBS+ es compatible con dispositivos móviles que cuenten con sistema operativo iOS y Android, al igual que está disponible para su uso en web.</p></div>
-      <div class="lbs-device"><Image src={laptop} alt="Computadora portátil del sistema LBS+" widths={[500, 900, 1300]} sizes="(max-width: 800px) 100vw, 50vw" quality={85} /><strong>LBS+</strong></div>
+      <div class="lbs-copy">
+        <h2 id="lbs-title">Libros <span>LBS+</span></h2><p class="lbs-kicker">
+          Todo en un Solo Lugar
+        </p><p>
+          LBS+ (Learning Bicultural System) es un sistema educativo que se apoya
+          en el uso de la tecnología, a través una app propia, con libros
+          digitales e interactivos basados en planes de estudio para nivel
+          Licenciatura.
+        </p><p>
+          La app LBS+ es compatible con dispositivos móviles que cuenten con
+          sistema operativo iOS y Android, al igual que está disponible para su
+          uso en web.
+        </p>
+      </div>
+      <div class="lbs-device">
+        <Image
+          src={laptop}
+          alt="Computadora portátil del sistema LBS+"
+          widths={[500, 900, 1300]}
+          sizes="(max-width: 800px) 100vw, 50vw"
+          quality={85}
+        /><strong>LBS+</strong>
+      </div>
     </section>
     <section id="oferta" class="offers container" aria-label="Oferta educativa">
-      <article class="offer-card offer-license"><Image src={licenseCard} alt="Estudiante trabajando en una computadora" widths={[380, 650]} sizes="(max-width: 800px) 100vw, 33vw" quality={85} /><h2>Licenciaturas</h2><ul>{licensePrograms.map((program) => <li><a href={`/licenciaturas/${program.slug}`}>{program.title}</a></li>)}</ul></article>
-      <article class="offer-card"><Image src={postgraduateCard} alt="Estudiante con audífonos" widths={[380, 650]} sizes="(max-width: 800px) 100vw, 33vw" quality={85} /><h2><a href="/posgrados/">Maestrías</a></h2></article>
-      <article class="offer-card"><Image src={doctorateCard} alt="Estudiante frente a una computadora" widths={[380, 650]} sizes="(max-width: 800px) 100vw, 33vw" quality={85} /><h2><a href="/posgrados/">Doctorados</a></h2></article>
+      <article class="offer-card offer-license">
+        <Image
+          src={licenseCard}
+          alt="Estudiante trabajando en una computadora"
+          widths={[380, 650]}
+          sizes="(max-width: 800px) 100vw, 33vw"
+          quality={85}
+        /><h2>Licenciaturas</h2><ul>
+          {
+            licensePrograms.map((program) => (
+              <li>
+                <a href={`/licenciaturas/${program.slug}`}>{program.title}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </article>
+      <article class="offer-card">
+        <Image
+          src={postgraduateCard}
+          alt="Estudiante con audífonos"
+          widths={[380, 650]}
+          sizes="(max-width: 800px) 100vw, 33vw"
+          quality={85}
+        /><h2><a href="/posgrados/">Maestrías</a></h2>
+      </article>
+      <article class="offer-card">
+        <Image
+          src={doctorateCard}
+          alt="Estudiante frente a una computadora"
+          widths={[380, 650]}
+          sizes="(max-width: 800px) 100vw, 33vw"
+          quality={85}
+        /><h2><a href="/posgrados/">Doctorados</a></h2>
+      </article>
     </section>
     <ContactForm />
   </main>
 </BaseLayout>
 
 <style>
-  .hero-copy { margin-top: 8rem; text-align: center; text-shadow: 0 2px 9px rgb(0 0 0 / .45); }
-  .hero-copy h1 { margin: 0; font-size: clamp(2.2rem, 3.75vw, 4.5rem); line-height: 1.02; font-weight: 800; }
-  .hero-copy p { margin: .35rem 0 0; font-size: clamp(1rem, 1.8vw, 1.5rem); }
-  .benefit-section { height: 0; position: relative; z-index: 2; }
-  .benefits { display: grid; grid-template-columns: repeat(3, 1fr); width: min(800px, 100%); height: min(13vw, 250px); margin: auto; transform: translateY(-72%); background: var(--gray-100); color: #fff; box-shadow: 0 10px 25px rgb(0 0 0 / .12); }
-  .benefit { display: flex; flex-direction: column; justify-content: center; padding: 1.25rem 1.2rem 1.4rem; text-align: center; }
-  .benefit + .benefit { border-left: 1px solid var(--gray-200); }
-  .benefit-symbol { display: block; width: 29px; height: 29px; margin: 0 auto .65rem; border: 2px solid #fff; border-radius: 5px; }
-  .symbol-2 { border-radius: 50%; }
-  .symbol-3 { border-radius: 2px; border-top-width: 5px; }
-  .benefit h2 { margin: 0 0 .5rem; font-size: .9rem; }
-  .benefit p { max-width: 13rem; margin: auto; font-size: .66rem; line-height: 1.4; }
-  .statement { min-height: min(56.25vw, 1080px); display: grid; place-items: center; text-align: center; }
-  .statement p { margin: 0; color: var(--gray-500); font-size: clamp(2rem, 3.4vw, 3.6rem); font-style: italic; }
-  .education { background: var(--gray-950); overflow: hidden; }
-  .education-grid { min-height: min(44.3vw, 850px); display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 4rem; }
-  .education-grid :global(img) { width: min(100%, 670px); max-height: 620px; object-fit: contain; object-position: bottom; }
-  .education-copy { align-self: center; transform: translateY(max(-5.2vw, -100px)); }
-  .education-copy h2 { margin: 0 0 1.3rem; font-size: clamp(2.25rem, 4.2vw, 4rem); line-height: 1.1; }
-  .education-copy h2 span { color: var(--red-200); }
-  .education-copy ul { padding-left: 1.2rem; line-height: 1.95; font-size: .94rem; }
-  .education-copy .button { margin-top: 1rem; }
-  .lbs { min-height: min(62vw, 1190px); display: grid; grid-template-columns: 42% 58%; align-items: start; gap: 1rem; }
-  .lbs-copy { margin-top: min(17vw, 330px); padding: 2rem; border-radius: 20px; box-shadow: 0 0 20px rgb(0 0 0 / .08); }
-  .lbs-copy h2 { margin: 0; font-size: clamp(2.2rem, 3.7vw, 3.5rem); font-weight: 400; }
-  .lbs-copy h2 span { color: var(--lbs-blue); font-weight: 700; }
-  .lbs-kicker { margin-top: .25rem; font-weight: 600; }
-  .lbs-copy p { font-size: .88rem; line-height: 1.55; }
-  .lbs-device { position: relative; margin-top: min(10vw, 190px); }
-  .lbs-device :global(img) { width: 100%; }
-  .lbs-device strong { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: clamp(3rem, 6vw, 6rem); white-space: nowrap; }
-  .offers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; height: min(50.5vw, 970px); margin-bottom: 0; }
-  .offer-card { position: relative; height: 100%; overflow: hidden; }
-  .offer-card :global(img) { width: 100%; height: 100%; object-fit: cover; }
-  .offer-card h2 { position: absolute; bottom: 0; left: 0; right: 0; margin: 0; padding: 1rem; background: rgb(204 0 51 / .93); color: #fff; text-align: center; font-size: 1.65rem; }
-  .offer-card h2 a { text-decoration: none; }
-  .offer-license h2 { top: 23%; bottom: auto; }
-  .offer-license ul { position: absolute; top: calc(23% + 63px); bottom: 0; left: 0; right: 0; margin: 0; padding: 1.4rem 1rem; background: rgb(255 255 255 / .82); list-style: none; text-align: center; display: flex; flex-direction: column; justify-content: center; gap: .35rem; }
-  .offer-license li { font-size: .69rem; }
-  .offer-license li a { text-decoration: none; }
-  .offer-license li a:hover { color: var(--red-200); }
+  .hero-copy {
+    margin-top: 8rem;
+    text-align: center;
+    text-shadow: 0 2px 9px rgb(0 0 0 / 0.45);
+  }
+  .hero-copy h1 {
+    margin: 0;
+    font-size: clamp(2.2rem, 3.75vw, 4.5rem);
+    line-height: 1.02;
+    font-weight: 800;
+  }
+  .hero-copy p {
+    margin: 0.35rem 0 0;
+    font-size: clamp(1rem, 1.8vw, 1.5rem);
+  }
+  .benefit-section {
+    height: 0;
+    position: relative;
+    z-index: 2;
+  }
+  .benefits {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: min(800px, 100%);
+    height: min(13vw, 250px);
+    margin: auto;
+    transform: translateY(-72%);
+    background: var(--gray-100);
+    color: #fff;
+    box-shadow: 0 10px 25px rgb(0 0 0 / 0.12);
+  }
+  .benefit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.25rem 1.2rem 1.4rem;
+    text-align: center;
+  }
+  .benefit + .benefit {
+    border-left: 1px solid var(--gray-200);
+  }
+  .benefit-symbol {
+    display: block;
+    width: 29px;
+    height: 29px;
+    margin: 0 auto 0.65rem;
+    border: 2px solid #fff;
+    border-radius: 5px;
+  }
+  .symbol-2 {
+    border-radius: 50%;
+  }
+  .symbol-3 {
+    border-radius: 2px;
+    border-top-width: 5px;
+  }
+  .benefit h2 {
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+  }
+  .benefit p {
+    max-width: 13rem;
+    margin: auto;
+    font-size: 0.66rem;
+    line-height: 1.4;
+  }
+  .statement {
+    min-height: min(56.25vw, 1080px);
+    display: grid;
+    place-items: center;
+    text-align: center;
+  }
+  .statement p {
+    margin: 0;
+    color: var(--gray-500);
+    font-size: clamp(2rem, 3.4vw, 3.6rem);
+    font-style: italic;
+  }
+  .education {
+    background: var(--gray-950);
+    overflow: hidden;
+  }
+  .education-grid {
+    min-height: min(44.3vw, 850px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    gap: 4rem;
+  }
+  .education-grid :global(img) {
+    width: min(100%, 670px);
+    max-height: 620px;
+    object-fit: contain;
+    object-position: bottom;
+  }
+  .education-copy {
+    align-self: center;
+    transform: translateY(max(-5.2vw, -100px));
+  }
+  .education-copy h2 {
+    margin: 0 0 1.3rem;
+    font-size: clamp(2.25rem, 4.2vw, 4rem);
+    line-height: 1.1;
+  }
+  .education-copy h2 span {
+    color: var(--red-200);
+  }
+  .education-copy ul {
+    padding-left: 1.2rem;
+    line-height: 1.95;
+    font-size: 0.94rem;
+  }
+  .education-copy .button {
+    margin-top: 1rem;
+  }
+  .lbs {
+    min-height: min(62vw, 1190px);
+    display: grid;
+    grid-template-columns: 42% 58%;
+    align-items: start;
+    gap: 1rem;
+  }
+  .lbs-copy {
+    margin-top: min(17vw, 330px);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgb(0 0 0 / 0.08);
+  }
+  .lbs-copy h2 {
+    margin: 0;
+    font-size: clamp(2.2rem, 3.7vw, 3.5rem);
+    font-weight: 400;
+  }
+  .lbs-copy h2 span {
+    color: var(--lbs-blue);
+    font-weight: 700;
+  }
+  .lbs-kicker {
+    margin-top: 0.25rem;
+    font-weight: 600;
+  }
+  .lbs-copy p {
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+  .lbs-device {
+    position: relative;
+    margin-top: min(10vw, 190px);
+  }
+  .lbs-device :global(img) {
+    width: 100%;
+  }
+  .lbs-device strong {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(3rem, 6vw, 6rem);
+    white-space: nowrap;
+  }
+  .offers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+    height: min(50.5vw, 970px);
+    margin-bottom: 0;
+  }
+  .offer-card {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+  }
+  .offer-card :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .offer-card h2 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 1rem;
+    background: rgb(204 0 51 / 0.93);
+    color: #fff;
+    text-align: center;
+    font-size: 1.65rem;
+  }
+  .offer-card h2 a {
+    text-decoration: none;
+  }
+  .offer-license h2 {
+    top: 23%;
+    bottom: auto;
+  }
+  .offer-license ul {
+    position: absolute;
+    top: calc(23% + 63px);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 1.4rem 1rem;
+    background: rgb(255 255 255 / 0.82);
+    list-style: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.35rem;
+  }
+  .offer-license li {
+    font-size: 0.69rem;
+  }
+  .offer-license li a {
+    text-decoration: none;
+  }
+  .offer-license li a:hover {
+    color: var(--red-200);
+  }
   @media (max-width: 800px) {
-    .hero-copy { margin-top: 4rem; }
-    .benefit-section { height: auto; }
-    .benefits { width: 100%; height: auto; transform: none; }
-    .statement { min-height: 370px; }
-    .education-grid { grid-template-columns: 1fr; gap: 0; min-height: 0; }
-    .education-copy { grid-row: 1; padding: 4rem 0 2rem; transform: none; }
-    .education-grid :global(img) { max-height: 430px; margin: auto; }
-    .lbs { grid-template-columns: 1fr; min-height: 0; padding-top: 5rem; padding-bottom: 5rem; }
-    .lbs-copy, .lbs-device { margin-top: 0; }
-    .offers { gap: .8rem; height: auto; margin-bottom: 2rem; }
-    .offer-card { height: 360px; }
-    .offer-card h2 { font-size: 1.1rem; }
-    .offer-license ul { top: calc(23% + 51px); }
+    .hero-copy {
+      margin-top: 4rem;
+    }
+    .benefit-section {
+      height: auto;
+    }
+    .benefits {
+      width: 100%;
+      height: auto;
+      transform: none;
+    }
+    .statement {
+      min-height: 370px;
+    }
+    .education-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+      min-height: 0;
+    }
+    .education-copy {
+      grid-row: 1;
+      padding: 4rem 0 2rem;
+      transform: none;
+    }
+    .education-grid :global(img) {
+      max-height: 430px;
+      margin: auto;
+    }
+    .lbs {
+      grid-template-columns: 1fr;
+      min-height: 0;
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+    .lbs-copy,
+    .lbs-device {
+      margin-top: 0;
+    }
+    .offers {
+      gap: 0.8rem;
+      height: auto;
+      margin-bottom: 2rem;
+    }
+    .offer-card {
+      height: 360px;
+    }
+    .offer-card h2 {
+      font-size: 1.1rem;
+    }
+    .offer-license ul {
+      top: calc(23% + 51px);
+    }
   }
   @media (max-width: 600px) {
-    .hero-copy h1 { font-size: 2rem; }
-    .benefits { grid-template-columns: 1fr; }
-    .benefit + .benefit { border-left: 0; border-top: 1px solid var(--gray-200); }
-    .benefit { padding: .8rem 1rem; }
-    .benefit-symbol { display: none; }
-    .statement { min-height: 300px; }
-    .offers { grid-template-columns: 1fr; }
-    .offer-card { height: 420px; }
+    .hero-copy h1 {
+      font-size: 2rem;
+    }
+    .benefits {
+      grid-template-columns: 1fr;
+    }
+    .benefit + .benefit {
+      border-left: 0;
+      border-top: 1px solid var(--gray-200);
+    }
+    .benefit {
+      padding: 0.8rem 1rem;
+    }
+    .benefit-symbol {
+      display: none;
+    }
+    .statement {
+      min-height: 300px;
+    }
+    .offers {
+      grid-template-columns: 1fr;
+    }
+    .offer-card {
+      height: 420px;
+    }
   }
 </style>

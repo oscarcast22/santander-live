@@ -1,13 +1,18 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import '@fontsource-variable/montserrat/wght.css';
-import '@fontsource-variable/montserrat/wght-italic.css';
-import '../styles/global.css';
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "@fontsource-variable/montserrat/wght.css";
+import "@fontsource-variable/montserrat/wght-italic.css";
+import "../styles/global.css";
 
-interface Props { title: string; description: string; footerSpacious?: boolean; }
+interface Props {
+  title: string;
+  description: string;
+  footerSpacious?: boolean;
+}
 const { title, description, footerSpacious = false } = Astro.props;
 ---
+
 <!doctype html>
 <html lang="es-MX">
   <head>
@@ -25,6 +30,16 @@ const { title, description, footerSpacious = false } = Astro.props;
 </html>
 
 <style>
-  .skip-link { position: fixed; z-index: 100; top: -5rem; left: 1rem; padding: .7rem 1rem; background: white; color: #111; }
-  .skip-link:focus { top: 1rem; }
+  .skip-link {
+    position: fixed;
+    z-index: 100;
+    top: -5rem;
+    left: 1rem;
+    padding: 0.7rem 1rem;
+    background: white;
+    color: #111;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
 </style>
