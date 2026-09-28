@@ -33,7 +33,7 @@ npm run build
 - `src/styles/global.css`: colores y escala tipográfica de UADVirtual. El azul de LBS+ permanece como acento de esa sección; la composición general sigue el PDF de Santander Live.
 - `reference/mockup-escritorio.pdf`: copia del PDF comprimido proporcionado para comparar las siguientes iteraciones.
 
-Las fotografías de `src/assets/` se extrajeron del PDF original de 18 MB compartido junto al comprimido y se convirtieron a WebP. Astro genera tamaños optimizados al compilar. Los logos y los iconos actuales son marcadores de posición en texto/CSS; se sustituirán por los SVG finales.
+Las fotografías de `src/assets/` se extrajeron del PDF original de 18 MB compartido junto al comprimido y se convirtieron a WebP. El logotipo combinado se extrajo del mockup de escritorio como PNG transparente; Astro genera tamaños optimizados al compilar. Los iconos de beneficios y redes se dibujan como SVG inline. Los iconos sociales son decorativos hasta que se confirmen sus destinos.
 
 ## Pendiente para la siguiente iteración
 
