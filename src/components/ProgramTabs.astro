@@ -9,10 +9,62 @@ interface Props {
 }
 const { program, model } = Astro.props;
 const { title, curriculum, graduateProfile } = program.data;
+const hasGraduateProfile = Boolean(
+  graduateProfile?.some((paragraph) => paragraph.trim().length > 0),
+);
+type ProfileBlock =
+  | { type: "paragraph"; text: string }
+  | { type: "heading"; text: string }
+  | { type: "list"; items: string[] };
+
+const profileBlocks: ProfileBlock[] = [];
+let profileListItems: string[] = [];
+let profileListExpected = false;
+
+const flushProfileList = () => {
+  if (profileListItems.length) {
+    profileBlocks.push({ type: "list", items: profileListItems });
+    profileListItems = [];
+  }
+};
+
+for (const rawText of graduateProfile ?? []) {
+  const text = rawText.trim();
+  if (!text) continue;
+  const listItem = text.match(/^[-–•·]\s*(.+)$/u);
+
+  if (listItem) {
+    const itemText = listItem[1];
+    if (itemText) profileListItems.push(itemText.trim());
+    continue;
+  }
+
+  if (text.endsWith(":")) {
+    flushProfileList();
+    profileBlocks.push({ type: "heading", text });
+    profileListExpected = true;
+    continue;
+  }
+
+  // Several source profiles omit bullets after phrases such as “será capaz de:”.
+  // Keep those short entries together as a semantic list; long passages return to prose.
+  if (profileListExpected && text.length <= 320) {
+    profileListItems.push(text);
+    continue;
+  }
+
+  flushProfileList();
+  profileBlocks.push({ type: "paragraph", text });
+  profileListExpected = false;
+}
+flushProfileList();
+
 const tabs = [
   { id: "modelo", label: "Modelo Educativo" },
   { id: "plan", label: "Plan de Estudios" },
-  { id: "perfil", label: "Perfil de Egreso" },
+  ...(hasGraduateProfile
+    ? [{ id: "perfil", label: "Perfil de Egreso" }]
+    : []),
 ];
 ---
 
@@ -82,21 +134,31 @@ const tabs = [
       )
     }
   </section>
-  <section
-    id="panel-perfil"
-    role="tabpanel"
-    aria-labelledby="tab-perfil"
-    tabindex="0"
-    hidden
-  >
-    {
-      graduateProfile?.length ? (
-        graduateProfile.map((paragraph) => <p>{paragraph}</p>)
-      ) : (
-        <p>La ficha oficial consultada no publica un perfil de egreso.</p>
-      )
-    }
-  </section>
+  {
+    hasGraduateProfile && (
+      <section
+        id="panel-perfil"
+        role="tabpanel"
+        aria-labelledby="tab-perfil"
+        tabindex="0"
+        hidden
+      >
+        <div class="graduate-profile">
+          {profileBlocks.map((block) => {
+            if (block.type === "heading") return <h2>{block.text}</h2>;
+            if (block.type === "list") {
+              return (
+                <ul>
+                  {block.items.map((item) => <li>{item}</li>)}
+                </ul>
+              );
+            }
+            return <p>{block.text}</p>;
+          })}
+        </div>
+      </section>
+    )
+  }
 </div>
 <style>
   .tab-list {
@@ -138,6 +200,34 @@ const tabs = [
   [role="tabpanel"] p {
     margin: 0 0 1.55rem;
   }
+  .graduate-profile {
+    display: grid;
+    gap: 1rem;
+  }
+  .graduate-profile p {
+    margin: 0;
+    line-height: 1.65;
+  }
+  .graduate-profile h2 {
+    margin: 0.25rem 0 -0.35rem;
+    color: var(--gray-200);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+  .graduate-profile ul {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+    padding-left: 1.35rem;
+  }
+  .graduate-profile li {
+    padding-left: 0.15rem;
+    line-height: 1.6;
+  }
+  .graduate-profile li::marker {
+    color: var(--gray-200);
+  }
   .curriculum {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
@@ -160,7 +250,7 @@ const tabs = [
   }
   .program-banner :global(img) {
     width: 100%;
-    max-height: 405px;
+    max-height: 400px;
     object-fit: cover;
   }
   .program-banner figcaption {

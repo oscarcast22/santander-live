@@ -30,13 +30,45 @@ interface Props {
 }
 const { program, model } = Astro.props;
 const { title, categoria, overview } = program.data;
+type OverviewBlock =
+  | { type: "paragraph"; text: string }
+  | { type: "list"; items: string[] };
+
+const overviewBlocks: OverviewBlock[] = [];
+let overviewListItems: string[] = [];
+
+const flushOverviewList = () => {
+  if (overviewListItems.length) {
+    overviewBlocks.push({ type: "list", items: overviewListItems });
+    overviewListItems = [];
+  }
+};
+
+for (const rawText of overview) {
+  const text = rawText.trim();
+  if (!text) continue;
+
+  const listItem = text.match(/^[-–•·]\s*(.+)$/u);
+  if (listItem) {
+    const itemText = listItem[1];
+    if (itemText) overviewListItems.push(itemText.trim());
+    continue;
+  }
+
+  flushOverviewList();
+  overviewBlocks.push({ type: "paragraph", text });
+}
+flushOverviewList();
+
 const heading =
   categoria === "maestria"
     ? `Maestría en ${title}`
     : categoria === "doctorado"
       ? `Doctorado en ${title}`
       : title;
-const description = overview[0] ?? `Conoce el programa de ${heading} en Santander Live.`;
+const description =
+  overview[0]?.replace(/^[-–•·]\s*/, "") ??
+  `Conoce el programa de ${heading} en Santander Live.`;
 ---
 
 <BaseLayout
@@ -52,9 +84,20 @@ const description = overview[0] ?? `Conoce el programa de ${heading} en Santande
     <article class="program-body container">
       <h1>{heading}</h1>
       {
-        overview.map((paragraph) => (
-          <p class="program-description">{paragraph}</p>
-        ))
+        overviewBlocks.length > 0 && (
+          <div class="program-overview">
+            {overviewBlocks.map((block) => {
+              if (block.type === "list") {
+                return (
+                  <ul>
+                    {block.items.map((item) => <li>{item}</li>)}
+                  </ul>
+                );
+              }
+              return <p class="program-description">{block.text}</p>;
+            })}
+          </div>
+        )
       }
       <ProgramTabs program={program} model={model} />
     </article>
@@ -63,7 +106,7 @@ const description = overview[0] ?? `Conoce el programa de ${heading} en Santande
 <style>
   .program-body {
     padding-top: 3.5rem;
-    padding-bottom: 10rem;
+    padding-bottom: 12rem;
     min-height: 880px;
   }
   .program-body h1 {
@@ -71,11 +114,31 @@ const description = overview[0] ?? `Conoce el programa de ${heading} en Santande
     font-size: clamp(2.4rem, 4vw, 4rem);
     font-weight: 400;
   }
+  .program-overview {
+    display: grid;
+    gap: 0.4rem;
+    margin-bottom: 1.6rem;
+  }
   .program-description {
-    margin: 0 0 1.6rem;
+    margin: 0;
+    color: var(--gray-400);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+  .program-overview ul {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0.15rem 0;
+    padding-left: 1.3rem;
     color: var(--gray-400);
     font-size: 0.95rem;
     line-height: 1.55;
+  }
+  .program-overview li {
+    padding-left: 0.15rem;
+  }
+  .program-overview li::marker {
+    color: var(--gray-200);
   }
   @media (max-width: 700px) {
     .program-body {
