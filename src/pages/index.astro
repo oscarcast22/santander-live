@@ -3,33 +3,56 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ParallaxHero from "../components/ParallaxHero.astro";
 import ContactForm from "../components/ContactForm.astro";
+import SiteIcon from "../components/SiteIcon.astro";
 import { getCollection } from "astro:content";
 import hero from "../assets/hero-inicio.webp";
 import student from "../assets/estudiante-amarillo.webp";
 import laptop from "../assets/laptop-lbs.webp";
-import licenseCard from "../assets/tarjeta-licenciaturas.webp";
-import postgraduateCard from "../assets/hero-programa.webp";
-import doctorateCard from "../assets/tarjeta-doctorados.webp";
+import licenseCard from "../assets/landing/oferta-licenciaturas.jpg";
+import postgraduateCard from "../assets/landing/oferta-maestrias.jpg";
+import doctorateCard from "../assets/landing/oferta-doctorados.jpg";
 
-const licensePrograms = await getCollection(
-  "programas",
-  ({ data }) => data.nivel === "licenciaturas",
+const programs = await getCollection("programas");
+const sortPrograms = (items: typeof programs) =>
+  [...items].sort((a, b) =>
+    a.data.title.localeCompare(b.data.title, "es", { sensitivity: "base" }),
+  );
+const licensePrograms = sortPrograms(
+  programs.filter(({ data }) => data.nivel === "licenciaturas"),
 );
+const masterPrograms = sortPrograms(
+  programs.filter(
+    ({ data }) =>
+      data.nivel === "posgrados" && data.categoria === "maestria",
+  ),
+);
+const doctoratePrograms = sortPrograms(
+  programs.filter(
+    ({ data }) =>
+      data.nivel === "posgrados" && data.categoria === "doctorado",
+  ),
+);
+// The cards are portrait crops of landscape photos, so request enough source pixels for their height.
+const offerImageSizes =
+  "(max-width: 600px) 630px, (max-width: 800px) 540px, (max-width: 1920px) 76vw, 1455px";
 
 const benefits = [
   {
     title: "Clases Virtuales",
+    icon: "classroom",
     text: "SLS te permite tomar tus clases desde cualquier lugar con acceso a internet.",
   },
   {
     title: "Programas a 3 años",
+    icon: "clock",
     text: "Licenciaturas en modalidad Live Streaming con una duración de 3 años.",
   },
   {
     title: "Libros LBS",
+    icon: "book",
     text: "Toda la información de tu Licenciatura en un solo lugar y en cualquier lugar.",
   },
-];
+] as const;
 ---
 
 <BaseLayout
@@ -55,13 +78,12 @@ const benefits = [
     >
       <div class="benefits">
         {
-          benefits.map((item, index) => (
+          benefits.map((item) => (
             <div class="benefit">
               <>
-                <span
-                  class={`benefit-symbol symbol-${index + 1}`}
-                  aria-hidden="true"
-                />
+                <span class="benefit-symbol" aria-hidden="true">
+                  <SiteIcon name={item.icon} />
+                </span>
                 <h2>{item.title}</h2>
                 <p>{item.text}</p>
               </>
@@ -117,14 +139,29 @@ const benefits = [
       </div>
     </section>
     <section id="oferta" class="offers container" aria-label="Oferta educativa">
-      <article class="offer-card offer-license">
+      <article class="offer-card" data-open="false">
         <Image
+          class="offer-image"
           src={licenseCard}
-          alt="Estudiante trabajando en una computadora"
-          widths={[380, 650]}
-          sizes="(max-width: 800px) 100vw, 33vw"
-          quality={85}
-        /><h2>Licenciaturas</h2><ul>
+          alt="Estudiante universitaria trabajando en una computadora portátil"
+          widths={[380, 650, 900]}
+          sizes={offerImageSizes}
+          quality={90}
+        />
+        <h2 class="offer-heading">
+          <button
+            class="offer-title"
+            type="button"
+            aria-expanded="false"
+            aria-controls="offer-programs-licenciaturas"
+          >Licenciaturas</button>
+        </h2>
+        <ul
+          class="offer-programs"
+          id="offer-programs-licenciaturas"
+          aria-hidden="true"
+          inert
+        >
           {
             licensePrograms.map((program) => (
               <li>
@@ -134,23 +171,69 @@ const benefits = [
           }
         </ul>
       </article>
-      <article class="offer-card">
+      <article class="offer-card" data-open="false">
         <Image
+          class="offer-image"
           src={postgraduateCard}
-          alt="Estudiante con audífonos"
-          widths={[380, 650]}
-          sizes="(max-width: 800px) 100vw, 33vw"
-          quality={85}
-        /><h2><a href="/posgrados/">Maestrías</a></h2>
+          alt="Estudiante trabajando con una computadora portátil"
+          widths={[380, 650, 900, 1062]}
+          sizes={offerImageSizes}
+          quality={90}
+        />
+        <h2 class="offer-heading">
+          <button
+            class="offer-title"
+            type="button"
+            aria-expanded="false"
+            aria-controls="offer-programs-maestrias"
+          >Maestrías</button>
+        </h2>
+        <ul
+          class="offer-programs"
+          id="offer-programs-maestrias"
+          aria-hidden="true"
+          inert
+        >
+          {
+            masterPrograms.map((program) => (
+              <li>
+                <a href={`/posgrados/${program.data.slug}`}>{program.data.title}</a>
+              </li>
+            ))
+          }
+        </ul>
       </article>
-      <article class="offer-card">
+      <article class="offer-card" data-open="false">
         <Image
+          class="offer-image"
           src={doctorateCard}
-          alt="Estudiante frente a una computadora"
-          widths={[380, 650]}
-          sizes="(max-width: 800px) 100vw, 33vw"
-          quality={85}
-        /><h2><a href="/posgrados/">Doctorados</a></h2>
+          alt="Estudiante de doctorado trabajando frente a una computadora portátil"
+          widths={[380, 650, 900, 1062]}
+          sizes={offerImageSizes}
+          quality={90}
+        />
+        <h2 class="offer-heading">
+          <button
+            class="offer-title"
+            type="button"
+            aria-expanded="false"
+            aria-controls="offer-programs-doctorados"
+          >Doctorados</button>
+        </h2>
+        <ul
+          class="offer-programs"
+          id="offer-programs-doctorados"
+          aria-hidden="true"
+          inert
+        >
+          {
+            doctoratePrograms.map((program) => (
+              <li>
+                <a href={`/posgrados/${program.data.slug}`}>{program.data.title}</a>
+              </li>
+            ))
+          }
+        </ul>
       </article>
     </section>
     <ContactForm />
@@ -165,13 +248,13 @@ const benefits = [
   }
   .hero-copy h1 {
     margin: 0;
-    font-size: clamp(2.2rem, 3.75vw, 4.5rem);
+    font-size: clamp(2.2rem, 3.4vw, 4rem);
     line-height: 1.02;
-    font-weight: 800;
+    font-weight: 700;
   }
   .hero-copy p {
     margin: 0.35rem 0 0;
-    font-size: clamp(1rem, 1.8vw, 1.5rem);
+    font-size: clamp(1rem, 1.25vw, 1.25rem);
   }
   .benefit-section {
     height: 0;
@@ -201,27 +284,33 @@ const benefits = [
   }
   .benefit-symbol {
     display: block;
-    width: 29px;
-    height: 29px;
+    width: 40px;
+    height: 40px;
     margin: 0 auto 0.65rem;
-    border: 2px solid #fff;
-    border-radius: 5px;
   }
-  .symbol-2 {
-    border-radius: 50%;
+  .benefit-symbol :global(svg),
+  .benefit-symbol :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
-  .symbol-3 {
-    border-radius: 2px;
-    border-top-width: 5px;
+
+  .benefit-symbol :global(svg) {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
   }
   .benefit h2 {
-    margin: 0 0 0.5rem;
-    font-size: 0.9rem;
+    margin: 0 0 0.4rem;
+    font-size: var(--text-card-title);
+    font-weight: var(--weight-semibold);
   }
   .benefit p {
     max-width: 13rem;
     margin: auto;
-    font-size: 0.66rem;
+    font-size: var(--text-caption);
     line-height: 1.4;
   }
   .statement {
@@ -276,7 +365,7 @@ const benefits = [
   .lbs {
     min-height: min(62vw, 1190px);
     display: grid;
-    grid-template-columns: 42% 58%;
+    grid-template-columns: minmax(0, 47fr) minmax(0, 53fr);
     align-items: start;
     gap: 1rem;
   }
@@ -323,60 +412,105 @@ const benefits = [
     grid-template-columns: repeat(3, 1fr);
     gap: 1.4rem;
     height: min(50.5vw, 970px);
-    margin-bottom: 0;
+    margin-bottom: clamp(3rem, 6vw, 6rem);
   }
   .offer-card {
+    --offer-title-height: 4rem;
+    --offer-motion-duration: 460ms;
+    --offer-motion-easing: cubic-bezier(0.22, 0.68, 0, 1);
     position: relative;
+    display: block;
     height: 100%;
     overflow: hidden;
   }
-  .offer-card :global(img) {
+  .offer-heading {
+    position: absolute;
+    top: calc(100% - var(--offer-title-height));
+    left: 0;
+    right: 0;
+    z-index: 2;
+    height: var(--offer-title-height);
+    margin: 0;
+    transition: top var(--offer-motion-duration) var(--offer-motion-easing);
+  }
+  .offer-image {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  .offer-card h2 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    padding: 1rem;
+  .offer-title {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: grid;
+    padding: 0 1rem;
+    place-items: center;
     background: rgb(204 0 51 / 0.93);
     color: #fff;
     text-align: center;
-    font-size: 1.65rem;
+    font-family: inherit;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
   }
-  .offer-card h2 a {
-    text-decoration: none;
+  .offer-title:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -4px;
   }
-  .offer-license h2 {
-    top: 23%;
-    bottom: auto;
-  }
-  .offer-license ul {
+  .offer-programs {
     position: absolute;
-    top: calc(23% + 63px);
+    top: 100%;
     bottom: 0;
     left: 0;
     right: 0;
     margin: 0;
-    padding: 1.4rem 1rem;
-    background: rgb(255 255 255 / 0.82);
-    list-style: none;
-    text-align: center;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 0.35rem;
+    padding: 1.4rem 1rem;
+    overflow: hidden;
+    background: rgb(255 255 255 / 0.82);
+    list-style: none;
+    text-align: center;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      top var(--offer-motion-duration) var(--offer-motion-easing),
+      visibility 0s linear var(--offer-motion-duration);
   }
-  .offer-license li {
-    font-size: 0.69rem;
+  .offer-card[data-open="true"] .offer-heading {
+    top: 23%;
   }
-  .offer-license li a {
+  .offer-card[data-open="true"] .offer-programs {
+    top: calc(23% + var(--offer-title-height));
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+  .offer-programs li {
+    font-size: 0.75rem;
+    line-height: 1.25;
+    opacity: 0;
+    transform: translateY(0.4rem);
+    transition:
+      opacity 220ms var(--offer-motion-easing),
+      transform 220ms var(--offer-motion-easing);
+  }
+  .offer-card[data-open="true"] .offer-programs li {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 90ms;
+  }
+  .offer-programs li a {
     text-decoration: none;
   }
-  .offer-license li a:hover {
+  .offer-programs li a:hover,
+  .offer-programs li a:focus-visible {
     color: var(--red-200);
   }
   @media (max-width: 800px) {
@@ -421,16 +555,19 @@ const benefits = [
     .offers {
       gap: 0.8rem;
       height: auto;
-      margin-bottom: 2rem;
     }
     .offer-card {
+      --offer-title-height: 3.2rem;
       height: 360px;
     }
-    .offer-card h2 {
+    .offer-title {
       font-size: 1.1rem;
     }
-    .offer-license ul {
-      top: calc(23% + 51px);
+    .offer-programs {
+      gap: 0.18rem;
+      justify-content: safe center;
+      overflow-y: auto;
+      padding: 0.8rem 0.65rem;
     }
   }
   @media (max-width: 600px) {
@@ -448,7 +585,8 @@ const benefits = [
       padding: 0.8rem 1rem;
     }
     .benefit-symbol {
-      display: none;
+      width: 30px;
+      height: 30px;
     }
     .statement {
       min-height: 300px;
@@ -460,4 +598,85 @@ const benefits = [
       height: 420px;
     }
   }
+  @media (prefers-reduced-motion: reduce) {
+    .offer-heading,
+    .offer-programs,
+    .offer-programs li {
+      transition: none;
+      transform: none;
+    }
+  }
 </style>
+
+<script>
+  const offerCards = [
+    ...document.querySelectorAll<HTMLElement>(".offer-card"),
+  ];
+  let hoveredOffer: HTMLElement | null = null;
+  let focusedOffer: HTMLElement | null = null;
+  let pinnedOffer: HTMLElement | null = null;
+  let keyboardNavigation = false;
+
+  const updateOfferState = () => {
+    const activeOffer = focusedOffer ?? hoveredOffer ?? pinnedOffer;
+    offerCards.forEach((offer) => {
+      const isOpen = offer === activeOffer;
+      offer.dataset.open = String(isOpen);
+      offer
+        .querySelector<HTMLButtonElement>(".offer-title")
+        ?.setAttribute("aria-expanded", String(isOpen));
+      const programs = offer.querySelector<HTMLUListElement>(".offer-programs");
+      programs?.setAttribute("aria-hidden", String(!isOpen));
+      if (programs) programs.inert = !isOpen;
+    });
+  };
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Tab") keyboardNavigation = true;
+  });
+
+  document.addEventListener(
+    "pointerdown",
+    () => {
+      keyboardNavigation = false;
+      focusedOffer = null;
+      updateOfferState();
+    },
+    true,
+  );
+
+  offerCards.forEach((offer) => {
+    offer.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "touch") return;
+      hoveredOffer = offer;
+      updateOfferState();
+    });
+
+    offer.addEventListener("pointerleave", () => {
+      if (hoveredOffer === offer) hoveredOffer = null;
+      updateOfferState();
+    });
+
+    offer.addEventListener("focusin", () => {
+      if (!keyboardNavigation) return;
+      focusedOffer = offer;
+      updateOfferState();
+    });
+
+    offer.addEventListener("focusout", () => {
+      requestAnimationFrame(() => {
+        if (offer.contains(document.activeElement)) return;
+        if (focusedOffer === offer) focusedOffer = null;
+        updateOfferState();
+      });
+    });
+
+    offer.querySelector<HTMLButtonElement>(".offer-title")?.addEventListener("click", () => {
+      pinnedOffer = pinnedOffer === offer ? null : offer;
+      focusedOffer = null;
+      updateOfferState();
+    });
+  });
+
+  updateOfferState();
+</script>
