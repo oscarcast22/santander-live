@@ -3,8 +3,9 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ParallaxHero from "../components/ParallaxHero.astro";
 import AboutAccordion from "../components/AboutAccordion.astro";
+import BrandLogo from "../components/BrandLogo.astro";
 import { aboutIntroduction } from "../data/site";
-import hero from "../assets/hero-inicio.webp";
+import hero from "../assets/landing/hero-nosotros.jpg";
 import banner from "../assets/banner-educacion.webp";
 ---
 
@@ -14,14 +15,15 @@ import banner from "../assets/banner-educacion.webp";
 >
   <ParallaxHero
     image={hero}
-    alt="Estudiante con audífonos en un espacio de estudio"
+    alt="Edificio de la Universidad Autónoma de Durango iluminado por la noche"
     variant="about"
   >
     <div class="about-hero-copy">
-      <p class="hero-brand">
-        Santander <span>Live Streaming</span>
-        <i></i> Universidad <span>Autónoma de Durango</span>
-      </p><h1>Nosotros</h1>{
+      <BrandLogo
+        context="hero"
+        theme="light"
+        alt="Santander Live Streaming y Universidad Autónoma de Durango"
+      /><h1>Nosotros</h1>{
         aboutIntroduction.map((paragraph) => <p>{paragraph}</p>)
       }
     </div>
@@ -44,24 +46,8 @@ import banner from "../assets/banner-educacion.webp";
     margin-top: 10rem;
     text-shadow: 0 2px 8px rgb(0 0 0 / 0.5);
   }
-  .hero-brand {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.4rem 1rem;
-    margin-bottom: 3rem !important;
-    font-family: Georgia, serif;
-    font-size: 1.8rem !important;
-    text-transform: uppercase;
-  }
-  .hero-brand span {
-    font-family: "Montserrat Variable", sans-serif;
-    font-size: 0.6rem;
-  }
-  .hero-brand i {
-    height: 30px;
-    border-left: 1px solid white;
+  .about-hero-copy :global(.brand-logo) {
+    margin: 0 auto 2rem;
   }
   .about-hero-copy h1 {
     font-size: 1.6rem;
@@ -75,7 +61,7 @@ import banner from "../assets/banner-educacion.webp";
   }
   .about-body {
     padding-top: 6rem;
-    padding-bottom: 8rem;
+    padding-bottom: 10rem;
   }
   .about-body h2 {
     margin: 0;
@@ -83,7 +69,7 @@ import banner from "../assets/banner-educacion.webp";
   }
   .about-body :global(img) {
     width: 100%;
-    max-height: 435px;
+    max-height: 400px;
     object-fit: cover;
   }
   @media (max-width: 700px) {
@@ -92,7 +78,7 @@ import banner from "../assets/banner-educacion.webp";
       max-height: 70svh;
       overflow: auto;
     }
-    .hero-brand {
+    .about-hero-copy :global(.brand-logo) {
       display: none;
     }
     .about-hero-copy p {

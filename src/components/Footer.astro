@@ -1,19 +1,25 @@
 ---
+import BrandLogo from "./BrandLogo.astro";
+import SiteIcon from "./SiteIcon.astro";
+
 interface Props {
   spacious?: boolean;
 }
+
 const { spacious = false } = Astro.props;
-const socials = ["Facebook", "Instagram", "X", "TikTok", "WhatsApp"];
+const socials = [
+  { label: "Facebook", icon: "facebook" },
+  { label: "Instagram", icon: "instagram" },
+  { label: "X", icon: "x" },
+  { label: "TikTok", icon: "tiktok" },
+  { label: "WhatsApp", icon: "whatsapp" },
+] as const;
 ---
 
 <footer class:list={["footer", { "footer-spacious": spacious }]}>
   <div class="container footer-inner">
-    <div
-      class="footer-brand"
-      aria-label="Santander Live y Universidad Autónoma de Durango"
-    >
-      <span>Santander <small>Live Streaming</small></span><span class="rule"
-      ></span><span>Universidad <small>Autónoma de Durango</small></span>
+    <div class="footer-brand">
+      <BrandLogo theme="dark" context="footer" alt="Santander Live y UAD" />
     </div>
     <address>
       Avenida Universidad Autónoma de Durango #300<br />Fracc. Jardines de
@@ -21,81 +27,118 @@ const socials = ["Facebook", "Instagram", "X", "TikTok", "WhatsApp"];
       5786 - (52) 618 129 5901
     </address>
     <div class="socials">
-      <strong>Síguenos</strong><div>
+      <strong>Síguenos</strong>
+      <div class="social-links">
         {
-          socials.map((social) => (
-            <span title={`Enlace de ${social} por definir`}>{social}</span>
+          socials.map(({ label, icon }) => (
+            <span
+              class="social-icon"
+              role="img"
+              aria-label={label}
+              title={`Enlace de ${label} por definir`}
+            >
+              <SiteIcon name={icon} />
+            </span>
           ))
         }
       </div>
     </div>
   </div>
 </footer>
+
 <style>
   .footer {
     position: relative;
     z-index: 2;
-    background: #fff;
-    padding: 7rem 0 3rem;
+    padding: 7rem 0 5rem;
     border-top: 1px solid var(--gray-800);
+    background: #fff;
   }
+
   .footer-spacious {
     min-height: min(32.5vw, 623px);
     padding-top: min(11.5vw, 220px);
   }
+
   .footer-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 3rem;
   }
+
   .footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    text-transform: uppercase;
-    white-space: nowrap;
-    font-family: Georgia, serif;
-    font-size: 1.1rem;
+    flex: 0 0 auto;
   }
-  .footer-brand span:not(.rule) {
-    display: grid;
-  }
-  .footer-brand small {
-    font-family: "Montserrat Variable", sans-serif;
-    font-size: 0.45rem;
-    letter-spacing: 0.08em;
-  }
-  .rule {
-    height: 38px;
-    border-left: 1px solid var(--gray-200);
-  }
+
   address {
+    font-size: var(--text-caption);
     font-style: normal;
-    font-size: 0.68rem;
     line-height: 1.55;
   }
+
   .socials {
-    font-size: 0.85rem;
-  }
-  .socials > div {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-    margin-top: 0.6rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: var(--text-sm);
   }
-  .socials span {
-    font-size: 0.68rem;
+
+  .socials strong {
+    font-weight: var(--weight-semibold);
   }
+
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 1.35rem;
+  }
+
+  .social-icon {
+    display: grid;
+    width: 22px;
+    height: 22px;
+    place-items: center;
+    color: var(--gray-200);
+  }
+
+  .social-icon :global(svg),
+  .social-icon :global(img) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .footer-spacious .footer-inner {
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.5rem;
+    text-align: center;
+  }
+
+  .footer-spacious .socials {
+    align-items: center;
+  }
+
+  .footer-spacious .social-links {
+    gap: 2rem;
+  }
+
   @media (max-width: 850px) {
     .footer,
     .footer-spacious {
       min-height: 0;
       padding: 4rem 0;
     }
+
     .footer-inner {
-      flex-wrap: wrap;
-      justify-content: flex-start;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+
+    .footer-spacious .footer-inner {
+      align-items: center;
     }
   }
 </style>

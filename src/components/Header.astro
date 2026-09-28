@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import BrandLogo from "./BrandLogo.astro";
 
 const programs = await getCollection("programas");
 
@@ -41,18 +42,7 @@ const menuLinks = [
     <div class="nav-shell">
         <div class="nav-row">
             <a class="logo" href="/" aria-label="Santander Live, inicio">
-                <span class="logo-mark"
-                    ><span class="brand-main"
-                        ><small>Sistema</small><strong>Santander</strong><small
-                            >Live Streaming</small
-                        ></span
-                    ><span class="brand-rule" aria-hidden="true"></span><span
-                        class="brand-university"
-                        ><strong>Universidad</strong><small
-                            >Autónoma de Durango</small
-                        ></span
-                    ></span
-                >
+                <BrandLogo context="header" theme="light" alt="" />
             </a>
 
             <button
@@ -333,9 +323,9 @@ const menuLinks = [
     }
 
     .nav-shell {
-        max-width: 1280px;
+        max-width: var(--content-max-width);
         margin: auto;
-        padding: 14px 28px;
+        padding: 14px var(--page-gutter);
     }
     .nav-row {
         display: flex;
@@ -344,47 +334,11 @@ const menuLinks = [
         gap: 24px;
     }
     .logo {
-        line-height: 1;
+        display: block;
         flex-shrink: 0;
         color: #fff;
+        line-height: 0;
         text-decoration: none;
-    }
-    .logo-mark {
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        width: 310px;
-        min-height: 50px;
-        text-transform: uppercase;
-        white-space: nowrap;
-    }
-    .brand-main,
-    .brand-university {
-        display: grid;
-        gap: 2px;
-    }
-    .brand-main strong {
-        font-family: Georgia, serif;
-        font-size: 1.2rem;
-        font-weight: 400;
-        letter-spacing: 0.11em;
-    }
-    .brand-main small {
-        font-size: 0.43rem;
-        letter-spacing: 0.18em;
-    }
-    .brand-university strong {
-        font-family: Georgia, serif;
-        font-size: 0.94rem;
-        font-weight: 400;
-    }
-    .brand-university small {
-        font-size: 0.47rem;
-        letter-spacing: 0.04em;
-    }
-    .brand-rule {
-        height: 40px;
-        border-left: 1px solid currentColor;
     }
     nav {
         margin-left: auto;
@@ -406,7 +360,8 @@ const menuLinks = [
     .menu-trigger,
     .button {
         color: var(--gray-900);
-        font-weight: 600;
+        font-size: var(--text-xs);
+        font-weight: 550;
         text-decoration: none;
         white-space: nowrap;
     }
@@ -456,7 +411,8 @@ const menuLinks = [
         padding: 0.38rem 0.9rem;
         border: 1px solid transparent;
         border-radius: 15px;
-        font-size: var(--text-sm);
+        font-size: var(--text-xs);
+        font-weight: 600;
         line-height: 1;
         letter-spacing: 0.01em;
         transition:
@@ -629,20 +585,8 @@ const menuLinks = [
     }
 
     @media (max-width: 1180px) and (min-width: 900px) {
-        .nav-shell {
-            padding-inline: 20px;
-        }
         .nav-row {
             gap: 20px;
-        }
-        .logo-mark {
-            width: 245px;
-        }
-        .brand-main strong {
-            font-size: 1.05rem;
-        }
-        .brand-university strong {
-            font-size: 0.78rem;
         }
         .menu-links {
             gap: 12px;
@@ -680,15 +624,12 @@ const menuLinks = [
         }
         .nav-shell {
             min-height: 100%;
-            padding: 12px 24px;
+            padding-block: 12px;
+            padding-inline: var(--page-gutter);
         }
         .nav-row {
             align-items: center;
             flex-wrap: nowrap;
-        }
-        .logo-mark {
-            width: 245px;
-            min-height: 45px;
         }
         #hamburger {
             display: flex;
@@ -880,21 +821,6 @@ const menuLinks = [
         .mobile-menu-actions .button {
             margin: 0;
             font-size: var(--text-base);
-        }
-    }
-
-    @media (max-width: 480px) {
-        .nav-shell {
-            padding: 12px 20px;
-        }
-        .logo-mark {
-            width: 210px;
-        }
-        .brand-university strong {
-            font-size: 0.69rem;
-        }
-        .brand-university small {
-            font-size: 0.4rem;
         }
     }
 
