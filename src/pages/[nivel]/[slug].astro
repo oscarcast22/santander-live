@@ -32,14 +32,14 @@ const { program, model } = Astro.props;
 const { title, categoria, overview } = program.data;
 type OverviewBlock =
   | { type: "paragraph"; text: string }
-  | { type: "list"; items: string[] };
+  | { type: "compact-lines"; items: string[] };
 
 const overviewBlocks: OverviewBlock[] = [];
 let overviewListItems: string[] = [];
 
 const flushOverviewList = () => {
   if (overviewListItems.length) {
-    overviewBlocks.push({ type: "list", items: overviewListItems });
+    overviewBlocks.push({ type: "compact-lines", items: overviewListItems });
     overviewListItems = [];
   }
 };
@@ -48,10 +48,10 @@ for (const rawText of overview) {
   const text = rawText.trim();
   if (!text) continue;
 
-  const listItem = text.match(/^[-–•·]\s*(.+)$/u);
+  const listItem = text.match(/^[-–•·]\s*(.*)$/u);
   if (listItem) {
-    const itemText = listItem[1];
-    if (itemText) overviewListItems.push(itemText.trim());
+    const itemText = listItem[1]?.trim() ?? "";
+    if (itemText) overviewListItems.push(itemText);
     continue;
   }
 
@@ -87,14 +87,16 @@ const description =
         overviewBlocks.length > 0 && (
           <div class="program-overview">
             {overviewBlocks.map((block) => {
-              if (block.type === "list") {
-                return (
-                  <ul>
-                    {block.items.map((item) => <li>{item}</li>)}
-                  </ul>
-                );
+              if (block.type === "paragraph") {
+                return <p class="program-description">{block.text}</p>;
               }
-              return <p class="program-description">{block.text}</p>;
+              return (
+                <div class="program-overview-lines">
+                  {block.items.map((item) => (
+                    <p class="program-description">{item}</p>
+                  ))}
+                </div>
+              );
             })}
           </div>
         )
@@ -116,29 +118,21 @@ const description =
   }
   .program-overview {
     display: grid;
-    gap: 0.4rem;
+    gap: 0;
     margin-bottom: 1.6rem;
+  }
+  .program-overview > .program-description + .program-description {
+    margin-top: 0.75rem;
+  }
+  .program-overview-lines {
+    display: grid;
+    gap: 0;
   }
   .program-description {
     margin: 0;
     color: var(--gray-400);
     font-size: 0.95rem;
-    line-height: 1.65;
-  }
-  .program-overview ul {
-    display: grid;
-    gap: 0.35rem;
-    margin: 0.15rem 0;
-    padding-left: 1.3rem;
-    color: var(--gray-400);
-    font-size: 0.95rem;
-    line-height: 1.55;
-  }
-  .program-overview li {
-    padding-left: 0.15rem;
-  }
-  .program-overview li::marker {
-    color: var(--gray-200);
+    line-height: 1.4;
   }
   @media (max-width: 700px) {
     .program-body {
