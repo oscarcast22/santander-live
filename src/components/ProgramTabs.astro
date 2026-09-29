@@ -165,7 +165,6 @@ const tabs = [
     display: flex;
     flex-wrap: wrap;
     gap: 2.4rem;
-    border-bottom: 1px solid var(--gray-800);
   }
   [role="tab"] {
     padding: 0.7rem 0;
@@ -200,6 +199,10 @@ const tabs = [
   [role="tabpanel"] p {
     margin: 0 0 1.55rem;
   }
+  [role="tabpanel"] li::marker {
+    content: "– ";
+    color: var(--gray-200);
+  }
   .graduate-profile {
     display: grid;
     gap: 1rem;
@@ -225,12 +228,12 @@ const tabs = [
     padding-left: 0.15rem;
     line-height: 1.6;
   }
-  .graduate-profile li::marker {
-    color: var(--gray-200);
-  }
   .curriculum {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, max(18rem, calc((100% - 3rem) / 3))), 1fr)
+    );
     gap: 1.5rem;
   }
   .curriculum-period h2 {
