@@ -1,0 +1,95 @@
+---
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+const words = text.trim().split(/\s+/);
+---
+
+<scroll-text-reveal>
+  <p>
+    {
+      words.map((word, index) => (
+        <>
+          <span data-reveal-word>{word}</span>
+          {index < words.length - 1 ? " " : ""}
+        </>
+      ))
+    }
+  </p>
+</scroll-text-reveal>
+
+<style>
+  scroll-text-reveal {
+    display: block;
+    min-width: 0;
+  }
+  p {
+    margin: 0;
+    color: var(--gray-500);
+    font-size: clamp(2rem, 3.4vw, 3.6rem);
+    font-style: italic;
+  }
+  [data-reveal-word] {
+    display: inline-block;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  class ScrollTextReveal extends HTMLElement {
+    private motion?: gsap.MatchMedia;
+    private listeners?: AbortController;
+    private animation?: gsap.core.Tween;
+
+    connectedCallback() {
+      if (this.motion) return;
+      this.listeners = new AbortController();
+      document.addEventListener(
+        "astro:page-load",
+        () => {
+          this.animation?.scrollTrigger?.refresh();
+        },
+        { signal: this.listeners.signal },
+      );
+      const words = this.querySelectorAll<HTMLElement>("[data-reveal-word]");
+      const trigger = this.closest("section") ?? this;
+      this.motion = gsap.matchMedia();
+      this.motion.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.set(words, { opacity: 0.15 });
+        this.animation = gsap.to(words, {
+          opacity: 1,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger,
+            start: "top center",
+            end: "bottom center",
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+        return () => {
+          this.animation = undefined;
+          words.forEach((word) => word.style.removeProperty("opacity"));
+        };
+      });
+    }
+
+    disconnectedCallback() {
+      this.listeners?.abort();
+      this.listeners = undefined;
+      this.motion?.revert();
+      this.motion = undefined;
+      this.animation = undefined;
+    }
+  }
+
+  if (!customElements.get("scroll-text-reveal")) {
+    customElements.define("scroll-text-reveal", ScrollTextReveal);
+  }
+</script>
