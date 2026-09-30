@@ -1,0 +1,462 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  placeholder?: string;
+  required?: boolean;
+  groups: { label: string; options: { value: string; label: string }[] }[];
+}
+const {
+  id,
+  name,
+  label,
+  placeholder = "Selecciona una opción",
+  required = false,
+  groups,
+} = Astro.props;
+let optionIndex = 0;
+---
+
+<program-select>
+  <label id={`${id}-label`} for={id}>{label}</label>
+  <select id={id} name={name} required={required}>
+    <option value="">{placeholder}</option>
+    {
+      groups.map((group) => (
+        <optgroup label={group.label}>
+          {group.options.map((option) => (
+            <option value={option.value}>{option.label}</option>
+          ))}
+        </optgroup>
+      ))
+    }
+  </select>
+  <button
+    hidden
+    class="select-trigger"
+    id={`${id}-trigger`}
+    type="button"
+    role="combobox"
+    aria-labelledby={`${id}-label`}
+    aria-haspopup="listbox"
+    aria-controls={`${id}-list`}
+    aria-expanded="false"
+    aria-required={required ? "true" : undefined}
+    aria-describedby={`${id}-error`}
+    ><span class="select-value">{placeholder}</span></button
+  >
+  <div hidden class="select-panel">
+    <div id={`${id}-list`} role="listbox" aria-labelledby={`${id}-label`}>
+      {
+        groups.map((group, groupIndex) => (
+          <div role="group" aria-labelledby={`${id}-group-${groupIndex}`}>
+            <div class="group-label" id={`${id}-group-${groupIndex}`}>
+              {group.label}
+            </div>
+            {group.options.map((option) => (
+              <div
+                role="option"
+                id={`${id}-option-${optionIndex++}`}
+                data-value={option.value}
+                aria-selected="false"
+              >
+                <span>{option.label}</span>
+                <span class="selected-mark" aria-hidden="true">
+                  ✓
+                </span>
+              </div>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+  <span id={`${id}-error`} class="select-error" hidden aria-live="polite"
+  ></span>
+</program-select>
+
+<style>
+  program-select {
+    display: block;
+    position: relative;
+  }
+  [hidden] {
+    display: none !important;
+  }
+  label {
+    display: block;
+    line-height: 1.25rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+  select,
+  .select-trigger {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--gray-400);
+    border-radius: 0;
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    font-size: var(--text-xs);
+    line-height: 1rem;
+    text-align: left;
+  }
+  select {
+    color-scheme: dark;
+  }
+  select:invalid,
+  .select-trigger:not(.has-value) {
+    color: var(--gray-400);
+  }
+  .select-trigger:hover,
+  .select-trigger:focus-visible,
+  .select-trigger[aria-expanded="true"] {
+    border-color: var(--red-200);
+  }
+  .select-trigger:focus-visible {
+    outline: 2px solid var(--red-200);
+    outline-offset: 3px;
+  }
+  .select-panel {
+    position: fixed;
+    z-index: 100;
+    margin: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: var(--gray-300) var(--gray-100);
+    border: 1px solid var(--gray-300);
+    border-radius: 8px;
+    background: var(--gray-100);
+    box-shadow: 0 10px 30px rgb(0 0 0 / 30%);
+    padding: 8px;
+    color: #fff;
+  }
+  .group-label {
+    padding: 12px 12px 6px;
+    color: var(--gray-400);
+    font-size: var(--text-xs);
+    font-weight: 600;
+  }
+  [role="option"] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 40px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: var(--text-sm);
+    line-height: 1.4;
+    cursor: pointer;
+  }
+  [role="option"].is-active {
+    background: var(--gray-200);
+  }
+  .selected-mark {
+    color: var(--red-200);
+    visibility: hidden;
+    flex-shrink: 0;
+  }
+  [aria-selected="true"] .selected-mark {
+    visibility: visible;
+  }
+  .select-error {
+    display: block;
+    margin-top: 6px;
+    color: var(--red-200);
+    font-size: var(--text-xs);
+  }
+  @media (max-width: 800px) {
+    select,
+    .select-trigger {
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<script>
+  class ProgramSelect extends HTMLElement {
+    private controller?: AbortController;
+
+    connectedCallback() {
+      this.controller?.abort();
+      const controller = (this.controller = new AbortController());
+      const { signal } = controller;
+      const nativeInput = window.matchMedia("(hover: none) and (pointer: coarse)");
+      const select = this.querySelector<HTMLSelectElement>("select")!;
+      const trigger = this.querySelector<HTMLButtonElement>(".select-trigger")!;
+      const value = this.querySelector<HTMLElement>(".select-value")!;
+      const panel = this.querySelector<HTMLElement>(".select-panel")!;
+      const panelAnchor = document.createComment("program-select panel");
+      panel.before(panelAnchor);
+      const error = this.querySelector<HTMLElement>(".select-error")!;
+      const label = this.querySelector<HTMLLabelElement>("label")!;
+      const options = [
+        ...this.querySelectorAll<HTMLElement>('[role="option"]'),
+      ];
+      let active = -1;
+      let prefix = "";
+      let prefixTime = 0;
+      let resetFrame = 0;
+      let positionFrame = 0;
+      const isOpen = () => !panel.hidden;
+      const clearError = () => {
+        error.hidden = true;
+        error.textContent = "";
+        trigger.removeAttribute("aria-invalid");
+      };
+      const setActive = (index: number) => {
+        active = index;
+        options.forEach((option, i) =>
+          option.classList.toggle("is-active", i === index),
+        );
+        const option = options[index];
+        if (option) {
+          trigger.setAttribute("aria-activedescendant", option.id);
+          const bounds = option.getBoundingClientRect();
+          const viewport = panel.getBoundingClientRect();
+          if (bounds.top < viewport.top)
+            panel.scrollTop -= viewport.top - bounds.top;
+          else if (bounds.bottom > viewport.bottom)
+            panel.scrollTop += bounds.bottom - viewport.bottom;
+        } else trigger.removeAttribute("aria-activedescendant");
+      };
+      const sync = () => {
+        value.textContent = select.selectedOptions[0]?.textContent ?? "";
+        trigger.classList.toggle("has-value", !!select.value);
+        options.forEach((option) =>
+          option.setAttribute(
+            "aria-selected",
+            String(option.dataset.value === select.value),
+          ),
+        );
+        if (select.value) clearError();
+      };
+      const position = () => {
+        const rect = trigger.getBoundingClientRect();
+        const viewport = window.visualViewport;
+        const top = viewport?.offsetTop ?? 0;
+        const bottom = top + (viewport?.height ?? window.innerHeight);
+        const below = Math.max(0, bottom - rect.bottom - 16);
+        const above = Math.max(0, rect.top - top - 16);
+        const upwards = below < 200 && above > below;
+        panel.style.left = `${rect.left}px`;
+        panel.style.width = `${rect.width}px`;
+        panel.style.maxHeight = `${Math.min(320, upwards ? above : below)}px`;
+        panel.style.top = `${upwards ? rect.top - panel.getBoundingClientRect().height - 8 : rect.bottom + 8}px`;
+        panel.style.bottom = "auto";
+      };
+      const schedulePosition = () => {
+        if (!isOpen() || positionFrame) return;
+        positionFrame = requestAnimationFrame(() => {
+          positionFrame = 0;
+          position();
+        });
+      };
+      const close = () => {
+        panel.hidden = true;
+        if (panel.parentNode !== this) panelAnchor.after(panel);
+        cancelAnimationFrame(positionFrame);
+        positionFrame = 0;
+        trigger.setAttribute("aria-expanded", "false");
+        trigger.removeAttribute("aria-activedescendant");
+        prefix = "";
+      };
+      const open = (last = false) => {
+        document.body.append(panel);
+        panel.hidden = false;
+        trigger.setAttribute("aria-expanded", "true");
+        position();
+        const selected = options.findIndex(
+          (option) => option.dataset.value === select.value,
+        );
+        setActive(selected >= 0 ? selected : last ? options.length - 1 : 0);
+      };
+      const choose = (index: number) => {
+        if (!options[index]) return;
+        select.value = options[index].dataset.value!;
+        select.dispatchEvent(new Event("input", { bubbles: true }));
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+        close();
+        trigger.focus();
+      };
+      trigger.addEventListener("click", () => (isOpen() ? close() : open()), {
+        signal,
+      });
+      trigger.addEventListener(
+        "keydown",
+        (event) => {
+          const { key } = event;
+          if (key === "Tab") {
+            close();
+            return;
+          }
+          if (key === "Escape") {
+            if (isOpen()) {
+              event.preventDefault();
+              close();
+            }
+            return;
+          }
+          if (
+            ["ArrowDown", "ArrowUp", "Home", "End", "Enter", " "].includes(key)
+          ) {
+            event.preventDefault();
+            if (!isOpen()) {
+              open(key === "ArrowUp" || key === "End");
+              if (key === "Home") setActive(0);
+              return;
+            }
+            if (key === "Enter" || key === " ") choose(active);
+            else if (key === "Home") setActive(0);
+            else if (key === "End") setActive(options.length - 1);
+            else
+              setActive(
+                Math.max(
+                  0,
+                  Math.min(
+                    options.length - 1,
+                    active + (key === "ArrowDown" ? 1 : -1),
+                  ),
+                ),
+              );
+            return;
+          }
+          if (
+            key.length === 1 &&
+            !event.ctrlKey &&
+            !event.metaKey &&
+            !event.altKey
+          ) {
+            event.preventDefault();
+            if (!isOpen()) open();
+            const now = performance.now();
+            prefix = now - prefixTime > 700 ? key : prefix + key;
+            prefixTime = now;
+            const normalize = (text: string) =>
+              text
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase();
+            const index = options.findIndex((option) =>
+              normalize(
+                option.textContent?.replace("✓", "").trim() ?? "",
+              ).startsWith(normalize(prefix)),
+            );
+            if (index >= 0) setActive(index);
+          }
+        },
+        { signal },
+      );
+      options.forEach((option, index) => {
+        option.addEventListener(
+          "pointerdown",
+          (event) => event.preventDefault(),
+          { signal },
+        );
+        option.addEventListener("click", () => choose(index), { signal });
+        option.addEventListener("pointermove", () => setActive(index), {
+          signal,
+        });
+      });
+      const isInside = (target: EventTarget | null) =>
+        target instanceof Node &&
+        (this.contains(target) || panel.contains(target));
+      document.addEventListener(
+        "pointerdown",
+        (event) => {
+          if (!isInside(event.target)) close();
+        },
+        { signal },
+      );
+      document.addEventListener(
+        "focusin",
+        (event) => {
+          if (!isInside(event.target)) close();
+        },
+        { signal },
+      );
+      document.addEventListener("astro:before-swap", close, { signal });
+      select.addEventListener("input", sync, { signal });
+      select.addEventListener("change", sync, { signal });
+      select.addEventListener(
+        "invalid",
+        (event) => {
+          if (nativeInput.matches) return;
+          event.preventDefault();
+          error.textContent = "Selecciona una licenciatura o posgrado.";
+          error.hidden = false;
+          trigger.setAttribute("aria-invalid", "true");
+          trigger.focus();
+        },
+        { signal },
+      );
+      select.form?.addEventListener(
+        "reset",
+        () => {
+          cancelAnimationFrame(resetFrame);
+          resetFrame = requestAnimationFrame(() => {
+            resetFrame = 0;
+            sync();
+            clearError();
+            close();
+          });
+        },
+        { signal },
+      );
+      window.addEventListener("resize", schedulePosition, { signal });
+      window.addEventListener("scroll", schedulePosition, {
+        signal,
+        capture: true,
+        passive: true,
+      });
+      window.visualViewport?.addEventListener("resize", schedulePosition, {
+        signal,
+      });
+      window.visualViewport?.addEventListener("scroll", schedulePosition, {
+        signal,
+      });
+      const observer = new ResizeObserver(schedulePosition);
+      observer.observe(trigger);
+      signal.addEventListener(
+        "abort",
+        () => {
+          observer.disconnect();
+          cancelAnimationFrame(resetFrame);
+          cancelAnimationFrame(positionFrame);
+          close();
+          panelAnchor.remove();
+          select.hidden = false;
+          trigger.hidden = true;
+          label.htmlFor = select.id;
+        },
+        { once: true },
+      );
+      const updateInputMode = () => {
+        const focused = document.activeElement;
+        close();
+        clearError();
+        select.hidden = !nativeInput.matches;
+        trigger.hidden = nativeInput.matches;
+        label.htmlFor = nativeInput.matches ? select.id : trigger.id;
+        sync();
+        if (focused === select || focused === trigger) {
+          (nativeInput.matches ? select : trigger).focus();
+        }
+      };
+      nativeInput.addEventListener("change", updateInputMode, { signal });
+      updateInputMode();
+    }
+
+    disconnectedCallback() {
+      this.controller?.abort();
+      this.controller = undefined;
+    }
+  }
+  if (!customElements.get("program-select"))
+    customElements.define("program-select", ProgramSelect);
+</script>

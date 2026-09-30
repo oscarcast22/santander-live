@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import ProgramSelect from "./ProgramSelect.astro";
 
 const programs = await getCollection("programas");
 const licensePrograms = programs.filter(
@@ -20,7 +21,7 @@ const doctorados = postgraduatePrograms.filter(
 <section class="contact" id="contacto" aria-labelledby="contact-title">
   <div class="contact-inner">
     <h2 id="contact-title">¿Listo para el siguiente paso a tu futuro?</h2>
-    <form aria-label="Solicitud de información">
+    <form aria-label="Solicitud de información" data-astro-reload>
       <div class="form-group">
         <label for="contact-nombre">Tu nombre</label>
         <input
@@ -45,33 +46,6 @@ const doctorados = postgraduatePrograms.filter(
         />
       </div>
       <div class="form-group">
-        <label for="contact-programa">Licenciatura o Posgrado de interés</label>
-        <select id="contact-programa" name="programa" required>
-          <option value="">Selecciona una opción</option>
-          <optgroup label="Licenciaturas"
-            >{
-              licensePrograms.map((program) => (
-                <option value={program.data.slug}>{program.data.title}</option>
-              ))
-            }</optgroup
-          >
-          <optgroup label="Maestrías"
-            >{
-              maestrias.map((program) => (
-                <option value={program.data.slug}>{program.data.title}</option>
-              ))
-            }</optgroup
-          >
-          <optgroup label="Doctorados"
-            >{
-              doctorados.map((program) => (
-                <option value={program.data.slug}>{program.data.title}</option>
-              ))
-            }</optgroup
-          >
-        </select>
-      </div>
-      <div class="form-group">
         <label for="contact-correo">Correo electrónico</label>
         <input
           id="contact-correo"
@@ -80,6 +54,37 @@ const doctorados = postgraduatePrograms.filter(
           autocomplete="email"
           placeholder="Ingresa tu correo electrónico"
           required
+        />
+      </div>
+      <div class="form-group">
+        <ProgramSelect
+          id="contact-programa"
+          name="programa"
+          label="Licenciatura o Posgrado de interés"
+          required
+          groups={[
+            {
+              label: "Licenciaturas",
+              options: licensePrograms.map(({ data }) => ({
+                value: data.slug,
+                label: data.title,
+              })),
+            },
+            {
+              label: "Maestrías",
+              options: maestrias.map(({ data }) => ({
+                value: `Maestría en ${data.title}`,
+                label: data.title,
+              })),
+            },
+            {
+              label: "Doctorados",
+              options: doctorados.map(({ data }) => ({
+                value: `Doctorado en ${data.title}`,
+                label: data.title,
+              })),
+            },
+          ]}
         />
       </div>
       <label class="privacy" for="contact-privacidad">
@@ -98,7 +103,9 @@ const doctorados = postgraduatePrograms.filter(
         >Recibir más información</button
       >
       <p class="privacy-note">
-        Tus datos están protegidos por nuestra Política de Privacidad.
+        Tus datos están protegidos por nuestra <a href="/politica-de-privacidad"
+          >Política de Privacidad.</a
+        >
       </p>
     </form>
   </div>
@@ -106,31 +113,35 @@ const doctorados = postgraduatePrograms.filter(
 
 <style>
   .contact {
-    min-height: min(52vw, 1000px);
-    padding: min(6.25vw, 120px) var(--page-gutter) 4rem;
+    min-height: min(46.354vw, 890px);
+    padding: min(5.208vw, 100px) var(--page-gutter) min(4.688vw, 90px);
     background: var(--gray-100);
     color: #fff;
     scroll-margin-top: 6rem;
   }
   .contact-inner {
-    width: min(100%, 950px);
+    width: min(100%, 60vw, 1152px);
     margin: auto;
   }
   h2 {
-    margin: 0 0 2rem;
-    font-size: clamp(1.4rem, 2vw, var(--text-2xl));
+    margin: 0 0 min(2.604vw, 50px);
+    font-size: clamp(1.4rem, 2.734vw, 3.281rem);
+    line-height: 1.2;
     font-weight: var(--weight-bold);
   }
   form {
+    width: min(100%, 54.688vw, 1050px);
+    margin-left: min(1.953vw, 37.5px);
     display: flex;
     flex-direction: column;
   }
   .form-group {
-    margin-bottom: 0.9rem;
+    margin-bottom: 1rem;
   }
   .form-group label {
     display: block;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0;
+    line-height: 1.25rem;
     font-size: var(--text-sm);
     font-weight: 500;
   }
@@ -139,15 +150,16 @@ const doctorados = postgraduatePrograms.filter(
     display: block;
     width: 100%;
     max-width: 100%;
-    padding: 0.4rem 0;
+    padding: 0.75rem 0;
     border: 0;
-    border-bottom: 1px solid rgb(255 255 255 / 72%);
+    border-bottom: 1px solid var(--gray-400);
     border-radius: 0;
     outline: none;
     background: transparent;
     color: #fff;
     font: inherit;
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
+    line-height: 1rem;
     transition: border-color 180ms ease;
   }
   .form-group input::placeholder {
@@ -155,6 +167,10 @@ const doctorados = postgraduatePrograms.filter(
   }
   .form-group select {
     color-scheme: dark;
+    appearance: none;
+  }
+  .form-group select:invalid {
+    color: var(--gray-400);
   }
   .form-group input:hover,
   .form-group input:focus-visible,
@@ -165,18 +181,26 @@ const doctorados = postgraduatePrograms.filter(
   .privacy {
     display: flex;
     align-items: flex-start;
-    gap: 0.65rem;
-    margin-top: 0.4rem;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    color: var(--gray-400);
     font-size: var(--text-xs);
     line-height: 1.45;
     cursor: pointer;
   }
   .privacy input {
     flex: 0 0 auto;
-    width: 1rem;
-    height: 1rem;
+    width: 15px;
+    height: 15px;
     margin: 0.08rem 0 0;
-    accent-color: var(--red-200);
+    appearance: none;
+    border: 0;
+    border-radius: 50%;
+    background: var(--red-200);
+    cursor: pointer;
+  }
+  .privacy input:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4 8 3 3 5-6' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   }
   .privacy input:focus-visible {
     outline: 2px solid var(--red-200);
@@ -184,25 +208,46 @@ const doctorados = postgraduatePrograms.filter(
   }
   .contact .button {
     align-self: flex-start;
-    margin-top: 1.5rem;
-    padding: 0.45rem 1rem;
-    min-height: 2rem;
+    margin-top: 2rem;
+    padding: 0.75rem 1rem;
+    min-height: 43px;
+    background: #fff;
+    color: var(--black);
     font-size: var(--text-sm);
   }
   .contact .button:disabled {
     cursor: not-allowed;
-    opacity: 0.75;
+    opacity: 1;
     transform: none;
   }
   .privacy-note {
-    margin: 1.5rem 0 0;
+    margin: 2.625rem 0 0;
     color: var(--gray-400);
     font-size: var(--text-xs);
+  }
+  .privacy-note a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
   @media (max-width: 800px) {
     .contact {
       min-height: 0;
       padding: 4rem var(--page-gutter);
+    }
+    .contact-inner,
+    form {
+      width: 100%;
+    }
+    form {
+      margin-left: 0;
+    }
+    h2 {
+      margin-bottom: 2.5rem;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+    }
+    .form-group input,
+    .form-group select {
+      font-size: 1rem;
     }
   }
   @media (prefers-reduced-motion: reduce) {
