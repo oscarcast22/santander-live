@@ -1,0 +1,505 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import licenseCard from "../assets/landing/oferta-licenciaturas.jpg";
+import postgraduateCard from "../assets/landing/oferta-maestrias.jpg";
+import doctorateCard from "../assets/landing/oferta-doctorados.jpg";
+
+interface Props {
+  licensePrograms: CollectionEntry<"programas">[];
+  masterPrograms: CollectionEntry<"programas">[];
+  doctoratePrograms: CollectionEntry<"programas">[];
+}
+
+const { licensePrograms, masterPrograms, doctoratePrograms } = Astro.props;
+const cards = [
+  {
+    title: "Licenciaturas",
+    id: "licenciaturas",
+    image: licenseCard,
+    alt: "Estudiante universitaria trabajando en una computadora portátil",
+    widths: [380, 650, 900],
+    programs: licensePrograms,
+  },
+  {
+    title: "Maestrías",
+    id: "maestrias",
+    image: postgraduateCard,
+    alt: "Estudiante trabajando con una computadora portátil",
+    widths: [380, 650, 900, 1062],
+    programs: masterPrograms,
+  },
+  {
+    title: "Doctorados",
+    id: "doctorados",
+    image: doctorateCard,
+    alt: "Estudiante de doctorado trabajando frente a una computadora portátil",
+    widths: [380, 650, 900, 1062],
+    programs: doctoratePrograms,
+  },
+];
+// Portrait crops need enough source pixels for the full height of the cards.
+const imageSizes =
+  "(max-width: 600px) 630px, (max-width: 800px) 540px, (max-width: 1920px) 76vw, 1455px";
+---
+
+<education-offers>
+  <section id="oferta" class="offers container" aria-label="Oferta educativa">
+    {
+      cards.map((card) => (
+        <article class="offer-card" data-open="false" data-state="closed">
+          <Image
+            class="offer-image"
+            src={card.image}
+            alt={card.alt}
+            widths={card.widths}
+            sizes={imageSizes}
+            quality={90}
+          />
+          <div class="offer-panel">
+            <h2 class="offer-heading">
+              <button
+                class="offer-title"
+                type="button"
+                aria-expanded="false"
+                aria-controls={`offer-programs-${card.id}`}
+              >
+                {card.title}
+              </button>
+            </h2>
+            <ul
+              class="offer-programs"
+              id={`offer-programs-${card.id}`}
+              aria-hidden="true"
+              inert
+            >
+              {card.programs.map((program) => (
+                <li>
+                  <a href={`/${program.data.nivel}/${program.data.slug}`}>
+                    {program.data.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+</education-offers>
+
+<style>
+  education-offers {
+    display: block;
+  }
+  .offers {
+    width: 83.06%;
+    max-width: 1595px;
+    padding-inline: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: min(1.74vw, 33.4px);
+    margin-bottom: clamp(3rem, 6vw, 6rem);
+  }
+  .offer-card {
+    /* PDF reference: 510 × 930 cards with a 120px title strip. */
+    --offer-title-height: min(23.59cqw, 120.27px);
+    container-type: inline-size;
+    position: relative;
+    display: block;
+    aspect-ratio: 510 / 930;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .offer-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .offer-panel {
+    position: absolute;
+    inset: 24.72% 0 0;
+    z-index: 1;
+    transform: translateY(calc(100% - var(--offer-title-height)));
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .offer-card[data-open="true"] .offer-panel {
+    transform: translateY(0);
+    transition-duration: 420ms;
+  }
+  .offer-card[data-instant] .offer-panel {
+    transition: none;
+  }
+  .offer-heading {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 2;
+    height: var(--offer-title-height);
+    margin: 0;
+  }
+  .offer-title {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: grid;
+    padding: 0 1rem;
+    place-items: center;
+    background: rgb(204 0 51 / 0.93);
+    color: #fff;
+    text-align: center;
+    font-family: inherit;
+    font-size: clamp(1.25rem, 9.416cqw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+  }
+  .offer-title:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -4px;
+  }
+  .offer-programs {
+    position: absolute;
+    inset: var(--offer-title-height) 0 0;
+    margin: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    gap: min(3.608cqw, 18.4px);
+    padding: 1.4rem 1rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: rgb(255 255 255 / 0.82);
+    color: var(--black);
+    list-style: none;
+    text-align: center;
+  }
+  .offer-card[data-open="false"] .offer-programs {
+    pointer-events: none;
+  }
+  .offer-card[data-state="closed"] .offer-programs {
+    visibility: hidden;
+  }
+  .offer-programs li {
+    flex-shrink: 0;
+    font-size: clamp(0.8rem, 3.139cqw, 1rem);
+    line-height: 1.25;
+    font-weight: 550;
+  }
+  .offer-programs li a {
+    text-decoration: none;
+  }
+  .offer-programs li a:hover,
+  .offer-programs li a:focus-visible {
+    color: var(--red-200);
+  }
+  @media (max-width: 800px) {
+    .offers {
+      width: 100%;
+      max-width: var(--content-max-width);
+      padding-inline: var(--page-gutter);
+      gap: 0.8rem;
+    }
+    .offer-card {
+      --offer-title-height: 3.2rem;
+      aspect-ratio: auto;
+      height: 360px;
+    }
+    .offer-title {
+      font-size: 1.1rem;
+    }
+    .offer-programs {
+      gap: 0.18rem;
+      padding: 0.8rem 0.65rem;
+    }
+    .offer-programs li {
+      font-size: 0.875rem;
+    }
+  }
+  @media (max-width: 600px) {
+    .offer-programs {
+      gap: 6px;
+    }
+    .offers {
+      grid-template-columns: 1fr;
+    }
+    .offer-card {
+      --offer-title-height: 3.5rem;
+      height: 420px;
+    }
+    .offer-title {
+      font-size: 1.5rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .offer-panel {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  interface OfferCard {
+    element: HTMLElement;
+    panel: HTMLElement;
+    button: HTMLButtonElement;
+    programs: HTMLUListElement;
+    open: boolean;
+  }
+
+  type Interaction = "hover" | "focus" | "pinned";
+
+  class EducationOffers extends HTMLElement {
+    private cards: OfferCard[] = [];
+    private active: OfferCard | null = null;
+    private interaction: Interaction | null = null;
+    private listeners?: AbortController;
+    private frames = new Map<OfferCard, number>();
+    private keyboardInput = true;
+    private restoringFocus = false;
+    private reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    private hoverAvailable = matchMedia(
+      "(any-hover: hover) and (any-pointer: fine)",
+    );
+
+    connectedCallback() {
+      if (this.listeners) return;
+      this.listeners = new AbortController();
+      const { signal } = this.listeners;
+      this.cards = [
+        ...this.querySelectorAll<HTMLElement>(".offer-card"),
+      ].flatMap((element) => {
+        const panel = element.querySelector<HTMLElement>(".offer-panel");
+        const button = element.querySelector<HTMLButtonElement>(".offer-title");
+        const programs =
+          element.querySelector<HTMLUListElement>(".offer-programs");
+        return panel && button && programs
+          ? [
+              {
+                element,
+                panel,
+                button,
+                programs,
+                open: element.dataset.open === "true",
+              },
+            ]
+          : [];
+      });
+
+      document.addEventListener(
+        "pointerdown",
+        (event) => {
+          this.keyboardInput = false;
+          const target = event.target;
+          if (
+            target instanceof Node &&
+            !this.cards.some((card) => card.element.contains(target))
+          ) {
+            this.close();
+          }
+        },
+        { capture: true, signal },
+      );
+
+      document.addEventListener(
+        "keydown",
+        (event) => {
+          this.keyboardInput = true;
+          if (
+            event.key === "Tab" &&
+            this.active?.open &&
+            this.contains(document.activeElement)
+          ) {
+            // Make links reachable before the browser chooses the next Tab target.
+            this.finish(this.active);
+          }
+          if (
+            event.key === "Escape" &&
+            this.active &&
+            !event.defaultPrevented
+          ) {
+            event.preventDefault();
+            this.close(true);
+          }
+        },
+        { signal },
+      );
+
+      this.reducedMotion.addEventListener(
+        "change",
+        () => {
+          if (this.reducedMotion.matches)
+            this.cards.forEach((card) => this.finish(card));
+        },
+        { signal },
+      );
+
+      this.cards.forEach((card) => {
+        this.render(card, false, true);
+
+        card.element.addEventListener(
+          "pointerenter",
+          (event) => {
+            if (event.pointerType === "touch" || !this.hoverAvailable.matches)
+              return;
+            this.keyboardInput = false;
+            if (this.interaction === "pinned" || this.interaction === "focus")
+              return;
+            this.select(card, "hover");
+          },
+          { signal },
+        );
+
+        card.element.addEventListener(
+          "pointerleave",
+          () => {
+            if (this.active === card && this.interaction === "hover")
+              this.close();
+          },
+          { signal },
+        );
+
+        card.element.addEventListener(
+          "focusin",
+          (event) => {
+            if (this.restoringFocus) return;
+            const instant =
+              this.keyboardInput ||
+              (event.target instanceof Element &&
+                event.target.matches(":focus-visible"));
+            if (this.active === card && this.interaction === "pinned") {
+              if (instant) this.finish(card);
+              return;
+            }
+            this.select(card, "focus", instant);
+          },
+          { signal },
+        );
+
+        card.element.addEventListener(
+          "focusout",
+          (event) => {
+            if (
+              event.relatedTarget instanceof Node &&
+              card.element.contains(event.relatedTarget)
+            )
+              return;
+            if (this.active === card && this.interaction === "focus")
+              this.close();
+          },
+          { signal },
+        );
+
+        card.element.addEventListener(
+          "click",
+          (event) => {
+            if (event.target instanceof Element && event.target.closest("a"))
+              return;
+            const closing =
+              this.active === card && this.interaction === "pinned";
+            this.restoringFocus = true;
+            card.button.focus({ preventScroll: true });
+            this.restoringFocus = false;
+            if (closing) this.close();
+            else this.select(card, "pinned", this.keyboardInput);
+          },
+          { signal },
+        );
+
+        const onTransition = (event: TransitionEvent) => {
+          if (
+            event.target === card.panel &&
+            event.propertyName === "transform"
+          ) {
+            this.checkCompletion(card);
+          }
+        };
+        card.panel.addEventListener("transitionend", onTransition, { signal });
+        card.panel.addEventListener("transitioncancel", onTransition, {
+          signal,
+        });
+      });
+    }
+
+    disconnectedCallback() {
+      this.listeners?.abort();
+      this.listeners = undefined;
+      this.frames.forEach((frame) => cancelAnimationFrame(frame));
+      this.frames.clear();
+      this.cards = [];
+      this.active = null;
+      this.interaction = null;
+      this.keyboardInput = true;
+    }
+
+    private select(card: OfferCard, interaction: Interaction, instant = false) {
+      this.active = card;
+      this.interaction = interaction;
+      this.cards.forEach((item) =>
+        this.render(item, item === card, instant && item === card),
+      );
+    }
+
+    private close(restoreFocus = false) {
+      const card = this.active;
+      this.active = null;
+      this.interaction = null;
+      if (!card) return;
+      if (restoreFocus && card.programs.contains(document.activeElement)) {
+        this.restoringFocus = true;
+        card.button.focus({ preventScroll: true });
+        this.restoringFocus = false;
+      }
+      this.render(card, false);
+    }
+
+    private render(card: OfferCard, open: boolean, instant = false) {
+      if (card.open === open) {
+        if (instant) this.finish(card);
+        return;
+      }
+      card.open = open;
+      card.element.dataset.state = open ? "opening" : "closing";
+      card.element.dataset.open = String(open);
+      card.button.setAttribute("aria-expanded", String(open));
+      card.programs.setAttribute("aria-hidden", String(!open));
+      card.programs.inert = !open;
+      if (instant || this.reducedMotion.matches) this.finish(card);
+      else this.checkCompletion(card);
+    }
+
+    private finish(card: OfferCard) {
+      card.element.dataset.instant = "";
+      card.element.dataset.state = card.open ? "open" : "closed";
+      // Commit the destination with transitions disabled before restoring motion.
+      void card.panel.offsetHeight;
+      delete card.element.dataset.instant;
+    }
+
+    private checkCompletion(card: OfferCard) {
+      const pending = this.frames.get(card);
+      if (pending !== undefined) cancelAnimationFrame(pending);
+      this.frames.set(
+        card,
+        requestAnimationFrame(() => {
+          this.frames.delete(card);
+          const moving = card.panel
+            .getAnimations()
+            .some(
+              (animation) =>
+                animation.playState === "running" || animation.pending,
+            );
+          // A cancelled transition may already have been replaced by its reverse.
+          if (!moving)
+            card.element.dataset.state = card.open ? "open" : "closed";
+        }),
+      );
+    }
+  }
+
+  if (!customElements.get("education-offers")) {
+    customElements.define("education-offers", EducationOffers);
+  }
+</script>
