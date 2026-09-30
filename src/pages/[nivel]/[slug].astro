@@ -12,7 +12,9 @@ export async function getStaticPaths() {
   for (const program of programs) {
     const model = await getEntry(program.data.model);
     if (!model) {
-      throw new Error(`No se encontró el modelo educativo de ${program.data.title}`);
+      throw new Error(
+        `No se encontró el modelo educativo de ${program.data.title}`,
+      );
     }
 
     paths.push({
@@ -71,10 +73,7 @@ const description =
   `Conoce el programa de ${heading} en Santander Live.`;
 ---
 
-<BaseLayout
-  title={heading}
-  description={description}
->
+<BaseLayout title={heading} description={description}>
   <ParallaxHero
     image={program.data.heroImage}
     alt="Estudiante en modalidad Live Streaming"
