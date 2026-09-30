@@ -1,19 +1,32 @@
 ---
-const items = ["Misión y Visión", "Objetivo", "Filosofía", "Modelo Educativo"];
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  items: CollectionEntry<"institucional">["data"]["sections"];
+}
+
+const { items } = Astro.props;
 ---
 
 <div class="accordion">
   {
-    items.map((label) => (
+    items.map(({ title, blocks }) => (
       <details class="accordion-item">
         <summary>
           <>
-            <h3>{label}</h3>
+            <h3>{title}</h3>
             <span class="plus" aria-hidden="true" />
           </>
         </summary>
         <div class="accordion-content">
-          <p>Contenido institucional pendiente de integrar.</p>
+          {blocks.map(({ heading, paragraphs }) => (
+            <>
+              {heading && <h4>{heading}</h4>}
+              {paragraphs.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+            </>
+          ))}
         </div>
       </details>
     ))
@@ -103,6 +116,15 @@ const items = ["Misión y Visión", "Objetivo", "Filosofía", "Modelo Educativo"
     color: var(--gray-400);
     line-height: 1.375;
   }
+  .accordion-content h4 {
+    margin: 1.25rem 0 0.65rem;
+    color: var(--gray-400);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .accordion-content h4:first-child {
+    margin-top: 0;
+  }
   .accordion-content > :last-child {
     margin-bottom: 0;
   }
@@ -127,11 +149,33 @@ const items = ["Misión y Visión", "Objetivo", "Filosofía", "Modelo Educativo"
 <script>
   let accordionController: AbortController | undefined;
 
-  function setupAccordion() {
+  function cleanupAccordion() {
     accordionController?.abort();
+    accordionController = undefined;
+  }
+
+  function setupAccordion() {
+    cleanupAccordion();
     accordionController = new AbortController();
     const { signal } = accordionController;
-    const animations = new WeakMap<HTMLDetailsElement, Animation>();
+    const animations = new Map<HTMLDetailsElement, Animation>();
+    const frames = new Map<HTMLDetailsElement, number>();
+    signal.addEventListener(
+      "abort",
+      () => {
+        frames.forEach((frame) => cancelAnimationFrame(frame));
+        frames.clear();
+        animations.forEach((animation, item) => {
+          animation.onfinish = null;
+          animation.cancel();
+          item.classList.remove("is-animating", "is-opening", "is-closing");
+          item.style.height = "";
+          item.style.overflow = "";
+        });
+        animations.clear();
+      },
+      { once: true },
+    );
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -144,6 +188,9 @@ const items = ["Misión y Visión", "Objetivo", "Filosofía", "Modelo Educativo"
         ];
 
         const stopAnimation = (item: HTMLDetailsElement) => {
+          const frame = frames.get(item);
+          if (frame !== undefined) cancelAnimationFrame(frame);
+          frames.delete(item);
           const animation = animations.get(item);
           if (!animation) return;
           item.style.height = `${item.getBoundingClientRect().height}px`;
@@ -189,7 +236,13 @@ const items = ["Misión y Visión", "Objetivo", "Filosofía", "Modelo Educativo"
               { duration: 360, easing: "cubic-bezier(.4, 0, .2, 1)" },
             );
             animations.set(item, animation);
-            requestAnimationFrame(() => item.classList.remove("is-opening"));
+            frames.set(
+              item,
+              requestAnimationFrame(() => {
+                frames.delete(item);
+                if (!signal.aborted) item.classList.remove("is-opening");
+              }),
+            );
             animation.onfinish = () => finish(item, false, animation);
             return;
           }
@@ -226,10 +279,6 @@ const items = ["Misión y Visión", "Objetivo", "Filosofía", "Modelo Educativo"
       });
   }
 
-  if (document.readyState === "loading")
-    document.addEventListener("DOMContentLoaded", setupAccordion, {
-      once: true,
-    });
-  else setupAccordion();
   document.addEventListener("astro:page-load", setupAccordion);
+  document.addEventListener("astro:before-swap", cleanupAccordion);
 </script>

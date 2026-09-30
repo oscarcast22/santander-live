@@ -10,6 +10,23 @@ const modelos = defineCollection({
   }),
 });
 
+const institucional = defineCollection({
+  loader: glob({ pattern: "*.json", base: "./src/content/institucional" }),
+  schema: z.object({
+    title: z.string(),
+    sourceUrl: z.url(),
+    history: z.array(z.string()),
+    sections: z.array(z.object({
+      title: z.string(),
+      blocks: z.array(z.object({
+        heading: z.string().optional(),
+        paragraphs: z.array(z.string()),
+      })),
+    })),
+    model: reference("modelos"),
+  }),
+});
+
 const programas = defineCollection({
   loader: glob({ pattern: "*.md", base: "./src/content/programas" }),
   schema: ({ image }) =>
@@ -32,4 +49,4 @@ const programas = defineCollection({
     }),
 });
 
-export const collections = { modelos, programas };
+export const collections = { modelos, programas, institucional };

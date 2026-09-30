@@ -1,0 +1,53 @@
+{
+  "title": "Nosotros",
+  "sourceUrl": "https://santanderlive.uad.mx/nosotros.html",
+  "history": [
+    "Fomento Educativo y Cultura Francisco de Ibarra A.C. es el organismo que da vida a nuestra casa de estudios el 11 de febrero de 1992, fecha desde la cual trabajamos incansablemente, siempre apegados a los conceptos filosóficos que han guiado nuestro accionar, los cuales nos impulsan al cumplimiento de los objetivos que nos hemos propuesto, colaborar día con día a mejorar las condiciones generales de nuestra región y contribuir al desarrollo de nuestro país.",
+    "La Universidad Autónoma de Durango pretende obtener un lugar en nuestra sociedad mediante el estímulo y fomento a la educación, a la cultura y a la investigación teniendo como elemento indispensable una visión hacia la excelencia que permita a los hombres de nuestra comunidad desarrollarse y vincularse productivamente con su país y con el exterior, crear en el seno de la comunidad universitaria hombres libres capaces de cambiar su entorno y manifestarse como personas útiles a su sociedad."
+  ],
+  "sections": [
+    {
+      "title": "Misión y Visión",
+      "blocks": [
+        {
+          "heading": "Misión",
+          "paragraphs": [
+            "Ser líderes en educación superior privada en el país mediante la implementación de nuestro modelo académico, teniendo como premisa fundamental alcanzar la excelencia educativa a través del estímulo y fomento de la cultura, la docencia y la investigación obteniendo un lugar en nuestra sociedad desarrollando profesionistas que colaboren en el crecimiento de nuestra comunidad y país."
+          ]
+        },
+        {
+          "heading": "Visión",
+          "paragraphs": [
+            "La Universidad Autónoma de Durango como institución cimentada en la cultura de la excelencia académica, forma profesionales que como personas íntegras contribuyen al desarrollo de una sociedad más libre, más justa y más próspera, comprometidos con la creación, dirección y orientación de opinión pública, instituciones y obras; de esta manera, nuestros egresados son capaces de crear y difundir conocimientos del más alto nivel profesional, ético y científico, lo que les permite desarrollarse y vincularse productivamente con su comunidad, su país, y con el exterior. Así, en el seno de la comunidad universitaria se forman hombres y mujeres libres capaces de cambiar su entorno y manifestarse como personas útiles a su sociedad."
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Objetivo",
+      "blocks": [
+        {
+          "paragraphs": [
+            "Con el propósito de avanzar en el logro de la excelencia, se trabaja incansablemente en la ampliación, diversificación y mejora de la oferta educativa, siempre apegados a los conceptos filosóficos que han guiado nuestro accionar, los cuales nos impulsan al cumplimiento de los objetivos que nos hemos propuesto para, a partir del trabajo en las aulas, colaborar día con día a mejorar las condiciones generales de nuestra región y contribuir al desarrollo de nuestro país.",
+            "De esta manera, aunque la importancia de la dimensión cognitiva de las materias académicas es relevante, no es limitada, ya que si bien se enfatiza fundamentalmente el desarrollo de la personalidad integral del estudiante considerando el “aprender a aprender”, las estrategias de aprendizaje y las habilidades metacognitivas como elementos centrales; se trabaja también, para desarrollar en nuestra institución un ambiente de aprendizaje que facilite el acceso al conocimiento. Desde esta perspectiva tienen también aplicación institucional las teorías del desarrollo humano, que se ocupan de la persona desde el punto de vista moral, emocional, y del auto concepto."
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Filosofía",
+      "blocks": [
+        {
+          "paragraphs": [
+            "En la UAD se busca participar en el desarrollo regional y del país a partir de impulsar las actividades de docencia, investigación científica, humanística y tecnológica y la extensión, preservación y difusión de la cultura.",
+            "En la institución prevalece la convicción de integrar, reestructurar y renovar los programas educativos en función de las necesidades regionales, de los estados y del país para garantizar en los futuros profesionistas un desenvolvimiento racional eficiente aunado a una formación humana que responda a los valores de responsabilidad, tolerancia, creatividad y libertad.",
+            "Del mismo modo, la Universidad participa en forma dinámica en la elaboración y puesta en práctica de planes y programas de estudio en diversas disciplinas; así mismo, trabaja en la implementación de hábitos y costumbres que permitan a nuestros alumnos hacer crecer y desarrollar su potencial humano.",
+            "Aunado a los anteriores propósitos, también procuramos un clima de trabajo adecuado para desarrollar en nuestros estudiantes la noción de la competencia y la lealtad como una manifestación de superación, y el sentido regionalista que permita a los miembros de esta casa de estudios cultivar el respeto y amor hacia nuestro país, México. De esta manera, parte de la dinámica en el ambiente institucional está constituida por el proceso ininterrumpido de superación académica de los profesores que imparten los diferentes programas educativos para consolidar un ambiente de aprendizaje que facilite el acceso al conocimiento.",
+            "Para alcanzar estas metas la Universidad reconoce tres principios básicos como normas de su actividad: libertad de cátedra, autonomía universitaria y sentido comunitario."
+          ]
+        }
+      ]
+    }
+  ],
+  "model": "modelo-educativo"
+}
