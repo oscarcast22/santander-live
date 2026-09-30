@@ -62,18 +62,12 @@ flushProfileList();
 const tabs = [
   { id: "modelo", label: "Modelo Educativo" },
   { id: "plan", label: "Plan de Estudios" },
-  ...(hasGraduateProfile
-    ? [{ id: "perfil", label: "Perfil de Egreso" }]
-    : []),
+  ...(hasGraduateProfile ? [{ id: "perfil", label: "Perfil de Egreso" }] : []),
 ];
 ---
 
 <div class="program-tabs" data-tabs>
-  <div
-    class="tab-list"
-    role="tablist"
-    aria-label={`Información de ${title}`}
-  >
+  <div class="tab-list" role="tablist" aria-label={`Información de ${title}`}>
     {
       tabs.map((tab, index) => (
         <button
@@ -124,7 +118,9 @@ const tabs = [
             <section class="curriculum-period">
               <h2>{period}</h2>
               <ul>
-                {subjects.map((subject) => <li>{subject}</li>)}
+                {subjects.map((subject) => (
+                  <li>{subject}</li>
+                ))}
               </ul>
             </section>
           ))}
@@ -149,7 +145,9 @@ const tabs = [
             if (block.type === "list") {
               return (
                 <ul>
-                  {block.items.map((item) => <li>{item}</li>)}
+                  {block.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
                 </ul>
               );
             }
@@ -278,68 +276,107 @@ const tabs = [
   }
 </style>
 <script>
-  document.querySelectorAll<HTMLElement>("[data-tabs]").forEach((root) => {
-    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
-    const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let selectedIndex = 0;
-    let panelAnimation: Animation | undefined;
+  let tabsController: AbortController | undefined;
 
-    const select = (index: number, focus = false) => {
-      if (index === selectedIndex) {
-        if (focus) tabs[index]?.focus();
-        return;
-      }
+  function cleanupTabs() {
+    tabsController?.abort();
+    tabsController = undefined;
+  }
 
-      const direction = index > selectedIndex ? 1 : -1;
-      panelAnimation?.cancel();
-      panelAnimation = undefined;
+  function setupTabs() {
+    cleanupTabs();
+    tabsController = new AbortController();
+    const { signal } = tabsController;
+    document.querySelectorAll<HTMLElement>("[data-tabs]").forEach((root) => {
+      const tabs = [
+        ...root.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
+      ];
+      const panels = [
+        ...root.querySelectorAll<HTMLElement>('[role="tabpanel"]'),
+      ];
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      );
+      let selectedIndex = Math.max(
+        0,
+        tabs.findIndex((tab) => tab.getAttribute("aria-selected") === "true"),
+      );
+      let panelAnimation: Animation | undefined;
+      signal.addEventListener(
+        "abort",
+        () => {
+          if (panelAnimation) {
+            panelAnimation.onfinish = null;
+            panelAnimation.cancel();
+            panelAnimation = undefined;
+          }
+        },
+        { once: true },
+      );
 
-      tabs.forEach((tab, i) => {
-        tab.setAttribute("aria-selected", String(i === index));
-        tab.tabIndex = i === index ? 0 : -1;
-        if (focus && i === index) tab.focus();
-      });
-      panels.forEach((panel, i) => {
-        panel.hidden = i !== index;
-      });
-      selectedIndex = index;
+      const select = (index: number, focus = false) => {
+        if (index === selectedIndex) {
+          if (focus) tabs[index]?.focus();
+          return;
+        }
 
-      const panel = panels[index];
-      if (panel && !reducedMotion.matches) {
-        const animation = panel.animate(
-          [
-            { opacity: 0, transform: `translateX(${direction * 8}px)` },
-            { opacity: 1, transform: "translateX(0)" },
-          ],
-          { duration: 200, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
-        );
-        panelAnimation = animation;
-        animation.onfinish = () => {
-          if (panelAnimation === animation) panelAnimation = undefined;
-        };
-      }
-    };
-    tabs.forEach((tab, index) => {
-      tab.addEventListener("click", () => select(index));
-      tab.addEventListener("keydown", (event) => {
-        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
-          event.preventDefault();
-          select(
-            (index + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) %
-              tabs.length,
-            true,
+        const direction = index > selectedIndex ? 1 : -1;
+        panelAnimation?.cancel();
+        panelAnimation = undefined;
+
+        tabs.forEach((tab, i) => {
+          tab.setAttribute("aria-selected", String(i === index));
+          tab.tabIndex = i === index ? 0 : -1;
+          if (focus && i === index) tab.focus();
+        });
+        panels.forEach((panel, i) => {
+          panel.hidden = i !== index;
+        });
+        selectedIndex = index;
+
+        const panel = panels[index];
+        if (panel && !reducedMotion.matches) {
+          const animation = panel.animate(
+            [
+              { opacity: 0, transform: `translateX(${direction * 8}px)` },
+              { opacity: 1, transform: "translateX(0)" },
+            ],
+            { duration: 200, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
           );
+          panelAnimation = animation;
+          animation.onfinish = () => {
+            if (panelAnimation === animation) panelAnimation = undefined;
+          };
         }
-        if (event.key === "Home") {
-          event.preventDefault();
-          select(0, true);
-        }
-        if (event.key === "End") {
-          event.preventDefault();
-          select(tabs.length - 1, true);
-        }
+      };
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => select(index), { signal });
+        tab.addEventListener(
+          "keydown",
+          (event) => {
+            if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+              event.preventDefault();
+              select(
+                (index + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) %
+                  tabs.length,
+                true,
+              );
+            }
+            if (event.key === "Home") {
+              event.preventDefault();
+              select(0, true);
+            }
+            if (event.key === "End") {
+              event.preventDefault();
+              select(tabs.length - 1, true);
+            }
+          },
+          { signal },
+        );
       });
     });
-  });
+  }
+
+  document.addEventListener("astro:page-load", setupTabs);
+  document.addEventListener("astro:before-swap", cleanupTabs);
 </script>

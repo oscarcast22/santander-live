@@ -63,14 +63,16 @@ const menuLinks = [
                             type="button"
                             aria-expanded="false"
                             aria-controls="panel-licenciaturas"
-                            >Licenciaturas</button>
+                            >Licenciaturas</button
+                        >
                     </li>
                     <li class="menu-item has-panel" data-menu="posgrados">
                         <button
                             class="menu-trigger"
                             type="button"
                             aria-expanded="false"
-                            aria-controls="panel-posgrados">Posgrados</button>
+                            aria-controls="panel-posgrados">Posgrados</button
+                        >
                     </li>
                     {
                         menuLinks.map(({ label, href }) => (
@@ -91,8 +93,8 @@ const menuLinks = [
                     <li class="menu-action">
                         <span
                             class="button button--preinscription"
-                            title="Enlace de ingreso por definir"
-                            >Ingresar</span>
+                            title="Enlace de ingreso por definir">Ingresar</span
+                        >
                     </li>
                 </ul>
             </nav>
@@ -204,7 +206,8 @@ const menuLinks = [
                 <li class="mobile-menu-actions">
                     <span
                         class="button button--preinscription"
-                        title="Enlace de ingreso por definir">Ingresar</span>
+                        title="Enlace de ingreso por definir">Ingresar</span
+                    >
                 </li>
             </ul>
         </nav>
@@ -285,7 +288,9 @@ const menuLinks = [
                             {
                                 doctorados.map((program) => (
                                     <li>
-                                        <a href={`/posgrados/${program.data.slug}`}>
+                                        <a
+                                            href={`/posgrados/${program.data.slug}`}
+                                        >
                                             {program.data.title}
                                         </a>
                                     </li>
@@ -360,7 +365,7 @@ const menuLinks = [
     .menu-trigger,
     .button {
         color: var(--gray-900);
-        font-size: var(--text-xs);
+        font-size: var(--text-sm);
         font-weight: 550;
         text-decoration: none;
         white-space: nowrap;
@@ -397,7 +402,7 @@ const menuLinks = [
         cursor: pointer;
         position: relative;
         font-family: inherit;
-        font-size: inherit;
+        font-size: var(--text-sm);
     }
     .menu-action {
         display: flex;
@@ -411,7 +416,7 @@ const menuLinks = [
         padding: 0.38rem 0.9rem;
         border: 1px solid transparent;
         border-radius: 15px;
-        font-size: var(--text-xs);
+        font-size: var(--text-sm);
         font-weight: 600;
         line-height: 1;
         letter-spacing: 0.01em;
@@ -594,7 +599,7 @@ const menuLinks = [
         .menu-item > a,
         .menu-trigger,
         .button {
-            font-size: var(--text-xs);
+            font-size: var(--text-sm);
         }
         .button {
             min-height: 28px;
@@ -845,8 +850,16 @@ const menuLinks = [
     let lastScrollY = 0;
     let headerHidden = false;
 
-    function setupNav() {
+    function cleanupNav() {
         navController?.abort();
+        navController = undefined;
+        window.clearTimeout(closeTimer);
+        closeTimer = undefined;
+        transitionToken++;
+    }
+
+    function setupNav() {
+        cleanupNav();
         navController = new AbortController();
         const { signal } = navController;
         const header = document.querySelector<HTMLElement>("header");
@@ -871,6 +884,49 @@ const menuLinks = [
         let clickOpenedPanel: string | undefined;
 
         if (!header || !menuToggle || !megaRegion || !navRow) return;
+
+        const frames = new Set<number>();
+        const heightTransitions = new Map<
+            HTMLElement,
+            (event: TransitionEvent) => void
+        >();
+        const nextFrame = (callback: () => void) => {
+            const frame = requestAnimationFrame(() => {
+                frames.delete(frame);
+                if (!signal.aborted) callback();
+            });
+            frames.add(frame);
+        };
+        const onHeightTransition = (
+            element: HTMLElement,
+            complete: () => void,
+        ) => {
+            const previous = heightTransitions.get(element);
+            if (previous)
+                element.removeEventListener("transitionend", previous);
+            const handler = (event: TransitionEvent) => {
+                if (event.target !== element || event.propertyName !== "height")
+                    return;
+                element.removeEventListener("transitionend", handler);
+                heightTransitions.delete(element);
+                complete();
+            };
+            heightTransitions.set(element, handler);
+            element.addEventListener("transitionend", handler, { signal });
+        };
+        signal.addEventListener(
+            "abort",
+            () => {
+                frames.forEach((frame) => cancelAnimationFrame(frame));
+                frames.clear();
+                heightTransitions.clear();
+                mobileTransitionToken++;
+                header
+                    .getAnimations({ subtree: true })
+                    .forEach((animation) => animation.cancel());
+            },
+            { once: true },
+        );
 
         const isDesktop = () => window.innerWidth > desktopBreakpoint;
         const getCurrentPanel = () =>
@@ -934,23 +990,17 @@ const menuLinks = [
             setMenuState(nextName);
             const targetHeight = header.scrollHeight;
             header.getBoundingClientRect();
-            requestAnimationFrame(() => {
+            nextFrame(() => {
                 if (token === transitionToken)
                     header.style.height = `${targetHeight}px`;
             });
 
-            if (Math.abs(fromHeight - targetHeight) < 1) {
-                requestAnimationFrame(() => settleTransition(token));
+            if (reducedMotion || Math.abs(fromHeight - targetHeight) < 1) {
+                nextFrame(() => settleTransition(token));
                 return;
             }
 
-            const onTransitionEnd = (event: TransitionEvent) => {
-                if (event.propertyName !== "height") return;
-                header.removeEventListener("transitionend", onTransitionEnd);
-                settleTransition(token);
-            };
-
-            header.addEventListener("transitionend", onTransitionEnd);
+            onHeightTransition(header, () => settleTransition(token));
         };
 
         const openPanel = (name: string) => {
@@ -1075,22 +1125,15 @@ const menuLinks = [
             const endHeight = open ? panel.scrollHeight : 0;
             panel.style.height = `${startHeight}px`;
             panel.getBoundingClientRect();
-            requestAnimationFrame(() => {
+            nextFrame(() => {
                 if (mobilePanelTokens.get(panel) === token)
                     panel.style.height = `${endHeight}px`;
             });
 
-            const onTransitionEnd = (event: TransitionEvent) => {
-                if (
-                    event.target !== panel ||
-                    event.propertyName !== "height" ||
-                    mobilePanelTokens.get(panel) !== token
-                )
-                    return;
-                panel.removeEventListener("transitionend", onTransitionEnd);
-                panel.style.height = open ? "auto" : "";
-            };
-            panel.addEventListener("transitionend", onTransitionEnd);
+            onHeightTransition(panel, () => {
+                if (mobilePanelTokens.get(panel) === token)
+                    panel.style.height = open ? "auto" : "";
+            });
         };
 
         const setMobilePanel = (name?: string, immediate = false) => {
@@ -1143,25 +1186,19 @@ const menuLinks = [
                 ? Math.ceil(window.innerHeight)
                 : getCollapsedHeight();
             header.getBoundingClientRect();
-            requestAnimationFrame(() => {
+            nextFrame(() => {
                 if (token === mobileTransitionToken)
                     header.style.height = `${targetHeight}px`;
             });
 
             if (reducedMotion || Math.abs(fromHeight - targetHeight) < 1) {
-                requestAnimationFrame(() =>
-                    completeMobileTransition(open, token),
-                );
+                nextFrame(() => completeMobileTransition(open, token));
                 return;
             }
 
-            const onTransitionEnd = (event: TransitionEvent) => {
-                if (event.target !== header || event.propertyName !== "height")
-                    return;
-                header.removeEventListener("transitionend", onTransitionEnd);
-                completeMobileTransition(open, token);
-            };
-            header.addEventListener("transitionend", onTransitionEnd);
+            onHeightTransition(header, () =>
+                completeMobileTransition(open, token),
+            );
         };
 
         mobileMenuItems.forEach((item) => {
@@ -1255,7 +1292,5 @@ const menuLinks = [
     }
 
     document.addEventListener("astro:page-load", setupNav);
-    if (document.readyState === "loading")
-        document.addEventListener("DOMContentLoaded", setupNav, { once: true });
-    else setupNav();
+    document.addEventListener("astro:before-swap", cleanupNav);
 </script>
