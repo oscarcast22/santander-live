@@ -49,4 +49,12 @@ const programas = defineCollection({
     }),
 });
 
-export const collections = { modelos, programas, institucional };
+const avisos = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/avisos" }),
+  schema: z.object({
+    title: z.string(),
+    sourceUrl: z.url(),
+  }),
+});
+
+export const collections = { modelos, programas, institucional, avisos };

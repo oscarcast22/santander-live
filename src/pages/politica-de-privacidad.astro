@@ -1,26 +1,103 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getEntry, render } from "astro:content";
+
+const aviso = await getEntry("avisos", "confidencialidad");
+if (!aviso) throw new Error("No se encontró el aviso de confidencialidad.");
+const { Content } = await render(aviso);
 ---
 
 <BaseLayout
-  title="Política de Privacidad"
-  description="Política de Privacidad de Santander Live."
+  title={aviso.data.title}
+  description="Aviso de confidencialidad de datos personales de la Universidad Autónoma de Durango y Santander Live."
 >
   <main id="contenido" class="privacy-page container">
-    <h1>Política de Privacidad</h1>
-    <!-- El contenido definitivo se incorporará aquí. -->
+    <div class="privacy-column">
+      <h1>{aviso.data.title}</h1>
+      <article class="privacy-content" aria-label="Aviso de confidencialidad de datos personales">
+        <Content />
+      </article>
+    </div>
   </main>
 </BaseLayout>
 
 <style>
   .privacy-page {
     min-height: 60svh;
-    padding-top: 8rem;
+    padding-top: calc(28px + 350px * 80 / 430 + 48px);
     padding-bottom: 5rem;
+  }
+  .privacy-column {
+    max-width: 780px;
+    margin-inline: auto;
   }
   h1 {
     margin: 0;
-    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-size: 40px;
+    font-weight: var(--weight-semibold);
     line-height: 1.2;
+  }
+  .privacy-content {
+    margin-top: 32px;
+    color: var(--gray-200);
+    font-size: var(--text-base);
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+  }
+  .privacy-content :global(h2) {
+    margin: 36px 0 16px;
+    color: var(--gray-100);
+    font-size: 20px;
+    font-weight: var(--weight-semibold);
+    line-height: 1.4;
+  }
+  .privacy-content :global(p),
+  .privacy-content :global(ul) {
+    margin: 0 0 1rem;
+  }
+  .privacy-content :global(ul) {
+    padding-left: 1.5rem;
+  }
+  .privacy-content :global(li > p) {
+    margin-bottom: 6px;
+  }
+  .privacy-content :global(> p:first-child) {
+    margin-bottom: 24px;
+    font-size: var(--text-xs);
+    line-height: 1.5;
+  }
+  .privacy-content :global(a) {
+    text-underline-offset: 3px;
+  }
+  .privacy-content :global(h2[id]) {
+    scroll-margin-top: 110px;
+  }
+  @media (max-width: 1180px) {
+    .privacy-page {
+      padding-top: calc(28px + 245px * 80 / 430 + 48px);
+    }
+  }
+  @media (max-width: 899px) {
+    .privacy-page {
+      padding-top: calc(24px + 245px * 80 / 430 + 48px);
+    }
+  }
+  @media (max-width: 600px) {
+    .privacy-page {
+      padding-top: calc(24px + 245px * 80 / 430 + 32px);
+      padding-bottom: 3rem;
+      padding-inline: 24px;
+    }
+    h1 {
+      font-size: 28px;
+    }
+    .privacy-content :global(h2) {
+      font-size: 18px;
+    }
+  }
+  @media (max-width: 480px) {
+    .privacy-page {
+      padding-top: calc(24px + 210px * 80 / 430 + 32px);
+    }
   }
 </style>
