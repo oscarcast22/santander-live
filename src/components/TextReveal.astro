@@ -18,6 +18,11 @@ const words = text.trim().split(/\s+/);
       ))
     }
   </p>
+  <noscript>
+    <style is:inline>
+      scroll-text-reveal [data-reveal-word] { opacity: 1 !important; }
+    </style>
+  </noscript>
 </scroll-text-reveal>
 
 <style>
@@ -33,6 +38,11 @@ const words = text.trim().split(/\s+/);
   }
   [data-reveal-word] {
     display: inline-block;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal-word] {
+      opacity: 0.15;
+    }
   }
 </style>
 
@@ -50,12 +60,21 @@ const words = text.trim().split(/\s+/);
     connectedCallback() {
       if (this.motion) return;
       this.listeners = new AbortController();
+      const { signal } = this.listeners;
+      const refreshAfterFonts = () => {
+        void document.fonts.ready.then(() => {
+          if (!signal.aborted && this.isConnected) {
+            this.animation?.scrollTrigger?.refresh();
+          }
+        });
+      };
       document.addEventListener(
         "astro:page-load",
         () => {
           this.animation?.scrollTrigger?.refresh();
+          refreshAfterFonts();
         },
-        { signal: this.listeners.signal },
+        { signal },
       );
       const words = this.querySelectorAll<HTMLElement>("[data-reveal-word]");
       const trigger = this.closest("section") ?? this;
@@ -78,6 +97,7 @@ const words = text.trim().split(/\s+/);
           words.forEach((word) => word.style.removeProperty("opacity"));
         };
       });
+      refreshAfterFonts();
     }
 
     disconnectedCallback() {
