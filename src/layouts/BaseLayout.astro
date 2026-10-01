@@ -2,8 +2,7 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { ClientRouter } from "astro:transitions";
-import "@fontsource-variable/montserrat/wght.css";
-import "@fontsource-variable/montserrat/wght-italic.css";
+import { Font } from "astro:assets";
 import "../styles/global.css";
 
 interface Props {
@@ -20,6 +19,7 @@ const { title, description, footerSpacious = false } = Astro.props;
     <ClientRouter />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Font cssVariable="--font-montserrat" preload={[{ style: "normal" }]} />
     <meta name="description" content={description} />
     <title>{title} | Santander Live</title>
   </head>

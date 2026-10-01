@@ -26,7 +26,7 @@
   --weight-bold: 700;
   --content-max-width: 1280px;
   --page-gutter: 28px;
-  font-family: 'Montserrat Variable', Arial, sans-serif;
+  font-family: var(--font-montserrat);
   color: var(--gray-100);
   background: #fff;
   font-synthesis: none;
