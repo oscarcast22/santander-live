@@ -6,6 +6,7 @@ import ContactForm from "../components/ContactForm.astro";
 import SiteIcon from "../components/SiteIcon.astro";
 import TextReveal from "../components/TextReveal.astro";
 import OfferCards from "../components/OfferCards.astro";
+import PageMotion from "../components/PageMotion.astro";
 import { getCollection } from "astro:content";
 import hero from "../assets/hero-inicio.webp";
 import student from "../assets/estudiante-index.webp";
@@ -53,6 +54,7 @@ const benefits = [
   description="Estudia licenciaturas en modalidad Live Streaming con Santander Live."
   footerSpacious
 >
+  <PageMotion slot="head" profile="home" />
   <ParallaxHero
     image={hero}
     alt="Estudiante con audífonos y computadora"
@@ -64,7 +66,7 @@ const benefits = [
       </p>
     </div>
   </ParallaxHero>
-  <main id="contenido">
+  <main id="contenido" data-home-motion data-page-motion>
     <section
       class="benefit-section container"
       aria-label="Beneficios de Santander Live"

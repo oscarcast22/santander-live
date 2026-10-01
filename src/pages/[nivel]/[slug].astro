@@ -1,4 +1,5 @@
 ---
+import PageMotion from "../../components/PageMotion.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ParallaxHero from "../../components/ParallaxHero.astro";
 import ProgramTabs from "../../components/ProgramTabs.astro";
@@ -74,14 +75,15 @@ const description =
 ---
 
 <BaseLayout title={heading} description={description}>
+  <PageMotion slot="head" profile="program" />
   <ParallaxHero
     image={program.data.heroImage}
     alt="Estudiante en modalidad Live Streaming"
     variant="program"
   />
-  <main id="contenido">
+  <main id="contenido" data-page-motion>
     <article class="program-body container">
-      <h1>{heading}</h1>
+      <h1 data-page-reveal="block">{heading}</h1>
       {
         overviewBlocks.length > 0 && (
           <div class="program-overview">

@@ -1,0 +1,291 @@
+---
+interface Props {
+  profile: "home" | "about" | "program";
+}
+const { profile } = Astro.props;
+---
+
+<meta name="santander-motion" content={profile} />
+
+<script is:inline data-astro-rerun>
+  (() => {
+    const root = document.documentElement;
+    const previous = window.__santanderPageMotion;
+    if (previous) window.clearTimeout(previous.timer);
+    root.removeAttribute("data-page-motion-state");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      window.__santanderPageMotion = undefined;
+      return;
+    }
+    root.dataset.pageMotionState = "pending";
+    window.__santanderPageMotion = {
+      timer: window.setTimeout(() => {
+        if (root.dataset.pageMotionState === "pending") {
+          root.dataset.pageMotionState = "expired";
+        }
+      }, 1500),
+    };
+  })();
+</script>
+
+<style is:global>
+  main[data-page-motion] .button[data-scroll-reveal="active"] {
+    transition-property: background-color;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html[data-page-motion-state="pending"] main[data-home-motion] :is(
+      .benefit, .lbs-device, .education-copy > h2,
+      .education-copy > ul, .education-copy > .button, .lbs-copy,
+      .offer-card
+    ) {
+      opacity: 0;
+    }
+    html[data-page-motion-state="pending"] [data-page-reveal] {
+      opacity: 0;
+    }
+    html[data-page-motion-state="pending"] [data-page-reveal="hero"] {
+      filter: blur(6px);
+      transform: translateY(16px);
+    }
+    html[data-page-motion-state="pending"] .parallax-home .hero-copy > * {
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(26px);
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  interface RevealOptions {
+    duration?: number;
+    y?: number;
+    blur?: number;
+    delay?: number;
+    hero?: boolean;
+    stagger?: number;
+  }
+
+  const bootstrapWindow = window as Window & {
+    __santanderPageMotion?: { timer: number };
+  };
+  let activePage: HTMLElement | undefined;
+  let cleanup: (() => void) | undefined;
+  let restoreScrollBehavior: (() => void) | undefined;
+
+  const stop = () => {
+    cleanup?.();
+    cleanup = undefined;
+    activePage = undefined;
+    restoreScrollBehavior?.();
+    restoreScrollBehavior = undefined;
+    window.clearTimeout(bootstrapWindow.__santanderPageMotion?.timer);
+    bootstrapWindow.__santanderPageMotion = undefined;
+    document.documentElement.removeAttribute("data-page-motion-state");
+  };
+
+  const initialize = () => {
+    const page = document.querySelector<HTMLElement>("main[data-page-motion]");
+    if (page === activePage) return;
+    cleanup?.();
+    cleanup = undefined;
+    activePage = page ?? undefined;
+    if (!page) return;
+
+    const profile = document.querySelector<HTMLMetaElement>('meta[name="santander-motion"]')?.content;
+    const controller = new AbortController();
+    const { signal } = controller;
+    const revealed = new WeakSet<HTMLElement>();
+    const started = new WeakSet<HTMLElement>();
+    const animations = new Map<HTMLElement, gsap.core.Tween>();
+    const motion = gsap.matchMedia();
+    const root = document.documentElement;
+    const prepareHero = root.dataset.pageMotionState === "pending";
+    let refreshFrame = 0;
+
+    const refresh = () => {
+      if (signal.aborted) return;
+      cancelAnimationFrame(refreshFrame);
+      refreshFrame = requestAnimationFrame(() => {
+        refreshFrame = 0;
+        if (!signal.aborted) ScrollTrigger.refresh(true);
+      });
+    };
+    const finish = (element: HTMLElement, animation: gsap.core.Tween) => {
+      animation.delay(0).progress(1);
+      animation.scrollTrigger?.kill(false, true);
+      revealed.add(element);
+    };
+    const finishInteraction = (event: Event) => {
+      if (!(event.target instanceof Node)) return;
+      for (const [element, animation] of animations) {
+        if (element.contains(event.target)) finish(element, animation);
+      }
+    };
+    document.addEventListener("focusin", finishInteraction, { signal });
+    document.addEventListener("pointerdown", finishInteraction, {
+      capture: true,
+      signal,
+    });
+    page.querySelectorAll("img").forEach((image) => {
+      image.addEventListener("load", refresh, { once: true, signal });
+    });
+    void document.fonts.ready.then(refresh);
+    if (profile !== "home") {
+      const observer = new ResizeObserver(refresh);
+      page.querySelectorAll(".accordion, .program-tabs").forEach((element) => observer.observe(element));
+      signal.addEventListener("abort", () => observer.disconnect(), { once: true });
+    }
+
+    motion.add({
+      enabled: "(prefers-reduced-motion: no-preference)",
+      rows: "(min-width: 601px)",
+    }, (context) => {
+      if (!context.conditions?.enabled) {
+        page.querySelectorAll<HTMLElement>(
+          ".benefit, .lbs-device, .education-copy > h2, .education-copy > ul, .education-copy > .button, .lbs-copy, .offer-card",
+        ).forEach((element) => revealed.add(element));
+        document.querySelectorAll<HTMLElement>(".parallax-home .hero-copy > *, [data-page-reveal]")
+          .forEach((element) => revealed.add(element));
+        window.clearTimeout(bootstrapWindow.__santanderPageMotion?.timer);
+        root.removeAttribute("data-page-motion-state");
+        return;
+      }
+      const desktop = context.conditions.rows;
+      const reveal = (
+        targets: HTMLElement | HTMLElement[],
+        options: RevealOptions = {},
+        trigger?: HTMLElement,
+      ) => {
+        const { duration = 0.56, y = 24, blur = 9, delay = 0, hero = false, stagger = 0.12 } = options;
+        const elements = (Array.isArray(targets) ? targets : [targets]).filter((element) => {
+          if (revealed.has(element)) return false;
+          const bounds = element.getBoundingClientRect();
+          // Restored scroll and anchors should never hide already-passed content.
+          if (bounds.bottom <= 0 ||
+            (!prepareHero && bounds.top < window.innerHeight) ||
+            (hero && window.scrollY > 0)) {
+            revealed.add(element);
+            return false;
+          }
+          return true;
+        });
+        if (!elements.length) return;
+        const original = elements.map((element) => ({
+          element,
+          properties: ["opacity", "transform", "filter"].map((property) => ({
+            property,
+            value: element.style.getPropertyValue(property),
+            priority: element.style.getPropertyPriority(property),
+          })),
+        }));
+        elements.forEach((element) => {
+          if (element.matches(".button")) element.dataset.scrollReveal = "active";
+        });
+        gsap.set(elements, { opacity: 0, y, filter: `blur(${blur}px)` });
+        const animation = gsap.to(elements, {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration,
+          delay,
+          stagger: elements.length > 1 ? stagger : 0,
+          ease: "power3.out",
+          onStart: () => elements.forEach((element) => started.add(element)),
+          onComplete: () => {
+            for (const { element, properties } of original) {
+              revealed.add(element);
+              for (const { property, value, priority } of properties) {
+                if (value) element.style.setProperty(property, value, priority);
+                else element.style.removeProperty(property);
+              }
+              element.removeAttribute("data-scroll-reveal");
+            }
+          },
+          ...(hero ? {} : {
+            scrollTrigger: {
+              trigger: trigger ?? elements[0],
+              start: "top 75%",
+              once: true,
+              invalidateOnRefresh: true,
+            },
+          }),
+        });
+        elements.forEach((element) => animations.set(element, animation));
+      };
+      const group = (selector: string, options: RevealOptions = {}, rowSelector?: string) => {
+        const elements = [...page.querySelectorAll<HTMLElement>(selector)];
+        const row = rowSelector ? page.querySelector<HTMLElement>(rowSelector) : null;
+        if (desktop && row) reveal(elements, options, row);
+        else elements.forEach((element) => reveal(element, options));
+      };
+      if (profile === "home") {
+        document.querySelectorAll<HTMLElement>(".parallax-home .hero-copy > *")
+          .forEach((element, index) => reveal(element, {
+            hero: true, duration: 0.58, y: 26, blur: 10, delay: 0.08 + index * 0.075,
+          }));
+        group(".benefit", {}, ".benefits");
+        group(".lbs-device", { duration: 0.82, y: 36, blur: 10 });
+        group(".education-copy > h2, .education-copy > ul, .education-copy > .button, .lbs-copy");
+        group(".offer-card", { duration: 0.72, y: 26, blur: 10 }, ".offers");
+      } else {
+        const subtle: RevealOptions = { duration: 0.5, y: 16, blur: 6, stagger: 0 };
+        document.querySelectorAll<HTMLElement>('[data-page-reveal="hero"]')
+          .forEach((element) => reveal(element, { ...subtle, hero: true }));
+        page.querySelectorAll<HTMLElement>('[data-page-reveal="block"]')
+          .forEach((element) => reveal(element, subtle));
+      }
+
+      window.clearTimeout(bootstrapWindow.__santanderPageMotion?.timer);
+      root.dataset.pageMotionState = "active";
+      refresh();
+      return () => {
+        // Finish started rows on resize; pending entries can adopt the new layout.
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const finished = new Set<gsap.core.Tween>();
+        for (const [element, animation] of animations) {
+          if ((reduced || signal.aborted || started.has(element)) && !finished.has(animation)) {
+            finish(element, animation);
+            finished.add(animation);
+          }
+          element.removeAttribute("data-scroll-reveal");
+        }
+        animations.clear();
+      };
+    });
+
+    cleanup = () => {
+      controller.abort();
+      cancelAnimationFrame(refreshFrame);
+      motion.revert();
+      animations.clear();
+    };
+    restoreScrollBehavior?.();
+    restoreScrollBehavior = undefined;
+  };
+
+  document.addEventListener("astro:before-swap", (event) => {
+    stop();
+    if (event.newDocument.querySelector("main[data-page-motion]") &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      event.newDocument.documentElement.dataset.pageMotionState = "pending";
+    }
+    if (event.newDocument.querySelector("main[data-page-motion]")) {
+      // Finish the router's scroll restoration before ScrollTrigger measures it.
+      const incomingRoot = event.newDocument.documentElement;
+      const previous = incomingRoot.style.getPropertyValue("scroll-behavior");
+      const priority = incomingRoot.style.getPropertyPriority("scroll-behavior");
+      incomingRoot.style.setProperty("scroll-behavior", "auto");
+      restoreScrollBehavior = () => {
+        const root = document.documentElement;
+        if (previous) root.style.setProperty("scroll-behavior", previous, priority);
+        else root.style.removeProperty("scroll-behavior");
+      };
+    }
+  });
+  document.addEventListener("astro:page-load", initialize);
+</script>
