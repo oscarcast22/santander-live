@@ -21,93 +21,133 @@ const doctorados = postgraduatePrograms.filter(
 <section class="contact" id="contacto" aria-labelledby="contact-title">
   <div class="contact-inner">
     <h2 id="contact-title">¿Listo para el siguiente paso a tu futuro?</h2>
-    <form aria-label="Solicitud de información" data-astro-reload>
-      <div class="form-group">
-        <label for="contact-nombre">Tu nombre</label>
-        <input
-          id="contact-nombre"
-          name="nombre"
-          type="text"
-          autocomplete="name"
-          placeholder="Nombre y apellido"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="contact-telefono">Número de teléfono</label>
-        <input
-          id="contact-telefono"
-          name="telefono"
-          type="tel"
-          autocomplete="tel"
-          inputmode="tel"
-          placeholder="Ingresa tu número de teléfono"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="contact-correo">Correo electrónico</label>
-        <input
-          id="contact-correo"
-          name="correo"
-          type="email"
-          autocomplete="email"
-          placeholder="Ingresa tu correo electrónico"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <ProgramSelect
-          id="contact-programa"
-          name="programa"
-          label="Licenciatura o Posgrado de interés"
-          required
-          groups={[
-            {
-              label: "Licenciaturas",
-              options: licensePrograms.map(({ data }) => ({
-                value: data.slug,
-                label: data.title,
-              })),
-            },
-            {
-              label: "Maestrías",
-              options: maestrias.map(({ data }) => ({
-                value: `Maestría en ${data.title}`,
-                label: data.title,
-              })),
-            },
-            {
-              label: "Doctorados",
-              options: doctorados.map(({ data }) => ({
-                value: `Doctorado en ${data.title}`,
-                label: data.title,
-              })),
-            },
-          ]}
-        />
-      </div>
-      <label class="privacy" for="contact-privacidad">
-        <input
-          id="contact-privacidad"
-          type="checkbox"
-          name="privacidad"
-          required
-        />
-        <span
-          >He leído el aviso de privacidad aplicable a esta solicitud de
-          contacto.</span
-        >
-      </label>
-      <button class="button" type="submit" disabled
-        >Recibir más información</button
+    <div class="form-transition" data-contact-transition>
+      <form
+        name="contacto"
+        method="POST"
+        action="/"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        aria-label="Solicitud de información"
+        data-contact-form
+        data-astro-reload
       >
-      <p class="privacy-note">
-        Tus datos están protegidos por nuestra <a href="/politica-de-privacidad"
-          >Política de Privacidad.</a
+        <input type="hidden" name="form-name" value="contacto" />
+        <p class="honeypot" aria-hidden="true">
+          <label
+            >Deja este campo vacío <input
+              name="bot-field"
+              tabindex="-1"
+              autocomplete="off"
+            /></label
+          >
+        </p>
+        <div class="form-group">
+          <label for="contact-nombre">Tu nombre</label>
+          <input
+            id="contact-nombre"
+            name="nombre"
+            type="text"
+            autocomplete="name"
+            placeholder="Nombre y apellido"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="contact-telefono">Número de teléfono</label>
+          <input
+            id="contact-telefono"
+            name="telefono"
+            type="tel"
+            autocomplete="tel"
+            inputmode="tel"
+            placeholder="Ingresa tu número de teléfono"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="contact-correo">Correo electrónico</label>
+          <input
+            id="contact-correo"
+            name="correo"
+            type="email"
+            autocomplete="email"
+            placeholder="Ingresa tu correo electrónico"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <ProgramSelect
+            id="contact-programa"
+            name="programa"
+            label="Licenciatura o Posgrado de interés"
+            required
+            groups={[
+              {
+                label: "Licenciaturas",
+                options: licensePrograms.map(({ data }) => ({
+                  value: data.title,
+                  label: data.title,
+                })),
+              },
+              {
+                label: "Maestrías",
+                options: maestrias.map(({ data }) => ({
+                  value: `Maestría en ${data.title}`,
+                  label: data.title,
+                })),
+              },
+              {
+                label: "Doctorados",
+                options: doctorados.map(({ data }) => ({
+                  value: `Doctorado en ${data.title}`,
+                  label: data.title,
+                })),
+              },
+            ]}
+          />
+        </div>
+        <label class="privacy" for="contact-privacidad">
+          <input
+            id="contact-privacidad"
+            type="checkbox"
+            name="privacidad"
+            value="acepto"
+            required
+          />
+          <span
+            >He leído el aviso de privacidad aplicable a esta solicitud de
+            contacto.</span
+          >
+        </label>
+        <button class="button" type="submit" data-submit-button
+          >Recibir más información</button
         >
-      </p>
-    </form>
+        <p class="privacy-note">
+          Tus datos están protegidos por nuestra <a
+            href="/politica-de-privacidad">Política de Privacidad.</a
+          >
+        </p>
+        <p class="form-error" data-form-error role="alert" hidden></p>
+      </form>
+      <div
+        class="contact-success"
+        data-form-success
+        role="status"
+        tabindex="-1"
+        hidden
+      >
+        <svg class="success-check" viewBox="0 0 80 80" aria-hidden="true">
+          <circle cx="40" cy="40" r="34"></circle>
+          <path d="m24 41 10 10 22-23"></path>
+        </svg>
+        <h3>¡Gracias por escribirnos!</h3>
+        <p>
+          Hemos recibido tu solicitud. Un asesor se pondrá en contacto contigo
+          pronto.
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -129,11 +169,18 @@ const doctorados = postgraduatePrograms.filter(
     line-height: 1.2;
     font-weight: var(--weight-bold);
   }
-  form {
+  .form-transition {
+    position: relative;
     width: min(100%, 54.688vw, 1050px);
     margin-left: min(1.953vw, 37.5px);
+  }
+  form {
     display: flex;
     flex-direction: column;
+  }
+  .form-transition.is-success form {
+    opacity: 0;
+    pointer-events: none;
   }
   .form-group {
     margin-bottom: 1rem;
@@ -216,9 +263,82 @@ const doctorados = postgraduatePrograms.filter(
     font-size: var(--text-sm);
   }
   .contact .button:disabled {
-    cursor: not-allowed;
+    cursor: wait;
     opacity: 1;
     transform: none;
+  }
+  [hidden] {
+    display: none !important;
+  }
+  .honeypot {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .form-error {
+    margin: 1rem 0 0;
+    color: #ff9bab;
+    font-size: var(--text-sm);
+  }
+  .contact-success {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+  }
+  .contact-success h3 {
+    margin: 1rem 0 0;
+    font-size: clamp(1.8rem, 3vw, 2.45rem);
+    line-height: 1.15;
+  }
+  .contact-success p {
+    max-width: 34ch;
+    margin: 0.7rem 0 1.3rem;
+    font-size: var(--text-sm);
+    line-height: 1.55;
+  }
+  .success-check {
+    width: 4.5rem;
+    height: 4.5rem;
+    fill: none;
+    stroke: var(--red-200);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .success-check circle {
+    stroke-dasharray: 214;
+    animation: draw-contact-stroke 500ms ease both;
+  }
+  .success-check path {
+    stroke-dasharray: 43;
+    animation: draw-contact-stroke 350ms ease 500ms both;
+  }
+  @keyframes draw-contact-stroke {
+    from {
+      stroke-dashoffset: 214;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  .success-check path {
+    animation-name: draw-contact-mark;
+  }
+  @keyframes draw-contact-mark {
+    from {
+      stroke-dashoffset: 43;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
   }
   .privacy-note {
     margin: 2.625rem 0 0;
@@ -235,10 +355,10 @@ const doctorados = postgraduatePrograms.filter(
       padding: 4rem var(--page-gutter);
     }
     .contact-inner,
-    form {
+    .form-transition {
       width: 100%;
     }
-    form {
+    .form-transition {
       margin-left: 0;
     }
     h2 {
@@ -251,9 +371,132 @@ const doctorados = postgraduatePrograms.filter(
     }
   }
   @media (prefers-reduced-motion: reduce) {
+    .success-check circle,
+    .success-check path {
+      animation: none;
+    }
     .form-group input,
     .form-group select {
       transition: none;
     }
   }
 </style>
+
+<script>
+  let cleanupContact: (() => void) | undefined;
+
+  function setupContact() {
+    cleanupContact?.();
+    const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+    const wrapper = form?.closest<HTMLElement>("[data-contact-transition]");
+    const button = form?.querySelector<HTMLButtonElement>(
+      "[data-submit-button]",
+    );
+    const error = form?.querySelector<HTMLElement>("[data-form-error]");
+    const success = wrapper?.querySelector<HTMLElement>("[data-form-success]");
+    if (!form || !wrapper || !button || !error || !success) return;
+    const controller = new AbortController();
+    const label = button.textContent ?? "Recibir más información";
+    const animations: Animation[] = [];
+    let submitting = false;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    cleanupContact = () => {
+      controller.abort();
+      clearTimeout(timeout);
+      animations.forEach((animation) => animation.cancel());
+      wrapper.classList.remove("is-success");
+      form.inert = false;
+      form.removeAttribute("aria-hidden");
+      success.hidden = true;
+      form.removeAttribute("aria-busy");
+      button.disabled = false;
+      button.textContent = label;
+    };
+
+    form.addEventListener(
+      "submit",
+      async (event) => {
+        event.preventDefault();
+        if (
+          submitting ||
+          wrapper.classList.contains("is-success") ||
+          !form.reportValidity()
+        )
+          return;
+        submitting = true;
+        error.hidden = true;
+        form.setAttribute("aria-busy", "true");
+        button.disabled = true;
+        button.textContent = "Enviando…";
+        const request = new AbortController();
+        controller.signal.addEventListener("abort", () => request.abort(), {
+          once: true,
+          signal: request.signal,
+        });
+        timeout = setTimeout(() => request.abort(), 30000);
+        try {
+          const fields = new URLSearchParams();
+          new FormData(form).forEach((value, key) =>
+            fields.append(key, String(value)),
+          );
+          const response = await fetch(form.action, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: fields.toString(),
+            signal: request.signal,
+          });
+          if (!response.ok)
+            throw new Error("No fue posible enviar tu solicitud.");
+          if (controller.signal.aborted) return;
+          const reduced = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+          ).matches;
+          form.inert = true;
+          form.setAttribute("aria-hidden", "true");
+          if (!reduced) {
+            const fade = form.animate([{ opacity: 1 }, { opacity: 0 }], {
+              duration: 220,
+              easing: "ease",
+              fill: "forwards",
+            });
+            animations.push(fade);
+            await fade.finished;
+          }
+          wrapper.classList.add("is-success");
+          success.hidden = false;
+          if (!reduced) {
+            const reveal = success.animate(
+              [
+                { opacity: 0, transform: "translateY(1rem)" },
+                { opacity: 1, transform: "translateY(0)" },
+              ],
+              { duration: 260, easing: "ease" },
+            );
+            animations.push(reveal);
+          }
+          success.focus({ preventScroll: true });
+        } catch {
+          if (controller.signal.aborted) return;
+          error.textContent =
+            "No fue posible enviar tu solicitud. Inténtalo nuevamente en unos minutos.";
+          error.hidden = false;
+        } finally {
+          clearTimeout(timeout);
+          request.abort();
+          if (!controller.signal.aborted) {
+            submitting = false;
+            form.removeAttribute("aria-busy");
+            button.disabled = false;
+            button.textContent = label;
+          }
+        }
+      },
+      { signal: controller.signal },
+    );
+  }
+  document.addEventListener("astro:page-load", setupContact);
+  document.addEventListener("astro:before-swap", () => {
+    cleanupContact?.();
+    cleanupContact = undefined;
+  });
+</script>
