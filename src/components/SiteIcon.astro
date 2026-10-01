@@ -37,7 +37,14 @@ const benefitIcon = name === "classroom" || name === "clock" || name === "book";
 
 {
   iconSrc ? (
-    <img class="site-icon-image" src={iconSrc} alt="" aria-hidden="true" />
+    <img
+      class="site-icon-image"
+      src={iconSrc}
+      alt=""
+      aria-hidden="true"
+      width={benefitIcon ? 54 : 32}
+      height={benefitIcon ? 54 : 32}
+    />
   ) : (
     <svg
       class:list={[
