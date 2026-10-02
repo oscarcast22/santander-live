@@ -10,7 +10,8 @@ import PageMotion from "../components/PageMotion.astro";
 import { getCollection } from "astro:content";
 import hero from "../assets/hero-inicio.webp";
 import student from "../assets/estudiante-index.webp";
-import laptop from "../assets/laptop-lbs.webp";
+import laptop from "../assets/laptop-lbs.png";
+import lbsLogo from "../assets/lbs.svg?url";
 
 const programs = await getCollection("programas");
 const sortPrograms = (items: typeof programs) =>
@@ -113,7 +114,9 @@ const benefits = [
     </section>
     <section class="lbs container" aria-labelledby="lbs-title">
       <div class="lbs-copy">
-        <h2 id="lbs-title">Libros <span>LBS+</span></h2>
+        <h2 id="lbs-title">
+          <img src={lbsLogo} alt="Libros LBS+" width="410" height="70" />
+        </h2>
         <p class="lbs-kicker">Todo en un Solo Lugar</p>
         <p>
           LBS+ (Learning Bicultural System) es un sistema educativo que se apoya
@@ -131,10 +134,11 @@ const benefits = [
         <Image
           src={laptop}
           alt="Computadora portátil del sistema LBS+"
-          widths={[500, 900, 1300]}
+          widths={[500, 900, 1300, 1800]}
           sizes="(max-width: 600px) calc(100vw - 40px), (max-width: 800px) calc(100vw - 48px), (max-width: 1280px) calc(29vw + 200px), (max-width: 1920px) 44.6vw, 856px"
           quality={85}
-        /><strong>LBS+</strong>
+          format="webp"
+        />
       </div>
     </section>
     <OfferCards {licensePrograms} {masterPrograms} {doctoratePrograms} />
@@ -293,13 +297,11 @@ const benefits = [
   }
   .lbs-copy h2 {
     margin: 0 0 clamp(16px, 1.25vw, 24px);
-    font-size: clamp(2.2rem, 3.75vw, 4.5rem);
-    font-weight: var(--weight-regular);
-    line-height: 1.15;
+    line-height: 0;
   }
-  .lbs-copy h2 span {
-    color: #29abe2;
-    font-weight: var(--weight-bold);
+  .lbs-copy h2 img {
+    width: min(100%, clamp(220px, 21.333vw, 410px));
+    height: auto;
   }
   .lbs-copy p {
     margin: 0 0 clamp(16px, 1.125vw, 21.6px);
@@ -319,16 +321,6 @@ const benefits = [
   .lbs-device :global(img) {
     width: 100%;
     filter: drop-shadow(0 2px 5px rgb(0 0 0 / 0.2));
-  }
-  .lbs-device strong {
-    position: absolute;
-    top: 47%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: clamp(2.5rem, 6.45vw, 7.75rem);
-    font-weight: var(--weight-bold);
-    line-height: 1;
-    white-space: nowrap;
   }
   @media (max-width: 800px) {
     .hero-copy {
