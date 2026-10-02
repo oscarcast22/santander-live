@@ -26,7 +26,7 @@ const logoSrc = brandLogos[`../assets/brand/santander-live-${theme}.svg`];
 >
   {
     logoSrc ? (
-      <img src={logoSrc} alt="" width="350" height="65" />
+      <img src={logoSrc} alt="" width="350" height="65" loading={context === "footer" ? "lazy" : "eager"} decoding="async" />
     ) : (
       <span class="brand-logo__fallback" aria-hidden="true">
         <span class="brand-logo__name">Santander Live</span>
