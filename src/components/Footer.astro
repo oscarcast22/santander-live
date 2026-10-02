@@ -1,34 +1,23 @@
 ---
 import BrandLogo from "./BrandLogo.astro";
 import SiteIcon from "./SiteIcon.astro";
+import { site } from "../data/site";
 
 interface Props {
   spacious?: boolean;
 }
 
 const { spacious = false } = Astro.props;
-const socials = [
-  { label: "Facebook", icon: "facebook", href: "https://www.facebook.com/uadmx" },
-  { label: "Instagram", icon: "instagram", href: "https://www.instagram.com/lobosuadmx" },
-  { label: "X", icon: "x", href: undefined },
-  { label: "TikTok", icon: "tiktok", href: undefined },
-  {
-    label: "WhatsApp",
-    icon: "whatsapp",
-    href: "https://api.whatsapp.com/send/?phone=526181102529&text=Me+interesa+recibir+m%C3%A1s+informaci%C3%B3n+de+las+licenciaturas&type=phone_number&app_absent=0",
-  },
-] as const;
+const socials = site.socials;
 ---
 
 <footer class:list={["footer", { "footer-spacious": spacious }]}>
   <div class="container footer-inner">
     <div class="footer-brand">
-      <BrandLogo theme="dark" context="footer" alt="Santander Live y UAD" />
+      <BrandLogo theme="dark" context="footer" alt="Santander Live Streaming y Universidad Autónoma de Durango" />
     </div>
     <address>
-      Avenida Universidad Autónoma de Durango #300<br />Fracc. Jardines de
-      Durango.<br />Durango, Durango, México.<br />Teléfono(s): (52) 618 129
-      5786 - (52) 618 129 5901
+      {site.university.address.streetAddress.split(", ")[0]}<br />{site.university.address.streetAddress.split(", ")[1]}.<br />{site.university.address.addressLocality}, {site.university.address.addressRegion}, México.<br />Teléfono(s): <a href={`tel:${site.university.phones[0].value}`}>{site.university.phones[0].label}</a> - <a href={`tel:${site.university.phones[1].value}`}>{site.university.phones[1].label}</a>
     </address>
     <div class="socials">
       <strong>Síguenos</strong>
@@ -88,6 +77,9 @@ const socials = [
     font-style: normal;
     line-height: 1.2;
   }
+
+  address a { color: inherit; text-decoration: none; }
+  address a:focus-visible { outline: 2px solid var(--red-200); outline-offset: 3px; }
 
   .socials {
     display: flex;
