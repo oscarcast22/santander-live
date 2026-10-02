@@ -27,6 +27,8 @@
   --weight-bold: 700;
   --content-max-width: 1280px;
   --page-gutter: 28px;
+  --header-logo-width: min(clamp(260px, calc(15vw + 140px), 350px), calc(100vw - 2 * var(--page-gutter) - 60px));
+  --header-height: calc(28px + var(--header-logo-width) * 80 / 430);
   font-family: var(--font-montserrat);
   color: var(--gray-100);
   background: #fff;
@@ -117,6 +119,7 @@ main {
 @media (max-width: 899px) {
   :root {
     --page-gutter: 24px;
+    --header-height: calc(24px + var(--header-logo-width) * 80 / 430);
   }
 }
 

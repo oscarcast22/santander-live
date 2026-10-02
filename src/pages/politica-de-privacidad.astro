@@ -24,7 +24,7 @@ const { Content } = await render(aviso);
 <style>
   .privacy-page {
     min-height: 60svh;
-    padding-top: calc(28px + 350px * 80 / 430 + 48px);
+    padding-top: calc(var(--header-height) + 48px);
     padding-bottom: 5rem;
   }
   .privacy-column {
@@ -72,19 +72,9 @@ const { Content } = await render(aviso);
   .privacy-content :global(h2[id]) {
     scroll-margin-top: 110px;
   }
-  @media (max-width: 1180px) {
-    .privacy-page {
-      padding-top: calc(28px + 245px * 80 / 430 + 48px);
-    }
-  }
-  @media (max-width: 899px) {
-    .privacy-page {
-      padding-top: calc(24px + 245px * 80 / 430 + 48px);
-    }
-  }
   @media (max-width: 600px) {
     .privacy-page {
-      padding-top: calc(24px + 245px * 80 / 430 + 32px);
+      padding-top: calc(var(--header-height) + 32px);
       padding-bottom: 3rem;
       padding-inline: 24px;
     }
@@ -93,11 +83,6 @@ const { Content } = await render(aviso);
     }
     .privacy-content :global(h2) {
       font-size: 18px;
-    }
-  }
-  @media (max-width: 480px) {
-    .privacy-page {
-      padding-top: calc(24px + 210px * 80 / 430 + 32px);
     }
   }
 </style>

@@ -80,7 +80,7 @@ const logoSrc = brandLogos[`../assets/brand/santander-live-${theme}.svg`];
   }
 
   .brand-logo--header {
-    width: 350px;
+    width: var(--header-logo-width);
   }
 
   .brand-logo--footer {
@@ -89,18 +89,6 @@ const logoSrc = brandLogos[`../assets/brand/santander-live-${theme}.svg`];
 
   .brand-logo--hero {
     width: min(430px, 74vw);
-  }
-
-  @media (max-width: 1180px) {
-    .brand-logo--header {
-      width: 245px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .brand-logo--header {
-      width: 210px;
-    }
   }
 
   @media (max-width: 850px) {
