@@ -8,11 +8,15 @@ interface Props {
 
 const { spacious = false } = Astro.props;
 const socials = [
-  { label: "Facebook", icon: "facebook" },
-  { label: "Instagram", icon: "instagram" },
-  { label: "X", icon: "x" },
-  { label: "TikTok", icon: "tiktok" },
-  { label: "WhatsApp", icon: "whatsapp" },
+  { label: "Facebook", icon: "facebook", href: "https://www.facebook.com/uadmx" },
+  { label: "Instagram", icon: "instagram", href: "https://www.instagram.com/lobosuadmx" },
+  { label: "X", icon: "x", href: undefined },
+  { label: "TikTok", icon: "tiktok", href: undefined },
+  {
+    label: "WhatsApp",
+    icon: "whatsapp",
+    href: "https://api.whatsapp.com/send/?phone=526181102529&text=Me+interesa+recibir+m%C3%A1s+informaci%C3%B3n+de+las+licenciaturas&type=phone_number&app_absent=0",
+  },
 ] as const;
 ---
 
@@ -30,16 +34,20 @@ const socials = [
       <strong>Síguenos</strong>
       <div class="social-links">
         {
-          socials.map(({ label, icon }) => (
-            <span
+          socials.map(({ label, icon, href }) => {
+            const Tag = href ? "a" : "span";
+            return <Tag
               class="social-icon"
-              role="img"
+              href={href}
+              target={href ? "_blank" : undefined}
+              rel={href ? "noopener noreferrer" : undefined}
+              role={href ? undefined : "img"}
               aria-label={label}
-              title={`Enlace de ${label} por definir`}
+              title={href ? label : `Enlace de ${label} por definir`}
             >
               <SiteIcon name={icon} />
-            </span>
-          ))
+            </Tag>;
+          })
         }
       </div>
     </div>
@@ -112,6 +120,12 @@ const socials = [
   .social-icon :global(img) {
     width: 100%;
     height: 100%;
+  }
+
+  a.social-icon:focus-visible {
+    outline: 2px solid var(--red-200);
+    outline-offset: 6px;
+    border-radius: 3px;
   }
 
   .footer-spacious .footer-inner {
