@@ -44,10 +44,13 @@ const imageSizes =
 ---
 
 <education-offers>
+  <span class="legacy-anchor" id="oferta-educativa" aria-hidden="true"></span>
+  <span class="legacy-anchor" id="oferta_educativa" aria-hidden="true"></span>
+  <span class="legacy-anchor" id="posgrados" aria-hidden="true"></span>
   <section id="oferta" class="offers container" aria-label="Oferta educativa">
     {
       cards.map((card) => (
-        <article class="offer-card" data-open="false" data-state="closed">
+        <article id={card.id} class="offer-card" data-open="false" data-state="closed">
           <Image
             class="offer-image"
             src={card.image}
@@ -61,7 +64,7 @@ const imageSizes =
               <button
                 class="offer-title"
                 type="button"
-                aria-expanded="false"
+                aria-expanded="true"
                 aria-controls={`offer-programs-${card.id}`}
               >
                 {card.title}
@@ -70,12 +73,10 @@ const imageSizes =
             <ul
               class="offer-programs"
               id={`offer-programs-${card.id}`}
-              aria-hidden="true"
-              inert
             >
               {card.programs.map((program) => (
                 <li>
-                  <a href={`/${program.data.nivel}/${program.data.slug}`}>
+                  <a href={`/${program.data.nivel}/${program.data.slug}/`}>
                     {program.data.title}
                   </a>
                 </li>
@@ -88,10 +89,19 @@ const imageSizes =
   </section>
 </education-offers>
 
+<noscript>
+  <style is:inline>
+    education-offers .offer-panel { transform: translateY(0) !important; }
+    education-offers .offer-card .offer-programs { visibility: visible !important; pointer-events: auto !important; }
+  </style>
+</noscript>
+
 <style>
   education-offers {
     display: block;
+    position: relative;
   }
+  .legacy-anchor { position: absolute; top: 0; width: 0; height: 0; }
   .offers {
     width: 83.06%;
     max-width: 1595px;
@@ -286,6 +296,12 @@ const imageSizes =
               },
             ]
           : [];
+      });
+
+      this.cards.forEach((card) => {
+        card.button.setAttribute("aria-expanded", String(card.open));
+        card.programs.inert = !card.open;
+        card.programs.setAttribute("aria-hidden", String(!card.open));
       });
 
       document.addEventListener(

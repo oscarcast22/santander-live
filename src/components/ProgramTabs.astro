@@ -89,6 +89,7 @@ const tabs = [
     aria-labelledby="tab-modelo"
     tabindex="0"
   >
+    <h2 class="tab-fallback-title">Modelo Educativo</h2>
     <p>
       {model.paragraphs[0]}
     </p>
@@ -109,8 +110,9 @@ const tabs = [
     role="tabpanel"
     aria-labelledby="tab-plan"
     tabindex="0"
-    hidden
+    data-default-inactive
   >
+    <h2 class="tab-fallback-title">Plan de Estudios</h2>
     {
       curriculum.length ? (
         <div class="curriculum">
@@ -137,8 +139,9 @@ const tabs = [
         role="tabpanel"
         aria-labelledby="tab-perfil"
         tabindex="0"
-        hidden
+        data-default-inactive
       >
+        <h2 class="tab-fallback-title">Perfil de Egreso</h2>
         <div class="graduate-profile">
           {profileBlocks.map((block) => {
             if (block.type === "heading") return <h2>{block.text}</h2>;
@@ -158,6 +161,12 @@ const tabs = [
     )
   }
 </div>
+<style is:global>
+  html[data-js-enabled="true"] [data-tabs]:not([data-tabs-ready]) [data-default-inactive] { display: none; }
+  html[data-js-enabled="true"] .tab-fallback-title { display: none; }
+  html:not([data-js-enabled="true"]) [data-tabs] .tab-list { display: none; }
+</style>
+
 <style>
   .tab-list {
     display: flex;
@@ -313,6 +322,8 @@ const tabs = [
         0,
         tabs.findIndex((tab) => tab.getAttribute("aria-selected") === "true"),
       );
+      panels.forEach((panel, index) => { panel.hidden = index !== selectedIndex; });
+      root.dataset.tabsReady = "true";
       let panelAnimation: Animation | undefined;
       signal.addEventListener(
         "abort",
