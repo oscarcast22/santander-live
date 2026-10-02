@@ -26,23 +26,22 @@ npm run build
 - `src/content.config.ts`: colecciones nativas de Astro con esquema validado para programas y el modelo educativo compartido.
 - `src/content/programas/`: una ficha Markdown por programa, con información transcrita de Santander Live, plan agrupado por periodo y su imagen local de hero optimizada por Astro.
 - `src/content/modelos/`: texto común del modelo educativo, compartido por todas las fichas.
-- `src/data/site.ts`: conserva únicamente la introducción institucional de Nosotros.
+- `src/data/site.ts`: centraliza la identidad institucional, dirección, teléfonos, dominio y redes confirmadas.
 - `src/components/ParallaxHero.astro`: hero fijo bajo el contenido, siguiendo el efecto usado en UADVirtual.
 - `src/components/Header.astro`: adaptación directa del nav de UADVirtual, conservando estilos, transición del header y paneles, apertura por hover y clic, ocultamiento al bajar, reaparición al subir y submenús móviles animados.
 - `src/components/ContactForm.astro`: formulario conectado a Netlify Forms con estados de envío, error y confirmación animada.
 - `src/styles/global.css`: colores y escala tipográfica de UADVirtual. El azul de LBS+ permanece como acento de esa sección; la composición general sigue el PDF de Santander Live.
 - `reference/mockup-escritorio.pdf`: copia del PDF comprimido proporcionado para comparar las siguientes iteraciones.
 
-Las fotografías de `src/assets/` se extrajeron del PDF original de 18 MB compartido junto al comprimido y se convirtieron a WebP. El logotipo combinado se extrajo del mockup de escritorio como PNG transparente; Astro genera tamaños optimizados al compilar. Los iconos de beneficios y redes se dibujan como SVG inline. Los iconos sociales son decorativos hasta que se confirmen sus destinos.
+Las fotografías se optimizan con Astro. Los logos e iconos institucionales se extrajeron del PDF como SVG; el hero utiliza AVIF con respaldo WebP. Los enlaces confirmados de ingreso, Facebook, Instagram y WhatsApp están integrados.
 
-## Pendiente para la siguiente iteración
+## SEO y publicación
 
-1. Integrar logos, iconos y enlaces oficiales de ingreso y redes sociales.
-2. Confirmar los textos de los cuatro apartados de Nosotros y completar los enlaces institucionales finales.
-3. Configurar las notificaciones de Netlify Forms y completar el aviso de privacidad.
-4. Ajustar el diseño con las medidas, tipografía y recursos finales; el PDF solo muestra escritorio, así que la composición móvil actual es una propuesta inicial.
+El dominio canónico es `https://santanderlive.uad.mx/`. Las 27 páginas públicas incluyen metadatos propios, imágenes sociales y JSON-LD. Astro genera sitemap y el archivo `robots.txt` lo referencia. La página de error se excluye del sitemap y utiliza `noindex`.
 
-El repositorio no tiene remoto ni despliegue configurados. El dominio final puede añadirse en `astro.config.mjs` para generar metadatos canónicos y sitemap más adelante.
+Después del build, ejecutar `npm run check:seo` para comprobar el HTML generado, enlaces, datos estructurados, imágenes sociales y mapa de redirecciones. El inventario de URLs antiguas está en [reference/seo/redirects.csv](reference/seo/redirects.csv); las redirecciones no se activan hasta elegir alojamiento.
+
+Consultar [las instrucciones de publicación](reference/seo/publicacion.md) para HTTPS, códigos 301/404/410, previews, caché, preservación de `/plataforma/`, validación de resultados enriquecidos y seguimiento en Search Console. El catálogo conserva la información del sitio anterior y las notas editoriales pendientes de validación institucional.
 
 ## Formulario en Netlify
 
