@@ -12,6 +12,8 @@ import hero from "../assets/hero-inicio.webp";
 import student from "../assets/estudiante-index.webp";
 import laptop from "../assets/laptop-lbs.png";
 import lbsLogo from "../assets/lbs.svg?url";
+import { site } from "../data/site";
+import { programUrl } from "../lib/seo";
 
 const programs = await getCollection("programas");
 const sortPrograms = (items: typeof programs) =>
@@ -51,8 +53,20 @@ const benefits = [
 ---
 
 <BaseLayout
-  title="Inicio"
-  description="Estudia licenciaturas en modalidad Live Streaming con Santander Live."
+  title="Licenciaturas y posgrados en vivo"
+  description="Conoce las licenciaturas, maestrías y doctorados de Santander Live Streaming, de la Universidad Autónoma de Durango. Explora la oferta y solicita información."
+  seoImage={hero}
+  seoImageAlt="Estudiante con audífonos y computadora de Santander Live Streaming"
+  structuredData={[{
+    "@type": "ItemList",
+    "@id": `${site.url}#programas`,
+    name: "Oferta educativa de Santander Live Streaming",
+    numberOfItems: programs.length,
+    itemListElement: [...licensePrograms, ...masterPrograms, ...doctoratePrograms].map((program, index) => ({
+      "@type": "ListItem", position: index + 1, url: programUrl(program),
+    })),
+  }]}
+  mainEntityId={`${site.url}#programas`}
   footerSpacious
 >
   <PageMotion slot="head" profile="home" />
@@ -115,7 +129,7 @@ const benefits = [
     <section class="lbs container" aria-labelledby="lbs-title">
       <div class="lbs-copy">
         <h2 id="lbs-title">
-          <img src={lbsLogo} alt="Libros LBS+" width="410" height="70" />
+          <img src={lbsLogo} alt="Libros LBS+" width="410" height="70" loading="lazy" decoding="async" />
         </h2>
         <p class="lbs-kicker">Todo en un Solo Lugar</p>
         <p>

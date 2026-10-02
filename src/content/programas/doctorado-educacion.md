@@ -1,5 +1,6 @@
 ---
 title: "Educación"
+seoDescription: "Explora el Doctorado en Educación de Santander Live Streaming: investigación educativa, gestión y desarrollo curricular. Consulta el plan y solicita información."
 heroImage: "./imagenes/doctorado-educacion.jpg"
 slug: "doctorado-educacion"
 nivel: "posgrados"

@@ -1,5 +1,6 @@
 ---
 title: "Educación"
+seoDescription: "Descubre la Maestría en Educación de Santander Live Streaming: formación en investigación educativa y docencia. Consulta el plan de estudios y solicita información."
 heroImage: "./imagenes/maestria-educacion.jpg"
 slug: "maestria-educacion"
 nivel: "posgrados"

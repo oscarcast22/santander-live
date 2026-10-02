@@ -1,5 +1,6 @@
 ---
 title: "Diseño Multimedia"
+seoDescription: "Descubre la Licenciatura en Diseño Multimedia de Santander Live Streaming: análisis y soluciones de diseño. Consulta el plan de estudios y solicita información."
 heroImage: "./imagenes/diseno-multimedia.jpg"
 slug: "diseno-multimedia"
 nivel: "licenciaturas"

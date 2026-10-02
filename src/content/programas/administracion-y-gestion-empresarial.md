@@ -1,5 +1,6 @@
 ---
 title: "Administración y Gestión Empresarial"
+seoDescription: "Conoce la Licenciatura en Administración y Gestión Empresarial de Santander Live Streaming: objetivos, modelo educativo y plan de estudios. Solicita información."
 heroImage: "./imagenes/administracion-y-gestion-empresarial.jpg"
 slug: "administracion-y-gestion-empresarial"
 nivel: "licenciaturas"

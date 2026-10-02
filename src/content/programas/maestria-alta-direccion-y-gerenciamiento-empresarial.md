@@ -1,5 +1,6 @@
 ---
 title: "Alta Dirección y Gerenciamiento Empresarial"
+seoDescription: "Conoce la Maestría en Alta Dirección y Gerenciamiento Empresarial de Santander Live Streaming. Consulta los objetivos, el modelo educativo y el plan de estudios."
 heroImage: "./imagenes/maestria-alta-direccion-y-gerenciamiento-empresarial.jpg"
 slug: "maestria-alta-direccion-y-gerenciamiento-empresarial"
 nivel: "posgrados"

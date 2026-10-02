@@ -1,5 +1,6 @@
 ---
 title: "Derecho Constitucional, Penal y Amparo"
+seoDescription: "Conoce el Doctorado en Derecho Constitucional, Penal y Amparo de Santander Live Streaming. Consulta el perfil de ingreso publicado y el modelo educativo."
 heroImage: "./imagenes/doctorado-derecho-constitucional-penal-y-amparo.jpg"
 slug: "doctorado-derecho-constitucional-penal-y-amparo"
 nivel: "posgrados"

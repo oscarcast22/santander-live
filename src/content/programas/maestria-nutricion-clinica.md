@@ -1,5 +1,6 @@
 ---
 title: "Nutrición Clínica"
+seoDescription: "Conoce la Maestría en Nutrición Clínica de Santander Live Streaming: valoración nutricional e investigación. Consulta los objetivos y el plan de estudios."
 heroImage: "./imagenes/maestria-nutricion-clinica.jpg"
 slug: "maestria-nutricion-clinica"
 nivel: "posgrados"

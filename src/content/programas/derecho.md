@@ -1,5 +1,6 @@
 ---
 title: "Derecho"
+seoDescription: "Explora la Licenciatura en Derecho de Santander Live Streaming y su formación jurídica y humana. Consulta el modelo educativo, plan de estudios y perfil de egreso."
 heroImage: "./imagenes/derecho.jpg"
 slug: "derecho"
 nivel: "licenciaturas"

@@ -1,5 +1,6 @@
 ---
 title: "Nutrición"
+seoDescription: "Explora la Licenciatura en Nutrición de Santander Live Streaming: formación en nutriología, investigación y ética profesional. Consulta el plan y solicita información."
 heroImage: "./imagenes/nutricion.jpg"
 slug: "nutricion"
 nivel: "licenciaturas"

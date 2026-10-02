@@ -1,5 +1,6 @@
 ---
 title: "Impuestos"
+seoDescription: "Conoce la Maestría en Impuestos de Santander Live Streaming. Consulta los objetivos publicados del programa, el modelo educativo y el plan de estudios."
 heroImage: "./imagenes/maestria-impuestos.jpg"
 slug: "maestria-impuestos"
 nivel: "posgrados"

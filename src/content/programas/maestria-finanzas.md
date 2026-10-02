@@ -1,5 +1,6 @@
 ---
 title: "Finanzas"
+seoDescription: "Explora la Maestría en Finanzas de Santander Live Streaming: formación financiera, inversión y financiamiento. Consulta los objetivos y el plan de estudios."
 heroImage: "./imagenes/maestria-finanzas.jpg"
 slug: "maestria-finanzas"
 nivel: "posgrados"

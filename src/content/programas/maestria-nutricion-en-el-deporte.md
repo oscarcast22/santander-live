@@ -1,5 +1,6 @@
 ---
 title: "Nutrición Deportiva"
+seoDescription: "Explora la Maestría en Nutrición Deportiva de Santander Live Streaming. Consulta sus objetivos de formación, el modelo educativo y el plan de estudios."
 heroImage: "./imagenes/maestria-nutricion-en-el-deporte.jpg"
 slug: "maestria-nutricion-en-el-deporte"
 nivel: "posgrados"

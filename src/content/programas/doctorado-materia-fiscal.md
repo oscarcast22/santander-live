@@ -1,5 +1,6 @@
 ---
 title: "Materia Fiscal"
+seoDescription: "Conoce el Doctorado en Materia Fiscal de Santander Live Streaming. Consulta el perfil de ingreso publicado y el modelo educativo. Solicita información del programa."
 heroImage: "./imagenes/doctorado-materia-fiscal.jpg"
 slug: "doctorado-materia-fiscal"
 nivel: "posgrados"

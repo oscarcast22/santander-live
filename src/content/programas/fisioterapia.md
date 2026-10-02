@@ -1,5 +1,6 @@
 ---
 title: "Fisioterapia"
+seoDescription: "Conoce la Licenciatura en Fisioterapia de Santander Live Streaming y sus objetivos de formación en rehabilitación. Explora el plan de estudios y solicita información."
 heroImage: "./imagenes/fisioterapia.jpg"
 slug: "fisioterapia"
 nivel: "licenciaturas"

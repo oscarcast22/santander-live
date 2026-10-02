@@ -5,6 +5,7 @@ import ParallaxHero from "../../components/ParallaxHero.astro";
 import ProgramTabs from "../../components/ProgramTabs.astro";
 import { getCollection, getEntry } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import { courseSchema, programName, programUrl } from "../../lib/seo";
 
 export async function getStaticPaths() {
   const programs = await getCollection("programas");
@@ -69,12 +70,17 @@ const heading =
     : categoria === "doctorado"
       ? `Doctorado en ${title}`
       : title;
-const description =
-  overview[0]?.replace(/^[-–•·]\s*/, "") ??
-  `Conoce el programa de ${heading} en Santander Live.`;
+const description = program.data.seoDescription;
 ---
 
-<BaseLayout title={heading} description={description}>
+<BaseLayout
+  title={programName(program)}
+  description={description}
+  seoImage={program.data.heroImage}
+  seoImageAlt={`Imagen del programa ${programName(program)}`}
+  structuredData={[courseSchema(program)]}
+  mainEntityId={`${programUrl(program)}#course`}
+>
   <PageMotion slot="head" profile="program" />
   <ParallaxHero
     image={program.data.heroImage}

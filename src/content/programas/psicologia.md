@@ -1,5 +1,6 @@
 ---
 title: "Psicología"
+seoDescription: "Descubre la Licenciatura en Psicología de Santander Live Streaming: personalidad y comportamiento humano. Consulta el plan de estudios y solicita información."
 heroImage: "./imagenes/psicologia.jpg"
 slug: "psicologia"
 nivel: "licenciaturas"

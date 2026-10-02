@@ -1,5 +1,6 @@
 ---
 title: "Amparo"
+seoDescription: "Explora la Maestría en Amparo de Santander Live Streaming: especialización en juicio constitucional, docencia e investigación. Consulta el plan y solicita información."
 heroImage: "./imagenes/maestria-amparo.jpg"
 slug: "maestria-amparo"
 nivel: "posgrados"

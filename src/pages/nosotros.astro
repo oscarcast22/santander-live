@@ -6,6 +6,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ParallaxHero from "../components/ParallaxHero.astro";
 import AboutAccordion from "../components/AboutAccordion.astro";
 import BrandLogo from "../components/BrandLogo.astro";
+import { site } from "../data/site";
 import hero from "../assets/landing/hero-nosotros.jpg";
 import banner from "../assets/banner-educacion.webp";
 
@@ -20,8 +21,11 @@ const items = [
 ---
 
 <BaseLayout
-  title="Nosotros"
-  description="Conoce Santander Live y la Universidad Autónoma de Durango."
+  title="Universidad Autónoma de Durango"
+  description="Conoce la historia, misión, visión y modelo educativo de la Universidad Autónoma de Durango, la institución de Santander Live Streaming. Descubre quiénes somos."
+  seoImage={hero}
+  seoImageAlt="Edificio de la Universidad Autónoma de Durango iluminado por la noche"
+  pageKind="AboutPage"
 >
   <PageMotion slot="head" profile="about" />
   <ParallaxHero
@@ -35,7 +39,7 @@ const items = [
         theme="light"
         alt="Santander Live Streaming y Universidad Autónoma de Durango"
       /><h1>Nosotros</h1>{
-        institutional.data.history.map((paragraph) => <p>{paragraph}</p>)
+        institutional.data.history.map((paragraph) => <p>{paragraph.startsWith(`La ${site.university.name}`) ? <><a class="university-link" href={site.university.url} target="_blank" rel="noopener noreferrer">La {site.university.name}</a>{paragraph.slice(`La ${site.university.name}`.length)}</> : paragraph}</p>)
       }
     </div>
   </ParallaxHero>
@@ -52,6 +56,8 @@ const items = [
   </main>
 </BaseLayout>
 <style>
+  .university-link { color: inherit; text-decoration: none; }
+  .university-link:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
   .about-hero-copy {
     width: 100%;
     margin-top: 10rem;

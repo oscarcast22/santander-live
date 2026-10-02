@@ -1,5 +1,6 @@
 ---
 title: "Criminología"
+seoDescription: "Conoce la Licenciatura en Criminología de Santander Live Streaming: estudio de la criminalidad, prevención e investigación. Explora el programa y solicita información."
 heroImage: "./imagenes/criminologia.jpg"
 slug: "criminologia"
 nivel: "licenciaturas"

@@ -1,5 +1,6 @@
 ---
 title: "Juicios Orales"
+seoDescription: "Descubre la Maestría en Juicios Orales de Santander Live Streaming: formación en juicio oral, docencia e investigación jurídica. Consulta el plan y solicita información."
 heroImage: "./imagenes/maestria-juicios-orales.jpg"
 slug: "maestria-juicios-orales"
 nivel: "posgrados"

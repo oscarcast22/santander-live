@@ -1,5 +1,6 @@
 ---
 title: "Valuación Inmobiliaria"
+seoDescription: "Conoce la Maestría en Valuación Inmobiliaria de Santander Live Streaming: técnicas de valuación y bases económicas, legales y financieras. Consulta el plan de estudios."
 heroImage: "./imagenes/maestria-valuacion-inmobiliaria.jpg"
 slug: "maestria-valuacion-inmobiliaria"
 nivel: "posgrados"

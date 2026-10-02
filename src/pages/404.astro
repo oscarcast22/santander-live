@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Página no encontrada" description="La página que buscas no está disponible. Consulta la oferta educativa de Santander Live Streaming o vuelve al inicio." noindex>
+  <main id="contenido" class="container not-found">
+    <h1>Página no encontrada</h1>
+    <p>La página que buscas no está disponible.</p>
+    <a href="/">Volver al inicio</a>
+    <a href="/#oferta">Ver oferta educativa</a>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found { padding-block: calc(var(--header-height) + 64px) 120px; min-height: 60vh; }
+  h1 { font-size: clamp(2rem, 4vw, 3rem); }
+  a { display: inline-block; margin: 24px 32px 0 0; }
+</style>

@@ -32,6 +32,7 @@ const programas = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
+      seoDescription: z.string().trim().min(1),
       slug: z.string(),
       nivel: z.enum(["licenciaturas", "posgrados"]),
       categoria: z.enum(["maestria", "doctorado"]).optional(),

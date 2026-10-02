@@ -1,5 +1,6 @@
 ---
 title: "Contador Público Auditor"
+seoDescription: "Descubre la Licenciatura en Contador Público Auditor de Santander Live Streaming: formación contable y en auditoría. Consulta su plan y solicita información."
 heroImage: "./imagenes/contador-publico-auditor.jpg"
 slug: "contador-publico-auditor"
 nivel: "licenciaturas"

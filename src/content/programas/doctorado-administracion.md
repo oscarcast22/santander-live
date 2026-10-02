@@ -1,5 +1,6 @@
 ---
 title: "Administración"
+seoDescription: "Descubre el Doctorado en Administración de Santander Live Streaming: investigación, liderazgo y solución de problemas administrativos. Consulta el plan de estudios."
 heroImage: "./imagenes/doctorado-administracion.jpg"
 slug: "doctorado-administracion"
 nivel: "posgrados"

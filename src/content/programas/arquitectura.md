@@ -1,5 +1,6 @@
 ---
 title: "Arquitectura"
+seoDescription: "Explora la Licenciatura en Arquitectura de Santander Live Streaming: formación en proyectos arquitectónicos y urbanísticos. Consulta el plan y solicita información."
 heroImage: "./imagenes/arquitectura.jpg"
 slug: "arquitectura"
 nivel: "licenciaturas"

@@ -1,5 +1,6 @@
 ---
 title: "Ciencias y Técnicas de la Comunicación"
+seoDescription: "Conoce la Licenciatura en Ciencias y Técnicas de la Comunicación de Santander Live Streaming. Consulta el modelo educativo, plan de estudios y perfil de egreso."
 heroImage: "./imagenes/ciencias-y-tecnicas-de-la-comunicacion.jpg"
 slug: "ciencias-y-tecnicas-de-la-comunicacion"
 nivel: "licenciaturas"

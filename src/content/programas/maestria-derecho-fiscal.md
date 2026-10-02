@@ -1,5 +1,6 @@
 ---
 title: "Derecho Fiscal"
+seoDescription: "Conoce la Maestría en Derecho Fiscal de Santander Live Streaming: especialización jurídica en la relación entre Estado y contribuyente. Consulta su plan de estudios."
 heroImage: "./imagenes/maestria-derecho-fiscal.jpg"
 slug: "maestria-derecho-fiscal"
 nivel: "posgrados"
