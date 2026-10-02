@@ -41,7 +41,7 @@ const menuLinks = [
 <header>
     <div class="nav-shell">
         <div class="nav-row">
-            <a class="logo" href="/" aria-label="Santander Live, inicio">
+            <a class="logo" href="/" aria-label="Santander Live Streaming, inicio">
                 <BrandLogo context="header" theme="light" alt="" />
             </a>
 
@@ -125,7 +125,7 @@ const menuLinks = [
                                 licenciaturas.map((program) => (
                                     <li>
                                         <a
-                                            href={`/licenciaturas/${program.data.slug}`}
+                                            href={`/licenciaturas/${program.data.slug}/`}
                                         >
                                             {program.data.title}
                                         </a>
@@ -158,7 +158,7 @@ const menuLinks = [
                                     maestrias.map((program) => (
                                         <li>
                                             <a
-                                                href={`/posgrados/${program.data.slug}`}
+                                                href={`/posgrados/${program.data.slug}/`}
                                             >
                                                 {program.data.title}
                                             </a>
@@ -178,7 +178,7 @@ const menuLinks = [
                                     doctorados.map((program) => (
                                         <li>
                                             <a
-                                                href={`/posgrados/${program.data.slug}`}
+                                                href={`/posgrados/${program.data.slug}/`}
                                             >
                                                 {program.data.title}
                                             </a>
@@ -239,7 +239,7 @@ const menuLinks = [
                                 {column.map((program) => (
                                     <li>
                                         <a
-                                            href={`/licenciaturas/${program.data.slug}`}
+                                            href={`/licenciaturas/${program.data.slug}/`}
                                         >
                                             {program.data.title}
                                         </a>
@@ -274,7 +274,7 @@ const menuLinks = [
                                         {column.map((program) => (
                                             <li>
                                                 <a
-                                                    href={`/posgrados/${program.data.slug}`}
+                                                    href={`/posgrados/${program.data.slug}/`}
                                                 >
                                                     {program.data.title}
                                                 </a>
@@ -293,7 +293,7 @@ const menuLinks = [
                                 doctorados.map((program) => (
                                     <li>
                                         <a
-                                            href={`/posgrados/${program.data.slug}`}
+                                            href={`/posgrados/${program.data.slug}/`}
                                         >
                                             {program.data.title}
                                         </a>
@@ -848,7 +848,7 @@ const menuLinks = [
 <script>
     const desktopBreakpoint = 899;
     const closeDelay = 150;
-    let closeTimer: ReturnType<typeof setTimeout> | undefined;
+    let closeTimer: number | undefined;
     let navController: AbortController | undefined;
     let transitionToken = 0;
     let lastScrollY = 0;
