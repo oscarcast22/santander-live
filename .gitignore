@@ -6,3 +6,9 @@ dist/
 
 .agents/
 .claude/
+
+# Paquete generado para publicar en cPanel.
+santander-live-godaddy-deploy.tar
+
+# Copia temporal del transporte con destinatario personal para diagnóstico SPF.
+_bootstrap-prueba-spf.php

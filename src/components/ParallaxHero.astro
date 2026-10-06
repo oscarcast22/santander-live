@@ -9,11 +9,9 @@ interface Props {
 }
 const { image, alt, variant } = Astro.props;
 const home = variant === "home";
-// Account for the panoramic image's painted width when object-fit crops it.
 const homeSizes = "(max-width: 700px) max(100vw, 144.04svh), (max-width: 1920px) 106.62vw, max(100vw, 2047px)";
 const widths = home ? [960, 1280, 1600, 1920, 2560, 3200, 3840] : [960, 1440, 1920];
 const sizes = home ? homeSizes : "100vw";
-// AVIF uses a different quality scale; retain the approved WebP fallback.
 const avif = await getImage({ src: image, widths, format: "avif", quality: 65 });
 ---
 

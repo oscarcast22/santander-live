@@ -1,0 +1,82 @@
+# Santander Live: migración de URLs de Adobe Muse a Astro.
+# Mantener este mapa sincronizado con reference/seo/redirects.csv.
+# No modificar aquí PHP, DirectoryIndex, HTTPS global ni las reglas de Moodle.
+RewriteEngine On
+
+# Detener solo las reglas de este directorio; los subdirectorios conservan las suyas.
+RewriteRule ^(?:plataforma|api|cgi-bin|\.well-known)(?:/|$) - [L]
+
+# URLs antiguas: destinos finales HTTPS, con parámetros y fragmentos conservados.
+RewriteRule ^administracion\-doctorado\.html$ https://santanderlive.uad.mx/posgrados/doctorado-administracion/ [R=301,L,NE]
+RewriteRule ^administracion\-y\-gestion\-empresarial\.html$ https://santanderlive.uad.mx/licenciaturas/administracion-y-gestion-empresarial/ [R=301,L,NE]
+RewriteRule ^alta\-direccion\-y\-gerenciamiento\-empresarial\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-alta-direccion-y-gerenciamiento-empresarial/ [R=301,L,NE]
+RewriteRule ^amparo\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-amparo/ [R=301,L,NE]
+RewriteRule ^arquitectura\.html$ https://santanderlive.uad.mx/licenciaturas/arquitectura/ [R=301,L,NE]
+RewriteRule ^aviso\-de\-confidencialidad\.html$ https://santanderlive.uad.mx/politica-de-privacidad/ [R=301,L,NE]
+RewriteRule ^ciencias\-y\-tecnicas\-de\-la\-comunicacion\.html$ https://santanderlive.uad.mx/licenciaturas/ciencias-y-tecnicas-de-la-comunicacion/ [R=301,L,NE]
+# Colocar los parámetros antes del fragmento, no después de #contacto.
+RewriteCond %{QUERY_STRING} !^$
+RewriteRule ^contacto\.html$ https://santanderlive.uad.mx/?%{QUERY_STRING}#contacto [R=301,L,NE]
+RewriteRule ^contacto\.html$ https://santanderlive.uad.mx/#contacto [R=301,L,NE]
+RewriteRule ^contador\-publico\-auditor\.html$ https://santanderlive.uad.mx/licenciaturas/contador-publico-auditor/ [R=301,L,NE]
+RewriteRule ^criminologia\.html$ https://santanderlive.uad.mx/licenciaturas/criminologia/ [R=301,L,NE]
+RewriteRule ^derecho\-constitucional\-penal\-y\-amparo\-doctorado\.html$ https://santanderlive.uad.mx/posgrados/doctorado-derecho-constitucional-penal-y-amparo/ [R=301,L,NE]
+RewriteRule ^derecho\-fiscal\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-derecho-fiscal/ [R=301,L,NE]
+RewriteRule ^derecho\.html$ https://santanderlive.uad.mx/licenciaturas/derecho/ [R=301,L,NE]
+RewriteRule ^diseno\-multimedia\.html$ https://santanderlive.uad.mx/licenciaturas/diseno-multimedia/ [R=301,L,NE]
+RewriteRule ^educacion\-doctorado\.html$ https://santanderlive.uad.mx/posgrados/doctorado-educacion/ [R=301,L,NE]
+RewriteRule ^educacion\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-educacion/ [R=301,L,NE]
+RewriteRule ^finanzas\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-finanzas/ [R=301,L,NE]
+RewriteRule ^fisioterapia\.html$ https://santanderlive.uad.mx/licenciaturas/fisioterapia/ [R=301,L,NE]
+RewriteRule ^impuestos\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-impuestos/ [R=301,L,NE]
+
+# Evitar redirigir la resolución interna de DirectoryIndex al servir /.
+RewriteCond %{THE_REQUEST} "\s/+index\.html(?:[?\s])"
+RewriteRule ^index\.html$ https://santanderlive.uad.mx/ [R=301,L,NE]
+RewriteRule ^juicios\-orales\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-juicios-orales/ [R=301,L,NE]
+RewriteRule ^materia\-fiscal\-doctorado\.html$ https://santanderlive.uad.mx/posgrados/doctorado-materia-fiscal/ [R=301,L,NE]
+RewriteRule ^nosotros\.html$ https://santanderlive.uad.mx/nosotros/ [R=301,L,NE]
+RewriteRule ^nutricion\-clinica\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-nutricion-clinica/ [R=301,L,NE]
+RewriteRule ^nutricion\-deportiva\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-nutricion-en-el-deporte/ [R=301,L,NE]
+RewriteRule ^nutricion\.html$ https://santanderlive.uad.mx/licenciaturas/nutricion/ [R=301,L,NE]
+RewriteRule ^phone$ https://santanderlive.uad.mx/ [R=301,L,NE]
+RewriteRule ^phone/$ https://santanderlive.uad.mx/ [R=301,L,NE]
+RewriteRule ^phone/administracion\-doctorado\.html$ https://santanderlive.uad.mx/posgrados/doctorado-administracion/ [R=301,L,NE]
+RewriteRule ^phone/administracion\-y\-gestion\-empresarial\.html$ https://santanderlive.uad.mx/licenciaturas/administracion-y-gestion-empresarial/ [R=301,L,NE]
+RewriteRule ^phone/alta\-direccion\-y\-gerenciamiento\-empresarial\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-alta-direccion-y-gerenciamiento-empresarial/ [R=301,L,NE]
+RewriteRule ^phone/amparo\-maestria\.html$ https://santanderlive.uad.mx/posgrados/maestria-amparo/ [R=301,L,NE]
+RewriteRule ^phone/arquitectura\.html$ https://santanderlive.uad.mx/licenciaturas/arquitectura/ [R=301,L,NE]
+RewriteRule ^phone/aviso\-de\-confidencialidad\.html$ https://santanderlive.uad.mx/politica-de-privacidad/ [R=301,L,NE]
+RewriteRule ^phone/ciencias\-y\-tecnicas\-de\-la\-comunicacion\.html$ https://santanderlive.uad.mx/licenciaturas/ciencias-y-tecnicas-de-la-comunicacion/ [R=301,L,NE]
+RewriteCond %{QUERY_STRING} !^$
+RewriteRule ^phone/contacto\.html$ https://santanderlive.uad.mx/?%{QUERY_STRING}#contacto [R=301,L,NE]
+RewriteRule ^phone/contacto\.html$ https://santanderlive.uad.mx/#contacto [R=301,L,NE]
+RewriteRule ^phone/contador\-publico\-auditor\.html$ https://santanderlive.uad.mx/licenciaturas/contador-publico-auditor/ [R=301,L,NE]
+RewriteRule ^phone/criminologia\.html$ https://santanderlive.uad.mx/licenciaturas/criminologia/ [R=301,L,NE]
+RewriteRule ^phone/derecho\-constitucional\-pena\-y\-amparo\-doctorado\.html$ https://santanderlive.uad.mx/posgrados/doctorado-derecho-constitucional-penal-y-amparo/ [R=301,L,NE]
+RewriteRule ^phone/derecho\-fiscal\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-derecho-fiscal/ [R=301,L,NE]
+RewriteRule ^phone/derecho\.html$ https://santanderlive.uad.mx/licenciaturas/derecho/ [R=301,L,NE]
+RewriteRule ^phone/diseno\-multimedia\.html$ https://santanderlive.uad.mx/licenciaturas/diseno-multimedia/ [R=301,L,NE]
+RewriteRule ^phone/educacion\-doctorado\.html$ https://santanderlive.uad.mx/posgrados/doctorado-educacion/ [R=301,L,NE]
+RewriteRule ^phone/educacion\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-educacion/ [R=301,L,NE]
+RewriteRule ^phone/finanzas\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-finanzas/ [R=301,L,NE]
+RewriteRule ^phone/fisioterapia\.html$ https://santanderlive.uad.mx/licenciaturas/fisioterapia/ [R=301,L,NE]
+RewriteRule ^phone/impuestos\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-impuestos/ [R=301,L,NE]
+RewriteRule ^phone/index\.html$ https://santanderlive.uad.mx/ [R=301,L,NE]
+RewriteRule ^phone/juicios\-orales\-maestria\.html$ https://santanderlive.uad.mx/posgrados/maestria-juicios-orales/ [R=301,L,NE]
+RewriteRule ^phone/materia\-fiscal\-doctorado\.html$ https://santanderlive.uad.mx/posgrados/doctorado-materia-fiscal/ [R=301,L,NE]
+RewriteRule ^phone/nosotros\.html$ https://santanderlive.uad.mx/nosotros/ [R=301,L,NE]
+RewriteRule ^phone/nutricion\-clinica\-maestria\.html$ https://santanderlive.uad.mx/posgrados/maestria-nutricion-clinica/ [R=301,L,NE]
+RewriteRule ^phone/nutricion\-deportiva\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-nutricion-en-el-deporte/ [R=301,L,NE]
+RewriteRule ^phone/nutricion\.html$ https://santanderlive.uad.mx/licenciaturas/nutricion/ [R=301,L,NE]
+RewriteRule ^phone/preguntas\-frecuentes\.html$ - [G,L]
+RewriteRule ^phone/psicologia\.html$ https://santanderlive.uad.mx/licenciaturas/psicologia/ [R=301,L,NE]
+RewriteRule ^phone/valuacion\-inmobiliaria\-doctorado\.html$ - [G,L]
+RewriteRule ^phone/valuacion\-inmobiliaria\-maestria\.html$ https://santanderlive.uad.mx/posgrados/maestria-valuacion-inmobiliaria/ [R=301,L,NE]
+RewriteRule ^preguntas\-frecuentes\.html$ - [G,L]
+RewriteRule ^psicologia\.html$ https://santanderlive.uad.mx/licenciaturas/psicologia/ [R=301,L,NE]
+RewriteRule ^valuacion\-inmobiliaria\-doctorado\.html$ - [G,L]
+RewriteRule ^valuacion\-inmobiliaria\-maestrias\.html$ https://santanderlive.uad.mx/posgrados/maestria-valuacion-inmobiliaria/ [R=301,L,NE]
+
+# El sitemap de Muse se sustituye por el índice generado por Astro.
+RewriteRule ^sitemap\.xml$ https://santanderlive.uad.mx/sitemap-index.xml [R=301,L,NE]

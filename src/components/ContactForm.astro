@@ -25,14 +25,12 @@ const doctorados = postgraduatePrograms.filter(
       <form
         name="contacto"
         method="POST"
-        action="/"
-        data-netlify="true"
-        netlify-honeypot="bot-field"
+        action="/api/contacto.php"
         aria-label="Solicitud de información"
         data-contact-form
         data-astro-reload
       >
-        <input type="hidden" name="form-name" value="contacto" />
+        <input type="hidden" name="form_started_at" data-form-started-at />
         <p class="honeypot" aria-hidden="true">
           <label
             >Deja este campo vacío <input
@@ -50,6 +48,7 @@ const doctorados = postgraduatePrograms.filter(
             type="text"
             autocomplete="name"
             placeholder="Nombre y apellido"
+            maxlength="120"
             required
           />
         </div>
@@ -62,6 +61,7 @@ const doctorados = postgraduatePrograms.filter(
             autocomplete="tel"
             inputmode="tel"
             placeholder="Ingresa tu número de teléfono"
+            maxlength="40"
             required
           />
         </div>
@@ -73,6 +73,7 @@ const doctorados = postgraduatePrograms.filter(
             type="email"
             autocomplete="email"
             placeholder="Ingresa tu correo electrónico"
+            maxlength="254"
             required
           />
         </div>
@@ -395,6 +396,8 @@ const doctorados = postgraduatePrograms.filter(
     const error = form?.querySelector<HTMLElement>("[data-form-error]");
     const success = wrapper?.querySelector<HTMLElement>("[data-form-success]");
     if (!form || !wrapper || !button || !error || !success) return;
+    const startedAt = form.querySelector<HTMLInputElement>("[data-form-started-at]");
+    if (startedAt) startedAt.value = String(Date.now());
     const controller = new AbortController();
     const label = button.textContent ?? "Recibir más información";
     const animations: Animation[] = [];
@@ -434,6 +437,8 @@ const doctorados = postgraduatePrograms.filter(
           signal: request.signal,
         });
         timeout = setTimeout(() => request.abort(), 30000);
+        let errorMessage =
+          "No fue posible enviar tu solicitud. Inténtalo nuevamente en unos minutos.";
         try {
           const fields = new URLSearchParams();
           new FormData(form).forEach((value, key) =>
@@ -441,12 +446,30 @@ const doctorados = postgraduatePrograms.filter(
           );
           const response = await fetch(form.action, {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              Accept: "application/json",
+            },
             body: fields.toString(),
             signal: request.signal,
           });
-          if (!response.ok)
-            throw new Error("No fue posible enviar tu solicitud.");
+          const result: unknown = await response.json().catch(() => null);
+          if (
+            !response.ok ||
+            typeof result !== "object" ||
+            result === null ||
+            !("ok" in result) ||
+            result.ok !== true
+          ) {
+            errorMessage =
+              typeof result === "object" &&
+              result !== null &&
+              "message" in result &&
+              typeof result.message === "string"
+                ? result.message
+                : errorMessage;
+            throw new Error(errorMessage);
+          }
           if (controller.signal.aborted) return;
           const reduced = window.matchMedia(
             "(prefers-reduced-motion: reduce)",
@@ -477,8 +500,7 @@ const doctorados = postgraduatePrograms.filter(
           success.focus({ preventScroll: true });
         } catch {
           if (controller.signal.aborted) return;
-          error.textContent =
-            "No fue posible enviar tu solicitud. Inténtalo nuevamente en unos minutos.";
+          error.textContent = errorMessage;
           error.hidden = false;
         } finally {
           clearTimeout(timeout);

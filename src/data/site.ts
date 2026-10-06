@@ -21,8 +21,6 @@ export const site = {
   socials: [
     { label: "Facebook", icon: "facebook", href: "https://www.facebook.com/uadmx" },
     { label: "Instagram", icon: "instagram", href: "https://www.instagram.com/lobosuadmx" },
-    { label: "X", icon: "x", href: undefined },
-    { label: "TikTok", icon: "tiktok", href: undefined },
     {
       label: "WhatsApp",
       icon: "whatsapp",
